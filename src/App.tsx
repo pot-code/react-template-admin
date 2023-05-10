@@ -9,13 +9,12 @@ import useTheme from "./theme/useTheme"
 export default function App() {
   const { isLoading, routes } = useRouter()
   const { mode } = useTheme()
+  const algorithm = [mode === ThemeMode.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm]
 
-  if (isLoading || isEmpty(routes)) return <PageLoading />
-
-  const router = createBrowserRouter(routes)
-  return (
-    <ConfigProvider theme={{ algorithm: mode === ThemeMode.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm }}>
-      <RouterProvider router={router} />
-    </ConfigProvider>
-  )
+  let child = <PageLoading />
+  if (!isLoading && !isEmpty(routes)) {
+    const router = createBrowserRouter(routes)
+    child = <RouterProvider router={router} />
+  }
+  return <ConfigProvider theme={{ algorithm }}>{child}</ConfigProvider>
 }

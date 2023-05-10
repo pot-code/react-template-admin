@@ -8,7 +8,8 @@ import RouteLoading from "./RouteLoading"
 import useBreadcrumb from "./useBreadcrumb"
 import useMenu from "./useMenu"
 
-const { Content, Sider, Header } = Layout
+const { Header } = Layout
+
 const { useToken } = theme
 
 export default function Dashboard() {
@@ -16,11 +17,11 @@ export default function Dashboard() {
   const { mode, toggleThemeMode } = useTheme()
   const { items: breadcrumbItems } = useBreadcrumb()
   const {
-    token: { colorBgContainer, colorBorderSecondary },
+    token: { colorBgContainer, colorBgBase, colorBorderSecondary, padding },
   } = useToken()
 
   return (
-    <Layout className="h-screen">
+    <div className="flex flex-col h-screen">
       <Header
         className="flex justify-between items-center"
         css={css`
@@ -36,14 +37,23 @@ export default function Dashboard() {
           onChange={() => toggleThemeMode()}
         />
       </Header>
-      <Layout>
-        <Sider width={240}>
+      <div className="flex flex-1">
+        <div
+          css={css`
+            width: 256px;
+          `}
+        >
           <Menu className="h-full" mode="inline" items={menuItems} selectedKeys={selectedKeys} onSelect={onSelect} />
-        </Sider>
-        <Content>
+        </div>
+        <div
+          className="flex flex-col flex-1"
+          css={css`
+            background-color: ${colorBgBase};
+          `}
+        >
           <div
-            className="p-2"
             css={css`
+              padding: ${padding}px;
               background-color: ${colorBgContainer};
               border-bottom: 1px solid ${colorBorderSecondary};
             `}
@@ -51,12 +61,17 @@ export default function Dashboard() {
             <Breadcrumb items={breadcrumbItems} />
           </div>
           <Suspense fallback={<RouteLoading delay={300} />}>
-            <div className="p-2">
+            <div
+              className="flex-1"
+              css={css`
+                padding: ${padding}px;
+              `}
+            >
               <Outlet />
             </div>
           </Suspense>
-        </Content>
-      </Layout>
-    </Layout>
+        </div>
+      </div>
+    </div>
   )
 }
