@@ -42,7 +42,7 @@ export default function Dashboard() {
         </Sider>
         <Content className="p-4">
           <Breadcrumb items={breadcrumbItems} />
-          <Suspense fallback={<RouteLoading />}>
+          <Suspense fallback={<RouteLoading delay={300} />}>
             <Outlet />
           </Suspense>
         </Content>

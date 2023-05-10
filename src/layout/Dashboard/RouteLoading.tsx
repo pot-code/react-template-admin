@@ -1,9 +1,11 @@
-import { Spin } from "antd"
+import { Spin, SpinProps } from "antd"
 
-export default function RouteLoading() {
+interface RouteLoadingProps extends SpinProps {}
+
+export default function RouteLoading(props: RouteLoadingProps) {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <Spin />
+      <Spin {...props} />
     </div>
   )
 }

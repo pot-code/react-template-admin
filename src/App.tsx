@@ -13,7 +13,6 @@ export default function App() {
   if (isLoading || isEmpty(routes)) return <PageLoading />
 
   const router = createBrowserRouter(routes)
-
   return (
     <ConfigProvider theme={{ algorithm: mode === ThemeMode.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm }}>
       <RouterProvider router={router} />
