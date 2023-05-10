@@ -11,20 +11,20 @@ export const handlers = [
           children: [
             {
               path: "sub1",
-              viewPath: "/src/views/menu1/sub1.tsx",
+              viewPath: "/menu1/sub1.tsx",
               label: "子菜单1",
             },
             {
               path: "sub2",
               label: "子菜单2",
-              viewPath: "/src/views/menu1/sub2.tsx",
+              viewPath: "/menu1/sub2.tsx",
             },
           ],
         },
         {
           path: "menu2",
           label: "菜单2",
-          viewPath: "/src/views/menu2.tsx",
+          viewPath: "/menu2.tsx",
         },
       ]),
     ),

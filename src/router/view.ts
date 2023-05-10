@@ -1,10 +1,17 @@
 import { ComponentType } from "react"
 
 class ViewManager {
+  private viewDir = "/src/views"
   private modules = import.meta.glob("@/views/**/*.tsx")
 
   getViewComponent(viewPath: string) {
-    return this.modules[viewPath] as () => Promise<{ default: ComponentType<any> }>
+    const path = this.getLocalViewPath(viewPath)
+    return this.modules[path] as () => Promise<{ default: ComponentType<any> }>
+  }
+
+  private getLocalViewPath(viewPath: string) {
+    if (viewPath.startsWith("/")) return `${this.viewDir}/${viewPath.slice(1)}`
+    return `${this.viewDir}/${viewPath}`
   }
 }
 

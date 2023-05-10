@@ -22,6 +22,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/mouse-events-have-key-events": "warn",
     "jsx-a11y/no-static-element-interactions": "warn",
