@@ -11,6 +11,7 @@
       "vite/client",
       "vitest/globals"
     ],
+    "jsxImportSource": "@emotion/react",
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": true,

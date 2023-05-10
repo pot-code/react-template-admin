@@ -12,7 +12,9 @@ export default defineConfig({
   plugins: [
     splitVendorChunkPlugin(),
     visualizer(),
-    react(),
+    react({
+      jsxImportSource: "@emotion/react",
+    }),
     UnoCSS(),
     AutoImport({
       imports: ["react", "react-router-dom"],

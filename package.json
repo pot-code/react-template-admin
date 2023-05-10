@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.0",
     "@react-hookz/web": "^23.0.0",
     "antd": "^5.4.7",
     "axios": "^1.4.0",
