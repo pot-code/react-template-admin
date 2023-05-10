@@ -52,7 +52,6 @@ pids
 
 dist
 build
-mock
 
 # Dependency directories
 node_modules/

@@ -1,9 +1,9 @@
 import React from "react"
 import Dashboard from "@/layout/Dashboard"
-import Home from "@/views/HomeView"
-import { RouteItem } from "./type"
+import Home from "@/views/home"
+import { RouteSchema } from "./type"
 
-export const routes: RouteItem[] = [
+export const schemas: RouteSchema[] = [
   {
     path: "/",
     element: React.createElement(Dashboard),

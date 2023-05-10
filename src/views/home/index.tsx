@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { useQuery } from "react-query"
 import { demoApi } from "@/features/app/api"
-import DemoComp from "@/components/demo-comp"
 
 function Home() {
   const { t } = useTranslation()
@@ -9,7 +8,7 @@ function Home() {
 
   if (isLoading) return <h1 className="text-gray-5">loading</h1>
 
-  if (data?.data) return <DemoComp title={t(data.data)} />
+  if (data?.data) return <h1>{t(data.data)}</h1>
 
   return null
 }

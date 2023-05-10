@@ -1,8 +1,13 @@
-export interface RouteItem {
+export interface RouteSchema {
   path: string
+  element?: React.ReactNode
   label?: string
   index?: boolean
-  icon?: React.ReactNode
-  element?: React.ReactNode
-  children?: RouteItem[]
+  hiddenInMenu?: boolean
+  children?: RouteSchema[]
+}
+
+export interface RemoteRouteSchema extends RouteSchema {
+  viewPath: string
+  children?: RemoteRouteSchema[]
 }
