@@ -40,10 +40,20 @@ export default function Dashboard() {
         <Sider width={240}>
           <Menu className="h-full" mode="inline" items={menuItems} selectedKeys={selectedKeys} onSelect={onSelect} />
         </Sider>
-        <Content className="p-4">
-          <Breadcrumb items={breadcrumbItems} />
+        <Content>
+          <div
+            className="p-2"
+            css={css`
+              background-color: ${colorBgContainer};
+              border-bottom: 1px solid ${colorBorderSecondary};
+            `}
+          >
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
           <Suspense fallback={<RouteLoading delay={300} />}>
-            <Outlet />
+            <div className="p-2">
+              <Outlet />
+            </div>
           </Suspense>
         </Content>
       </Layout>

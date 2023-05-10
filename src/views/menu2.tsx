@@ -1,7 +1,3 @@
 export default function Menu2() {
-  return (
-    <div>
-      <p className="border">Menu2</p>
-    </div>
-  )
+  return <div className="text-pink-500">Menu2</div>
 }

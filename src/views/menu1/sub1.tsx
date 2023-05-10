@@ -1,3 +1,3 @@
 export default function Sub1() {
-  return <div>Sub1</div>
+  return <div className="text-pink-500">Sub1</div>
 }

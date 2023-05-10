@@ -6,9 +6,9 @@ function Home() {
   const { t } = useTranslation()
   const { data, isLoading } = useQuery(["hello"], ({ signal }) => demoApi.hello(signal))
 
-  if (isLoading) return <h1 className="text-gray-5">loading</h1>
+  if (isLoading) return <div className="text-gray-400">loading</div>
 
-  if (data?.data) return <h1>{t(data.data)}</h1>
+  if (data?.data) return <div className="text-pink-500">{t(data.data)}</div>
 
   return null
 }
