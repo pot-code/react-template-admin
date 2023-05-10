@@ -32,7 +32,7 @@ export default function Dashboard() {
         <span>Logo</span>
         <Switch
           checkedChildren="暗黑"
-          unCheckedChildren="玉白"
+          unCheckedChildren="纯白"
           checked={mode === ThemeMode.Dark}
           onChange={() => toggleThemeMode()}
         />
