@@ -6,11 +6,11 @@ interface RouterState {
   setSchemas: (routes: RouteSchema[]) => void
 }
 
-const useRouterStore = create<RouterState>((set) => ({
+const useSchemaStore = create<RouterState>((set) => ({
   schemas: [],
   setSchemas: (schemas) => {
     set({ schemas })
   },
 }))
 
-export default useRouterStore
+export default useSchemaStore

@@ -1,15 +1,16 @@
 import { MenuProps } from "antd"
 import { clone, isNil } from "lodash-es"
-import useRouterStore from "@/router/useRouterStore"
+import useSchemaStore from "@/router/useSchemaStore"
 import { routeSchemaToMenuItem } from "./util"
 
 export default function useMenu() {
   const currentLocation = useLocation()
   const navigate = useNavigate()
-  const schemas = useRouterStore((state) => state.schemas)
+  const schemas = useSchemaStore((state) => state.schemas)
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const rootSchema = schemas[0]
   const items = useMemo(() => rootSchema.children?.map(routeSchemaToMenuItem).filter((v) => !isNil(v)), [rootSchema])
+
   const onSelect: MenuProps["onSelect"] = ({ keyPath }) => {
     const hierarchyPath = clone(keyPath).reverse()
 
@@ -18,7 +19,8 @@ export default function useMenu() {
   }
 
   useEffect(() => {
-    setSelectedKeys(currentLocation.pathname.split("/").slice(1).reverse())
+    const pathnames = currentLocation.pathname.split("/").slice(1)
+    setSelectedKeys(pathnames.reverse())
   }, [currentLocation])
 
   return { items, selectedKeys, onSelect }

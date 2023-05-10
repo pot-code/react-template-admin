@@ -5,7 +5,7 @@ import { RouteObject } from "react-router-dom"
 import { routeApi } from "./api"
 import { schemas } from "./schemas"
 import { RemoteRouteSchema } from "./type"
-import useRouterStore from "./useRouterStore"
+import useSchemaStore from "./useSchemaStore"
 import { routeSchemaToRouteObject } from "./util"
 import ViewManager from "./view"
 
@@ -23,7 +23,7 @@ function setRemoteRouteElement(schema: RemoteRouteSchema) {
 }
 
 export default function useRouter() {
-  const store = useRouterStore()
+  const store = useSchemaStore()
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
   const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {

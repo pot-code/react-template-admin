@@ -1,9 +1,9 @@
 import { RouteSchema } from "@/router/type"
-import useRouterStore from "@/router/useRouterStore"
+import useSchemaStore from "@/router/useSchemaStore"
 
 export default function useBreadcrumb() {
   const currentLocation = useLocation()
-  const schemas = useRouterStore((state) => state.schemas)
+  const schemas = useSchemaStore((state) => state.schemas)
   const pathnames = useMemo(() => currentLocation.pathname.split("/").slice(1), [currentLocation.pathname])
   const items = useMemo(() => {
     const result: { title?: string }[] = []
