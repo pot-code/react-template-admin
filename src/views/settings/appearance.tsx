@@ -3,7 +3,7 @@ import useTheme from "@/theme/useTheme"
 import { ThemeMode } from "@/theme/type"
 
 export default function Appearance() {
-  const { mode, toggleThemeMode } = useTheme()
+  const { mode, compact, toggleCompactMode, toggleThemeMode } = useTheme()
 
   return (
     <div>
@@ -16,6 +16,9 @@ export default function Appearance() {
               checked={mode === ThemeMode.Dark}
               onChange={() => toggleThemeMode()}
             />
+          </Form.Item>
+          <Form.Item label="紧凑模式">
+            <Switch checked={compact} onChange={() => toggleCompactMode()} />
           </Form.Item>
         </Form>
       </Card>
