@@ -1,14 +1,8 @@
-import { isNil } from "lodash-es"
 import { RouteSchema } from "@/router/type"
+import { createMapper } from "@/router/util"
+import { MenuItem } from "./type"
 
-export function routeSchemaToMenuItem(route: RouteSchema) {
-  const { label, path, children, hiddenInMenu } = route
-  if (hiddenInMenu) return null
-
-  const item: any = {
-    label,
-    key: path,
-  }
-  if (children) item.children = children.map(routeSchemaToMenuItem).filter((v) => !isNil(v))
-  return item
-}
+export const routeSchemaToMenuItem = createMapper<MenuItem>((route: RouteSchema) => ({
+  key: route.path,
+  label: route.label,
+}))
