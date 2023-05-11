@@ -15,7 +15,7 @@ export function createMapper<T extends TreeLikeObject>(fn: (schema: RouteSchema)
 
 export function createFilter(predict: (route: RouteSchema) => Boolean) {
   return function filter(schema: RouteSchema) {
-    if (!predict(schema)) return false // 优先进行短路操作
+    if (!predict(schema)) return false // 先行判断可以减少对子树的访问
     if (schema.children) schema.children = schema.children.filter(filter)
     return true
   }
@@ -29,6 +29,4 @@ export const routeSchemaToRouteObject = createMapper((schema) => {
   } as RouteObject
 })
 
-export const filterByHiddenInMenu = createFilter((route: RouteSchema) => {
-  return !route.hiddenInMenu
-})
+export const filterByHiddenInMenu = createFilter((route: RouteSchema) => !route.hiddenInMenu)

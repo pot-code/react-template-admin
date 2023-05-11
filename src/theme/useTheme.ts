@@ -1,8 +1,10 @@
+import { theme } from "antd"
 import { ThemeMode } from "./type"
 import useThemeStore from "./useThemeStore"
 
 export default function useTheme() {
   const { mode, setThemeMode } = useThemeStore()
+  const algorithm = [mode === ThemeMode.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm]
 
   function toggleThemeMode(nextMode?: ThemeMode) {
     if (nextMode) setThemeMode(nextMode)
@@ -11,6 +13,7 @@ export default function useTheme() {
 
   return {
     mode,
+    algorithm,
     toggleThemeMode,
   }
 }

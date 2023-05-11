@@ -4,23 +4,21 @@ import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
 import { routeApi } from "./api"
 import { schemas } from "./schemas"
-import { RemoteRouteSchema } from "./type"
+import { RemoteRouteSchema, RouteSchema } from "./type"
 import useSchemaStore from "./useSchemaStore"
-import { routeSchemaToRouteObject } from "./util"
+import { createMapper, routeSchemaToRouteObject } from "./util"
 import ViewManager from "./view"
 
 const viewManager = new ViewManager()
 
-function setRemoteRouteElement(schema: RemoteRouteSchema) {
-  const { viewPath, children } = schema
-
+const setRemoteRouteElement = createMapper((schema: RouteSchema) => {
+  const { viewPath } = schema as RemoteRouteSchema
   if (viewPath) {
     const component = React.lazy(viewManager.getViewComponent(viewPath))
     schema.element = React.createElement(component)
   }
-  if (children) children.map(setRemoteRouteElement)
   return schema
-}
+})
 
 export default function useRouter() {
   const store = useSchemaStore()
