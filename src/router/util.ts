@@ -15,8 +15,9 @@ export function createMapper<T extends TreeLikeObject>(fn: (schema: RouteSchema)
 
 export function createFilter(predict: (route: RouteSchema) => Boolean) {
   return function filter(schema: RouteSchema) {
+    if (!predict(schema)) return false // 优先进行短路操作
     if (schema.children) schema.children = schema.children.filter(filter)
-    return predict(schema)
+    return true
   }
 }
 
