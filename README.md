@@ -3,6 +3,7 @@
 - Antd
 - Zustand
 - React Query
+- Framer Motion
 - Axios
 - i18n
 - [UnoCSS](https://unocss.dev/guide/)
