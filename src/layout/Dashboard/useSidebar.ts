@@ -4,7 +4,7 @@ import useSchemaStore from "@/router/useSchemaStore"
 import { filterByHiddenInMenu } from "@/router/util"
 import { routeSchemaToMenuItem } from "./util"
 
-export default function useMenu() {
+export default function useSidebar() {
   const navigate = useNavigate()
   const currentLocation = useLocation()
   const schemas = useSchemaStore((state) => state.schemas)

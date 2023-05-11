@@ -1,16 +1,15 @@
 import { css } from "@emotion/react"
-import { Breadcrumb, Menu, theme } from "antd"
+import { Breadcrumb, theme } from "antd"
 import { Suspense } from "react"
 import { Outlet } from "react-router-dom"
 import useBreadcrumb from "@/router/useBreadcrumb"
 import Navbar from "./Navbar"
 import RouteLoading from "./RouteLoading"
-import useMenu from "./useMenu"
+import Sidebar from "./Sidebar"
 
 const { useToken } = theme
 
 export default function Dashboard() {
-  const { items: menuItems, selectedKeys, onSelect } = useMenu()
   const { items: breadcrumbItems } = useBreadcrumb()
   const {
     token: { colorBgContainer, colorBgBase, colorBorderSecondary, padding },
@@ -23,16 +22,10 @@ export default function Dashboard() {
         <section
           css={css`
             width: 256px;
+            background-color: ${colorBgContainer};
           `}
         >
-          <Menu
-            className="h-full"
-            mode="inline"
-            items={menuItems}
-            defaultOpenKeys={selectedKeys}
-            selectedKeys={selectedKeys}
-            onSelect={onSelect}
-          />
+          <Sidebar />
         </section>
         <section
           className="flex flex-col flex-1"

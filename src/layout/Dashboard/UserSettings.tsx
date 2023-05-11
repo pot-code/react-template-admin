@@ -1,7 +1,10 @@
-import { Avatar, Dropdown, MenuProps } from "antd"
+import { Avatar, Dropdown, MenuProps, theme } from "antd"
+import { AiFillCaretDown } from "react-icons/ai"
 import { UserInfo } from "@/features/user/type"
 import { routeSchemaToMenuItem } from "./util"
 import { userSettingsSchemas } from "@/router/schemas"
+
+const { useToken } = theme
 
 export interface UserSettingsProps {
   data?: UserInfo
@@ -9,6 +12,9 @@ export interface UserSettingsProps {
 
 export default function UserSettings({ data }: UserSettingsProps) {
   const navigate = useNavigate()
+  const {
+    token: { colorBgTextActive },
+  } = useToken()
   const items = useMemo(() => userSettingsSchemas.map(routeSchemaToMenuItem), [])
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
@@ -21,7 +27,7 @@ export default function UserSettings({ data }: UserSettingsProps) {
     <Dropdown menu={{ items, onClick }}>
       <div className="flex items-center gap-2">
         <Avatar src={data.avatar} />
-        <span className="text-base">{data.username}</span>
+        <AiFillCaretDown color={colorBgTextActive} />
       </div>
     </Dropdown>
   )
