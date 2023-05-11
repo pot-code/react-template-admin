@@ -1,3 +1,4 @@
+import { last } from "lodash-es"
 import { RouteSchema } from "@/router/type"
 import useSchemaStore from "@/router/useSchemaStore"
 
@@ -14,6 +15,7 @@ export default function useBreadcrumb() {
     })
     return result
   }, [pathnames, schemas])
+  const current = last(items)
 
-  return { items }
+  return { current, items }
 }

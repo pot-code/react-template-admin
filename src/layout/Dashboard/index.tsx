@@ -2,9 +2,9 @@ import { css } from "@emotion/react"
 import { Breadcrumb, Menu, theme } from "antd"
 import { Suspense } from "react"
 import { Outlet } from "react-router-dom"
+import useBreadcrumb from "@/router/useBreadcrumb"
 import Navbar from "./Navbar"
 import RouteLoading from "./RouteLoading"
-import useBreadcrumb from "./useBreadcrumb"
 import useMenu from "./useMenu"
 
 const { useToken } = theme
