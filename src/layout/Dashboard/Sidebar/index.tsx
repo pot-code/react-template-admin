@@ -4,16 +4,17 @@ import useSidebar from "./useSidebar"
 export interface SidebarProps {}
 
 export default function Sidebar({}: SidebarProps) {
-  const { items: menuItems, selectedKeys, onSelect } = useSidebar()
+  const { items, openKeys, selectedKeys, onSelect, onOpenChange } = useSidebar()
 
   return (
     <Menu
       className="h-full"
       mode="inline"
-      items={menuItems}
-      defaultOpenKeys={selectedKeys}
+      items={items}
+      openKeys={openKeys}
       selectedKeys={selectedKeys}
       onSelect={onSelect}
+      onOpenChange={onOpenChange}
     />
   )
 }

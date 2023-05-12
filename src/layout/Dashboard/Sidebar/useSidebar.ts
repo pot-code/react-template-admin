@@ -1,15 +1,16 @@
 import { MenuProps } from "antd"
 import { clone } from "lodash-es"
-import { filterByHiddenInMenu, keyPathToRoutePath, routeSchemaToMenuItem } from "./util"
-import useSchemaStore from "@/router/schema/useSchemaStore"
 import TreeUtil from "@/router/schema/TreeUtil"
+import useSchemaStore from "@/router/schema/useSchemaStore"
 import usePathSegments from "@/router/usePathSegments"
+import { filterByHiddenInMenu, keyPathToRoutePath, routeSchemaToMenuItem } from "./util"
 
 export default function useSidebar() {
   const navigate = useNavigate()
   const segments = usePathSegments()
   const dashboardSchema = useSchemaStore((state) => state.dashboardSchema)
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [selectedKeys, setSelectedKeys] = useState<string[]>()
+  const [openKeys, setOpenKeys] = useState<string[]>()
   const items = useMemo(
     () =>
       dashboardSchema
@@ -21,10 +22,14 @@ export default function useSidebar() {
     setSelectedKeys(keyPath)
     navigate(keyPathToRoutePath(keyPath))
   }
+  const onOpenChange: MenuProps["onOpenChange"] = (keys) => {
+    setOpenKeys(keys)
+  }
 
   useEffect(() => {
     setSelectedKeys(clone(segments).reverse())
+    setOpenKeys(clone(segments).reverse())
   }, [segments])
 
-  return { items, selectedKeys, onSelect }
+  return { items, openKeys, selectedKeys, onSelect, onOpenChange }
 }
