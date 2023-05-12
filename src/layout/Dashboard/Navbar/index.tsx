@@ -3,6 +3,7 @@ import { Layout, theme } from "antd"
 import { useQuery } from "react-query"
 import { userApi } from "@/features/user/api"
 import UserSettings from "./UserSettings"
+import Logo from "./Logo"
 
 const { Header } = Layout
 
@@ -22,7 +23,7 @@ export default function Navbar() {
         border-bottom: 1px solid ${colorBorderSecondary};
       `}
     >
-      <span>Logo</span>
+      <Logo />
       <div className="flex gap-2 items-center">
         <UserSettings data={data?.data} />
       </div>

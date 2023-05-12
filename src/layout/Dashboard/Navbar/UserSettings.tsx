@@ -1,8 +1,8 @@
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
 import { AiFillCaretDown } from "react-icons/ai"
 import { UserInfo } from "@/features/user/type"
-import { routeSchemaToMenuItem } from "./util"
 import { userSettingsSchemas } from "@/router/schemas"
+import { routeSchemaToMenuItem } from "../util"
 
 const { useToken } = theme
 

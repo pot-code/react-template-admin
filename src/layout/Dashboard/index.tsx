@@ -6,10 +6,10 @@ import { BsLayoutSidebarInset } from "react-icons/bs"
 import { motion } from "framer-motion"
 import useBreadcrumb from "@/router/useBreadcrumb"
 import Navbar from "./Navbar"
-import RouteLoading from "./RouteLoading"
+import ContentLoading from "./ContentLoading"
 import Sidebar from "./Sidebar"
-import useSidebarStore from "./userSidebarStore"
 import { sidebarVariants } from "./variants"
+import useSidebarStore from "./Sidebar/userSidebarStore"
 
 const { useToken } = theme
 
@@ -45,7 +45,7 @@ export default function Dashboard() {
             <BsLayoutSidebarInset className="cursor-pointer" color={colorText} onClick={() => toggleOpen()} />
             <Breadcrumb items={breadcrumbItems} />
           </nav>
-          <Suspense fallback={<RouteLoading delay={300} />}>
+          <Suspense fallback={<ContentLoading delay={300} />}>
             <main
               css={css`
                 flex-grow: 1;

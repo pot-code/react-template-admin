@@ -2,7 +2,7 @@ import { MenuProps } from "antd"
 import { clone } from "lodash-es"
 import useSchemaStore from "@/router/useSchemaStore"
 import { filterByHiddenInMenu } from "@/router/util"
-import { routeSchemaToMenuItem } from "./util"
+import { routeSchemaToMenuItem } from "../util"
 
 export default function useSidebar() {
   const navigate = useNavigate()
