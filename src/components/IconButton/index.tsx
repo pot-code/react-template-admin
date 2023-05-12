@@ -19,7 +19,7 @@ export default function IconButton({ icon, ...rest }: IconButtonProps) {
           background-color: ${colorFillSecondary};
         }
       `}
-      className="transition-colors bg-transparent border-none p-2 flex rounded"
+      className="transition-colors bg-transparent border-none p-2 flex rounded cursor-pointer"
       {...rest}
     >
       {icon}
