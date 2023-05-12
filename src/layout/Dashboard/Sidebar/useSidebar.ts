@@ -1,12 +1,13 @@
 import { MenuProps } from "antd"
 import { clone } from "lodash-es"
-import { filterByHiddenInMenu, routeSchemaToMenuItem } from "./util"
+import { filterByHiddenInMenu, keyPathToRoutePath, routeSchemaToMenuItem } from "./util"
 import useSchemaStore from "@/router/schema/useSchemaStore"
 import TreeUtil from "@/router/schema/TreeUtil"
+import usePathSegments from "@/router/usePathSegments"
 
 export default function useSidebar() {
   const navigate = useNavigate()
-  const currentLocation = useLocation()
+  const segments = usePathSegments()
   const dashboardSchema = useSchemaStore((state) => state.dashboardSchema)
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const items = useMemo(
@@ -17,16 +18,13 @@ export default function useSidebar() {
     [dashboardSchema],
   )
   const onSelect: MenuProps["onSelect"] = ({ keyPath }) => {
-    const hierarchyPath = clone(keyPath).reverse()
-
     setSelectedKeys(keyPath)
-    navigate(hierarchyPath.join("/"))
+    navigate(keyPathToRoutePath(keyPath))
   }
 
   useEffect(() => {
-    const pathnames = currentLocation.pathname.split("/").slice(1)
-    setSelectedKeys(pathnames.reverse())
-  }, [currentLocation])
+    setSelectedKeys(clone(segments).reverse())
+  }, [segments])
 
   return { items, selectedKeys, onSelect }
 }
