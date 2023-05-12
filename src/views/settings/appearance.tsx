@@ -17,7 +17,7 @@ export default function Appearance() {
   return (
     <div>
       <Card>
-        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} style={{ maxWidth: 600 }}>
+        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
           <Form.Item label="主题模式">
             <Switch
               checkedChildren="暗黑"

@@ -10,31 +10,28 @@ interface RadioGroupItemProps {
 
 function RadioGroupItem({ value }: RadioGroupItemProps) {
   const {
-    token: { controlHeight },
+    token: { colorBgContainer, controlHeight },
   } = useToken()
 
   return (
     <RadioGroup.Item
-      className="relative border-none p-1"
+      className="flex flex-col items-center justify-center relative border-none p-1"
       css={css`
         height: ${controlHeight}px;
         width: ${controlHeight}px;
         border-radius: 50%;
         background-color: ${value};
         background-clip: content-box;
-        transform-style: preserve-3d;
       `}
       value={value}
     >
       <RadioGroup.Indicator
         css={css`
           border-radius: 50%;
-          transform: translateZ(-1px);
-          padding: 2px;
-          background-color: #ffdee9;
-          background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%);
+          height: 60%;
+          width: 60%;
+          background-color: ${colorBgContainer};
         `}
-        className="absolute top-0 left-0 h-full w-full block shadow"
       />
     </RadioGroup.Item>
   )
