@@ -1,9 +1,18 @@
 import { Card, Form, Switch } from "antd"
 import useTheme from "@/theme/useTheme"
 import { ThemeMode } from "@/theme/type"
+import ColorRadioGroup from "@/features/settings/ColorRadioGroup"
+import { COLOR_PALETTE } from "@/theme/config"
 
 export default function Appearance() {
-  const { mode, compact, toggleCompactMode, toggleThemeMode } = useTheme()
+  const { color, mode, compact, toggleCompactMode, toggleThemeMode, setColor } = useTheme()
+
+  const onThemeColorChange = useCallback(
+    (newColor: string) => {
+      setColor(newColor)
+    },
+    [setColor],
+  )
 
   return (
     <div>
@@ -19,6 +28,9 @@ export default function Appearance() {
           </Form.Item>
           <Form.Item label="紧凑模式">
             <Switch checked={compact} onChange={() => toggleCompactMode()} />
+          </Form.Item>
+          <Form.Item label="主题色">
+            <ColorRadioGroup colors={COLOR_PALETTE} defaultValue={color} onValueChange={onThemeColorChange} />
           </Form.Item>
         </Form>
       </Card>

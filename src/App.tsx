@@ -7,12 +7,12 @@ import useTheme from "./theme/useTheme"
 
 export default function App() {
   const { isLoading, routes } = useRouter()
-  const { algorithm } = useTheme()
+  const { algorithm, color } = useTheme()
 
   let child = <PageLoading />
   if (!isLoading && !isEmpty(routes)) {
     const router = createBrowserRouter(routes)
     child = <RouterProvider router={router} />
   }
-  return <ConfigProvider theme={{ algorithm }}>{child}</ConfigProvider>
+  return <ConfigProvider theme={{ algorithm, token: { colorPrimary: color } }}>{child}</ConfigProvider>
 }

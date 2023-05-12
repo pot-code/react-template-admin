@@ -3,7 +3,7 @@ import { ThemeMode } from "./type"
 import useThemeStore from "./useThemeStore"
 
 export default function useTheme() {
-  const { mode, compact, setCompact, setThemeMode } = useThemeStore()
+  const { mode, compact, color, setCompact, setThemeMode, setColor } = useThemeStore()
 
   const algorithm = [mode === ThemeMode.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm]
   if (compact) algorithm.push(theme.compactAlgorithm)
@@ -19,10 +19,12 @@ export default function useTheme() {
   }
 
   return {
+    color,
     mode,
     compact,
     algorithm,
     toggleThemeMode,
     toggleCompactMode,
+    setColor,
   }
 }
