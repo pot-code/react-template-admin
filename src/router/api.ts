@@ -1,5 +1,5 @@
 import http from "@/lib/http"
-import { RemoteRouteSchema } from "./type"
+import { RemoteRouteSchema } from "./schema/type"
 
 export const routeApi = {
   list() {

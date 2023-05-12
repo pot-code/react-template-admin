@@ -11,8 +11,20 @@ export const handlers = [
           children: [
             {
               path: "sub1",
-              viewPath: "/menu1/sub1.tsx",
               label: "子菜单1",
+              children: [
+                {
+                  path: "",
+                  hiddenInMenu: true,
+                  viewPath: "/menu1/sub1.tsx",
+                },
+                {
+                  path: "edit",
+                  label: "编辑",
+                  hiddenInMenu: true,
+                  viewPath: "/menu1/sub2.tsx",
+                },
+              ],
             },
             {
               path: "sub2",

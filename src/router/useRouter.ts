@@ -3,37 +3,39 @@ import React from "react"
 import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
 import { routeApi } from "./api"
-import { schemas } from "./schemas"
-import { RemoteRouteSchema, RouteSchema } from "./type"
-import useSchemaStore from "./useSchemaStore"
-import { createMapper, routeSchemaToRouteObject } from "./util"
+import { dashboardSchema } from "./schema"
+import TreeUtil from "./schema/TreeUtil"
+import { RemoteRouteSchema, RouteSchema } from "./schema/type"
+import useSchemaStore from "./schema/useSchemaStore"
+import { routeSchemaToRouteObject } from "./util"
 import ViewManager from "./view"
 
 const viewManager = new ViewManager()
 
-const setRemoteRouteElement = createMapper((schema: RouteSchema) => {
+function setRemoteRouteElement(schema: RouteSchema) {
   const { viewPath } = schema as RemoteRouteSchema
   if (viewPath) {
     const component = React.lazy(viewManager.getViewComponent(viewPath))
     schema.element = React.createElement(component)
   }
   return schema
-})
+}
 
 export default function useRouter() {
   const store = useSchemaStore()
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
   const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
-      const routeSchemas = cloneDeep(schemas)
-      const rootRouteSchema = routeSchemas[0]
-      const remoteRouteSchemas = data.map(setRemoteRouteElement)
+      const schemas: RouteSchema[] = []
+      const copyOfDashboardSchema = cloneDeep(dashboardSchema)
 
-      if (rootRouteSchema.children) rootRouteSchema.children = concat(rootRouteSchema.children, remoteRouteSchemas)
-      else rootRouteSchema.children = remoteRouteSchemas
+      if (copyOfDashboardSchema.children) {
+        copyOfDashboardSchema.children = concat(copyOfDashboardSchema.children, data)
+      } else copyOfDashboardSchema.children = data
 
-      store.setSchemas(routeSchemas)
-      setRoutes(routeSchemas.map(routeSchemaToRouteObject))
+      schemas.push(copyOfDashboardSchema)
+      store.setDashboardSchema(copyOfDashboardSchema)
+      setRoutes(schemas.map((v) => new TreeUtil(v).map(setRemoteRouteElement).map(routeSchemaToRouteObject).root))
     },
   })
 

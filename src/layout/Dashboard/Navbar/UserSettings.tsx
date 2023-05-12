@@ -1,8 +1,10 @@
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
 import { AiFillCaretDown } from "react-icons/ai"
+import { curry } from "lodash-es"
 import { UserInfo } from "@/features/user/type"
-import { userSettingsSchemas } from "@/router/schemas"
-import { routeSchemaToMenuItem } from "../util"
+import { settingSchemaToMenuItem } from "./util"
+import { settingSchema } from "@/router/schema"
+import TreeUtil from "@/router/schema/TreeUtil"
 
 const { useToken } = theme
 
@@ -13,9 +15,12 @@ export interface UserSettingsProps {
 export default function UserSettings({ data }: UserSettingsProps) {
   const navigate = useNavigate()
   const {
-    token: { colorBgTextActive },
+    token: { colorBgSpotlight },
   } = useToken()
-  const items = useMemo(() => userSettingsSchemas.map(routeSchemaToMenuItem), [])
+  const items = useMemo(
+    () => new TreeUtil(settingSchema).map(curry(settingSchemaToMenuItem)(settingSchema.path)).root.children,
+    [],
+  )
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     navigate(key)
@@ -27,7 +32,7 @@ export default function UserSettings({ data }: UserSettingsProps) {
     <Dropdown menu={{ items, onClick }}>
       <div className="flex items-center gap-2">
         <Avatar src={data.avatar} />
-        <AiFillCaretDown color={colorBgTextActive} />
+        <AiFillCaretDown color={colorBgSpotlight} />
       </div>
     </Dropdown>
   )
