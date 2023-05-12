@@ -20,9 +20,9 @@ function RadioGroupItem({ value }: RadioGroupItemProps) {
         height: ${controlHeight}px;
         width: ${controlHeight}px;
         border-radius: 50%;
-        background-color: ${value};
         background-clip: content-box;
       `}
+      style={{ backgroundColor: value }}
       value={value}
     >
       <RadioGroup.Indicator
@@ -30,8 +30,8 @@ function RadioGroupItem({ value }: RadioGroupItemProps) {
           border-radius: 50%;
           height: 60%;
           width: 60%;
-          background-color: ${colorBgContainer};
         `}
+        style={{ backgroundColor: colorBgContainer }}
       />
     </RadioGroup.Item>
   )

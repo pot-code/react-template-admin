@@ -25,9 +25,7 @@ export default function Dashboard() {
       <Navbar />
       <div className="flex flex-1">
         <motion.section
-          css={css`
-            background-color: ${colorBgContainer};
-          `}
+          style={{ backgroundColor: colorBgContainer }}
           className="overflow-hidden"
           variants={sidebarVariants}
           initial="visible"
@@ -35,12 +33,7 @@ export default function Dashboard() {
         >
           <Sidebar />
         </motion.section>
-        <section
-          className="flex flex-col flex-1"
-          css={css`
-            background-color: ${colorBgBase};
-          `}
-        >
+        <section className="flex flex-col flex-1" style={{ backgroundColor: colorBgBase }}>
           <nav
             className="flex items-center gap-2"
             css={css`
@@ -54,8 +47,8 @@ export default function Dashboard() {
           </nav>
           <Suspense fallback={<RouteLoading delay={300} />}>
             <main
-              className="flex-1"
               css={css`
+                flex-grow: 1;
                 padding: ${padding}px;
               `}
             >
