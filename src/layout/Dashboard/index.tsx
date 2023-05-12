@@ -10,6 +10,7 @@ import ContentLoading from "./ContentLoading"
 import Sidebar from "./Sidebar"
 import { sidebarVariants } from "./variants"
 import useSidebarStore from "./Sidebar/userSidebarStore"
+import IconButton from "@/components/IconButton"
 
 const { useToken } = theme
 
@@ -17,7 +18,7 @@ export default function Dashboard() {
   const { items: breadcrumbItems } = useBreadcrumb()
   const { open, toggleOpen } = useSidebarStore()
   const {
-    token: { colorText, colorBgContainer, colorBgBase, colorBorderSecondary, padding },
+    token: { colorPrimary, colorBgContainer, colorBgBase, colorBorderSecondary, padding },
   } = useToken()
 
   return (
@@ -42,7 +43,7 @@ export default function Dashboard() {
               border-bottom: 1px solid ${colorBorderSecondary};
             `}
           >
-            <BsLayoutSidebarInset className="cursor-pointer" color={colorText} onClick={() => toggleOpen()} />
+            <IconButton icon={<BsLayoutSidebarInset size={14} color={colorPrimary} />} onClick={() => toggleOpen()} />
             <Breadcrumb items={breadcrumbItems} />
           </nav>
           <Suspense fallback={<ContentLoading delay={300} />}>
