@@ -1,8 +1,13 @@
 import { css } from "@emotion/react"
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import { theme } from "antd"
+import { motion } from "framer-motion"
 
 const { useToken } = theme
+const indicatorVariants = {
+  checked: { scale: 1 },
+  unchecked: { scale: 0 },
+}
 
 interface RadioGroupItemProps {
   value: string
@@ -27,12 +32,20 @@ function RadioGroupItem({ value }: RadioGroupItemProps) {
     >
       <RadioGroup.Indicator
         css={css`
-          border-radius: 50%;
           height: 60%;
           width: 60%;
         `}
-        style={{ backgroundColor: colorBgContainer }}
-      />
+      >
+        <motion.div
+          style={{
+            backgroundColor: colorBgContainer,
+          }}
+          className="w-full h-full rounded-full"
+          variants={indicatorVariants}
+          initial="unchecked"
+          animate="checked"
+        />
+      </RadioGroup.Indicator>
     </RadioGroup.Item>
   )
 }
