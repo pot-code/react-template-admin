@@ -5,8 +5,12 @@ import useThemeStore from "./useThemeStore"
 export default function useTheme() {
   const { mode, compact, color, setCompact, setThemeMode, setColor } = useThemeStore()
 
-  const algorithm = [mode === ThemeMode.Dark ? theme.darkAlgorithm : theme.defaultAlgorithm]
-  if (compact) algorithm.push(theme.compactAlgorithm)
+  const algorithm = [
+    { enabled: mode === ThemeMode.Dark, value: theme.darkAlgorithm },
+    { enabled: compact, value: theme.compactAlgorithm },
+  ]
+    .filter(({ enabled }) => enabled)
+    .map(({ value }) => value)
 
   function toggleThemeMode(nextMode?: ThemeMode) {
     if (nextMode) setThemeMode(nextMode)
