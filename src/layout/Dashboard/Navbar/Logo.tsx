@@ -5,13 +5,13 @@ const { useToken } = theme
 
 export default function Logo() {
   const {
-    token: { controlHeightLG },
+    token: { colorTextSecondary, controlHeightLG },
   } = useToken()
 
   return (
     <div className="flex gap-4 items-center">
       <img alt="logo" src={logo} height={controlHeightLG} />
-      <span>React Admin</span>
+      <span style={{ color: colorTextSecondary }}>React Admin</span>
     </div>
   )
 }
