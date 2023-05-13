@@ -34,6 +34,17 @@ export default class TreeUtil<T extends TreeLikeObject> {
     return filterHelper(this._root) ? this : undefined
   }
 
+  sortBy(compareFn: (a: T, b: T) => number) {
+    const sortHelper = (n: T) => {
+      if (n.children) {
+        n.children.sort(compareFn)
+        n.children.forEach(sortHelper)
+      }
+    }
+    sortHelper(this._root)
+    return this
+  }
+
   get root() {
     return this._root
   }

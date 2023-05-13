@@ -3,7 +3,7 @@ import { clone } from "lodash-es"
 import TreeUtil from "@/router/schema/TreeUtil"
 import useSchemaStore from "@/router/schema/useSchemaStore"
 import usePathSegments from "@/router/usePathSegments"
-import { filterByHiddenInMenu, keyPathToRoutePath, routeSchemaToMenuItem } from "./util"
+import { filterByHiddenInMenu, keyPathToRoutePath, routeSchemaToMenuItem, sortByOrder } from "./util"
 
 export default function useSidebar() {
   const navigate = useNavigate()
@@ -14,7 +14,8 @@ export default function useSidebar() {
   const items = useMemo(
     () =>
       dashboardSchema
-        ? new TreeUtil(dashboardSchema).filter(filterByHiddenInMenu)?.map(routeSchemaToMenuItem).root.children
+        ? new TreeUtil(dashboardSchema).filter(filterByHiddenInMenu)?.sortBy(sortByOrder).map(routeSchemaToMenuItem)
+            .root.children
         : undefined,
     [dashboardSchema],
   )

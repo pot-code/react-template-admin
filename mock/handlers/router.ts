@@ -8,6 +8,7 @@ export const handlers = [
         {
           path: "menu1",
           label: "菜单1",
+          order: 3,
           children: [
             {
               path: "sub1",
@@ -36,6 +37,7 @@ export const handlers = [
         {
           path: "menu2",
           label: "菜单2",
+          order: 4,
           viewPath: "/menu2.tsx",
         },
       ]),

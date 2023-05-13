@@ -16,3 +16,7 @@ export function filterByHiddenInMenu(route: RouteSchema) {
 export function keyPathToRoutePath(keyPath: string[]) {
   return clone(keyPath).reverse().join("/")
 }
+
+export function sortByOrder(a: RouteSchema, b: RouteSchema) {
+  return a.order - b.order
+}
