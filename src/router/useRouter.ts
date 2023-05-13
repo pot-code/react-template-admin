@@ -23,7 +23,7 @@ function setRemoteRouteElement(schema: RouteSchema) {
 
 export default function useRouter() {
   const store = useSchemaStore()
-  const [routes, setRoutes] = React.useState<RouteObject[]>()
+  const [routes, setRoutes] = React.useState<RouteObject[]>([])
   const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
       const virtualRoot: RouteSchema = { path: "", children: [] }
@@ -35,7 +35,7 @@ export default function useRouter() {
 
       virtualRoot.children?.push(copyOfDashboardSchema)
       store.setDashboardSchema(copyOfDashboardSchema)
-      setRoutes(new TreeUtil(virtualRoot).map(setRemoteRouteElement).map(routeSchemaToRouteObject).root.children)
+      setRoutes(new TreeUtil(virtualRoot).map(setRemoteRouteElement).map(routeSchemaToRouteObject).root.children || [])
     },
   })
 

@@ -1,20 +1,19 @@
 import { theme } from "antd"
-import { ThemeMode } from "./type"
 import useThemeStore from "./useThemeStore"
 
 export default function useTheme() {
-  const { mode, compact, color, setCompact, setThemeMode, setColor } = useThemeStore()
+  const { darkMode, compact, color, setCompact, setDarkMode, setColor } = useThemeStore()
 
   const algorithm = [
-    { enabled: mode === ThemeMode.Dark, value: theme.darkAlgorithm },
+    { enabled: darkMode, value: theme.darkAlgorithm },
     { enabled: compact, value: theme.compactAlgorithm },
   ]
     .filter(({ enabled }) => enabled)
     .map(({ value }) => value)
 
-  function toggleThemeMode(nextMode?: ThemeMode) {
-    if (nextMode) setThemeMode(nextMode)
-    else setThemeMode(mode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light)
+  function toggleThemeMode(nextMode?: boolean) {
+    if (nextMode) setDarkMode(nextMode)
+    else setDarkMode(!darkMode)
   }
 
   function toggleCompactMode(nextMode?: boolean) {
@@ -24,7 +23,7 @@ export default function useTheme() {
 
   return {
     color,
-    mode,
+    darkMode,
     compact,
     algorithm,
     toggleThemeMode,

@@ -1,11 +1,10 @@
 import { Card, Form, Switch } from "antd"
 import useTheme from "@/theme/useTheme"
-import { ThemeMode } from "@/theme/type"
 import ColorRadioGroup from "@/features/settings/ColorRadioGroup"
 import { COLOR_PALETTE } from "@/theme/config"
 
 export default function Appearance() {
-  const { color, mode, compact, toggleCompactMode, toggleThemeMode, setColor } = useTheme()
+  const { color, darkMode, compact, toggleCompactMode, toggleThemeMode, setColor } = useTheme()
 
   const onThemeColorChange = useCallback(
     (newColor: string) => {
@@ -22,7 +21,7 @@ export default function Appearance() {
             <Switch
               checkedChildren="暗黑"
               unCheckedChildren="纯白"
-              checked={mode === ThemeMode.Dark}
+              checked={darkMode}
               onChange={() => toggleThemeMode()}
             />
           </Form.Item>
