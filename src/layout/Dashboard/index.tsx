@@ -16,10 +16,14 @@ const { useToken } = theme
 
 export default function Dashboard() {
   const { items: breadcrumbItems } = useBreadcrumb()
-  const { open, toggleOpen } = useSidebarStore()
+  const { open, setOpen } = useSidebarStore()
   const {
     token: { colorPrimary, colorBgContainer, colorBgBase, colorBorderSecondary, padding },
   } = useToken()
+
+  function toggleSidebarOpen(next?: boolean) {
+    setOpen(next ?? !open)
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -43,7 +47,10 @@ export default function Dashboard() {
               border-bottom: 1px solid ${colorBorderSecondary};
             `}
           >
-            <IconButton icon={<BsLayoutSidebarInset size={14} color={colorPrimary} />} onClick={() => toggleOpen()} />
+            <IconButton
+              icon={<BsLayoutSidebarInset size={14} color={colorPrimary} />}
+              onClick={() => toggleSidebarOpen()}
+            />
             <Breadcrumb items={breadcrumbItems} />
           </nav>
           <Suspense fallback={<ContentLoading delay={300} />}>

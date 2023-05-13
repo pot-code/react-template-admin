@@ -2,7 +2,7 @@ import { Avatar, Dropdown, MenuProps, theme } from "antd"
 import { AiFillCaretDown } from "react-icons/ai"
 import { curry } from "lodash-es"
 import { UserInfo } from "@/features/user/type"
-import { settingSchemaToMenuItem } from "./util"
+import { routeSchemaToMenuItem } from "./util"
 import { settingSchema } from "@/router/schema"
 import TreeUtil from "@/router/schema/TreeUtil"
 
@@ -18,7 +18,7 @@ export default function UserSettings({ data }: UserSettingsProps) {
     token: { colorBgSpotlight },
   } = useToken()
   const items = useMemo(
-    () => new TreeUtil(settingSchema).map(curry(settingSchemaToMenuItem)(settingSchema.path)).root.children,
+    () => new TreeUtil(settingSchema).map(curry(routeSchemaToMenuItem)(settingSchema.path)).root.children,
     [],
   )
 

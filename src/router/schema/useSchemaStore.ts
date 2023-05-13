@@ -14,9 +14,7 @@ const useSchemaStore = create<SchemaState>((set) => ({
   // setSchemas: (schemas) => {
   //   set({ schemas })
   // },
-  setDashboardSchema: (dashboardSchema) => {
-    set({ dashboardSchema })
-  },
+  setDashboardSchema: (dashboardSchema) => set({ dashboardSchema }),
 }))
 
 export default useSchemaStore
