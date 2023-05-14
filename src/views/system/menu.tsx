@@ -1,7 +1,7 @@
 import { Card, Col, Row, Tree } from "antd"
 import type { DataNode, TreeProps } from "antd/es/tree"
 
-const treeData: DataNode[] = [
+const demoTreeData: DataNode[] = [
   {
     title: "parent 1",
     key: "0-0",
@@ -22,11 +22,6 @@ const treeData: DataNode[] = [
           },
         ],
       },
-      {
-        title: "parent 1-1",
-        key: "0-0-1",
-        children: [{ title: <span style={{ color: "#1890ff" }}>sss</span>, key: "0-0-1-0" }],
-      },
     ],
   },
 ]
@@ -44,28 +39,12 @@ export function Menu() {
     <Row className="h-full" gutter={8}>
       <Col span={6}>
         <Card title="菜单树" type="inner">
-          <Tree
-            checkable
-            defaultExpandedKeys={["0-0-0", "0-0-1"]}
-            defaultSelectedKeys={["0-0-0", "0-0-1"]}
-            defaultCheckedKeys={["0-0-0", "0-0-1"]}
-            onSelect={onSelect}
-            onCheck={onCheck}
-            treeData={treeData}
-          />
+          <Tree onSelect={onSelect} onCheck={onCheck} treeData={demoTreeData} />
         </Card>
       </Col>
       <Col span={18}>
         <Card className="h-full" title="设置" type="inner">
-          <Tree
-            checkable
-            defaultExpandedKeys={["0-0-0", "0-0-1"]}
-            defaultSelectedKeys={["0-0-0", "0-0-1"]}
-            defaultCheckedKeys={["0-0-0", "0-0-1"]}
-            onSelect={onSelect}
-            onCheck={onCheck}
-            treeData={treeData}
-          />
+          <Tree checkable onSelect={onSelect} onCheck={onCheck} treeData={demoTreeData} />
         </Card>
       </Col>
     </Row>

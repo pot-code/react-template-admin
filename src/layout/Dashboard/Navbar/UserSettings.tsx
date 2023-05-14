@@ -1,12 +1,20 @@
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
-import { AiFillCaretDown } from "react-icons/ai"
 import { curry } from "lodash-es"
+import { AiFillCaretDown } from "react-icons/ai"
 import { UserInfo } from "@/features/user/type"
-import { routeSchemaToMenuItem } from "./util"
 import { settingSchema } from "@/router/schema"
-import TreeUtil from "@/router/schema/TreeUtil"
+import TreeUtil from "@/router/schema/tree-util"
+import { RouteSchema } from "@/router/schema/type"
+import { MenuItem } from "../type"
 
 const { useToken } = theme
+
+function routeSchemaToMenuItem(prefix: string, route: RouteSchema) {
+  return {
+    key: `${prefix}/${route.path}`,
+    label: route.label,
+  } as MenuItem
+}
 
 export interface UserSettingsProps {
   data?: UserInfo

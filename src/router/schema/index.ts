@@ -41,7 +41,7 @@ export const systemSchema: RouteSchema = {
   ],
 }
 
-export const dashboardSchema: RouteSchema = {
+export const menuSchema: RouteSchema = {
   path: "/",
   element: React.createElement(Dashboard),
   order: 1,

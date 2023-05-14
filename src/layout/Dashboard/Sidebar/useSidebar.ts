@@ -1,16 +1,43 @@
 import { MenuProps } from "antd"
-import { clone } from "lodash-es"
-import TreeUtil from "@/router/schema/TreeUtil"
+import { isEmpty } from "lodash-es"
+import { useMatches } from "react-router-dom"
+import TreeUtil from "@/router/schema/tree-util"
+import { RouteSchema } from "@/router/schema/type"
 import useSchemaStore from "@/router/schema/useSchemaStore"
-import usePathSegments from "@/router/usePathSegments"
-import { filterByHiddenInMenu, keyPathToRoutePath, routeSchemaToMenuItem, sortByOrder } from "./util"
+import { MenuItem } from "../type"
+
+function routeSchemaToMenuItem(route: RouteSchema) {
+  return {
+    key: route.id,
+    label: route.label,
+  } as MenuItem
+}
+
+function filterByHiddenInMenu(route: RouteSchema) {
+  return !route.hiddenInMenu
+}
+
+function sortByOrder(a: RouteSchema, b: RouteSchema) {
+  return a.order - b.order
+}
+
+function setRouteMapValue(map: Map<string, string>, schema: RouteSchema, parentPath: string) {
+  const routePath = isEmpty(parentPath) ? schema.path : `${parentPath}/${schema.path}`.replace("//", "/")
+  if (schema.id) map.set(schema.id, routePath)
+  if (schema.children) schema.children.forEach((child) => setRouteMapValue(map, child, routePath))
+}
 
 export default function useSidebar() {
   const navigate = useNavigate()
-  const segments = usePathSegments()
+  const matches = useMatches()
   const dashboardSchema = useSchemaStore((state) => state.dashboardSchema)
   const [selectedKeys, setSelectedKeys] = useState<string[]>()
   const [openKeys, setOpenKeys] = useState<string[]>()
+  const routeMap = useMemo(() => {
+    const map = new Map<string, string>()
+    if (dashboardSchema) setRouteMapValue(map, dashboardSchema, "")
+    return map
+  }, [dashboardSchema])
   const items = useMemo(
     () =>
       dashboardSchema
@@ -19,18 +46,20 @@ export default function useSidebar() {
         : undefined,
     [dashboardSchema],
   )
-  const onSelect: MenuProps["onSelect"] = ({ keyPath }) => {
-    setSelectedKeys(keyPath)
-    navigate(keyPathToRoutePath(keyPath))
+
+  const onSelect: MenuProps["onSelect"] = ({ key }) => {
+    const routePath = routeMap.get(key)
+    if (routePath) navigate(routePath)
   }
   const onOpenChange: MenuProps["onOpenChange"] = (keys) => {
     setOpenKeys(keys)
   }
 
   useEffect(() => {
-    setSelectedKeys(clone(segments).reverse())
-    setOpenKeys(clone(segments).reverse())
-  }, [segments])
+    const keys = matches.map((match) => match.id).reverse()
+    setSelectedKeys(keys)
+    setOpenKeys(keys)
+  }, [matches])
 
   return { items, openKeys, selectedKeys, onSelect, onOpenChange }
 }

@@ -1,4 +1,5 @@
 export interface RouteSchema {
+  id?: string
   path: string
   element?: React.ReactNode
   label?: string
