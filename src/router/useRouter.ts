@@ -7,10 +7,14 @@ import { menuSchema } from "./schema"
 import TreeUtil from "./schema/tree-util"
 import { RemoteRouteSchema, RouteSchema } from "./schema/type"
 import useSchemaStore from "./schema/useSchemaStore"
-import { routeSchemaToRouteObject } from "./util"
-import ViewManager from "./view"
+import ViewManager from "./view-manager"
 
 const viewManager = new ViewManager()
+
+function routeSchemaToRouteObject(schema: RouteSchema) {
+  const { path, element, id } = schema
+  return { id, path, element } as RouteObject
+}
 
 function setRemoteRouteElement(schema: RouteSchema) {
   const { viewPath } = schema as RemoteRouteSchema

@@ -1,6 +1,6 @@
 import { ComponentType } from "react"
 
-class ViewManager {
+export default class ViewManager {
   private viewDir = "/src/views"
   private modules = import.meta.glob("@/views/**/*.tsx")
 
@@ -14,5 +14,3 @@ class ViewManager {
     return `${this.viewDir}/${viewPath}`
   }
 }
-
-export default ViewManager
