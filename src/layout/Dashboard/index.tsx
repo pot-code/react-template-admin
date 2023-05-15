@@ -6,11 +6,11 @@ import { BsLayoutSidebarInset } from "react-icons/bs"
 import { motion } from "framer-motion"
 import useBreadcrumb from "@/layout/Dashboard/useBreadcrumb"
 import Navbar from "./Navbar"
-import ContentLoading from "./ContentLoading"
 import Sidebar from "./Sidebar"
 import { sidebarVariants } from "./variants"
 import useSidebarStore from "./Sidebar/userSidebarStore"
 import IconButton from "@/components/IconButton"
+import ContentLoading from "@/components/ContentLoading"
 
 const { useToken } = theme
 

@@ -1,7 +1,7 @@
 import { Card, Col, Row, Tree } from "antd"
 import type { TreeProps } from "antd/es/tree"
 import useMenu from "@/features/system/menu/useMenu"
-import ContentLoading from "@/layout/Dashboard/ContentLoading"
+import ContentLoading from "@/components/ContentLoading"
 
 export function Menu() {
   const { treeNodes, isLoading } = useMenu()
