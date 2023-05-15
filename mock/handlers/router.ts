@@ -19,6 +19,7 @@ export const handlers = [
                 {
                   id: "fa5a357aa1b93924414262a8954bca42f05a05a4",
                   path: "",
+                  label: "列表",
                   hiddenInMenu: true,
                   viewPath: "/menu1/sub1.tsx",
                 },
