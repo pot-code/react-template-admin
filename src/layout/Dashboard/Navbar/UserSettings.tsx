@@ -1,6 +1,6 @@
 import * as d3 from "d3"
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
-import { clone, curry } from "lodash-es"
+import { cloneDeep, curry } from "lodash-es"
 import { AiFillCaretDown } from "react-icons/ai"
 import { UserInfo } from "@/features/user/type"
 import { SETTINGS_ID, settingSchemas } from "@/router/schema"
@@ -29,7 +29,7 @@ export default function UserSettings({ data }: UserSettingsProps) {
     token: { colorBgSpotlight },
   } = useToken()
   const items = useMemo(() => {
-    const copyOfSettingSchemas = clone(settingSchemas)
+    const copyOfSettingSchemas = cloneDeep(settingSchemas)
     copyOfSettingSchemas[0].parentId = ""
     return new TreeUtil(routeSchemasToTree(copyOfSettingSchemas)).map(curry(routeSchemaToMenuItem)(SETTINGS_ID)).result
       .children
