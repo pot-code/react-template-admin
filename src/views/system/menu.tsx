@@ -1,7 +1,8 @@
-import { Card, Col, Row, Tree } from "antd"
+import { Card, Col, Empty, Row } from "antd"
 import useMenu from "@/features/system/menu/useMenu"
 import ContentLoading from "@/components/ContentLoading"
 import SchemaForm from "@/features/system/menu/SchemaForm"
+import TreeView from "@/features/system/menu/TreeView"
 
 export function Menu() {
   const { isLoading, treeRenderData, selectedRoute, onSelect } = useMenu()
@@ -12,12 +13,18 @@ export function Menu() {
     <Row gutter={8}>
       <Col span={6}>
         <Card className="h-full" title="菜单树" type="inner">
-          <Tree showLine treeData={treeRenderData} onSelect={onSelect} />
+          <TreeView showLine treeData={treeRenderData} onSelect={onSelect} />
         </Card>
       </Col>
       <Col span={18}>
         <Card title="设置" type="inner">
-          <SchemaForm data={selectedRoute} />
+          {selectedRoute ? (
+            <SchemaForm data={selectedRoute} />
+          ) : (
+            <div style={{ height: "312px" }} className="center-child">
+              <Empty description="请选择菜单" />
+            </div>
+          )}
         </Card>
       </Col>
     </Row>

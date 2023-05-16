@@ -46,8 +46,8 @@ export default function useMenu() {
   })
 
   const onSelect: TreeProps["onSelect"] = (keys) => {
-    const matchRoute = routeMap.get(keys[0].toString())
-    setSelectedRoute(matchRoute)
+    const firstKey = keys[0]
+    if (firstKey) setSelectedRoute(routeMap.get(firstKey.toString()))
   }
 
   return { isLoading, selectedRoute, treeRenderData, onSelect }

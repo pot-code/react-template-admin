@@ -8,6 +8,7 @@ import TreeUtil from "./schema/tree-util"
 import { RemoteRouteSchema, RouteSchema } from "./schema/type"
 import useSchemaStore from "./schema/useSchemaStore"
 import ViewManager from "./view-manager"
+import { setLocalRouteSchemaId } from "./util"
 
 const viewManager = new ViewManager()
 
@@ -25,17 +26,6 @@ function setRemoteRouteElement(schema: RouteSchema) {
   return schema
 }
 
-function setRouteSchemaId(node: RouteSchema, parentId: string, currentIndex: number) {
-  if (!node.id) {
-    node.id = isEmpty(parentId) ? `${currentIndex}` : `${parentId}-${currentIndex}`
-  }
-  if (node.children) {
-    node.children.forEach((child, index) => {
-      setRouteSchemaId(child, node.id!, index)
-    })
-  }
-}
-
 export default function useRouter() {
   const store = useSchemaStore()
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
@@ -50,7 +40,7 @@ export default function useRouter() {
 
       virtualRoot.children?.push(copyOfDashboardSchema)
       virtualRoot.children?.forEach((schema, index) => {
-        setRouteSchemaId(schema, "", index)
+        setLocalRouteSchemaId(schema, "", index)
       })
       store.setDashboardSchema(copyOfDashboardSchema)
       setRoutes(new TreeUtil(virtualRoot).map(setRemoteRouteElement).map(routeSchemaToRouteObject).root.children || [])

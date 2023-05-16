@@ -1,8 +1,8 @@
-import { Button, Empty, Form, Input, InputNumber } from "antd"
+import { Button, Form, Input, InputNumber } from "antd"
 import { RouteSchema } from "@/router/schema/type"
 
 export interface SchemaFormProps {
-  data?: RouteSchema
+  data: RouteSchema
 }
 
 export default function SchemaForm({ data }: SchemaFormProps) {
@@ -11,13 +11,6 @@ export default function SchemaForm({ data }: SchemaFormProps) {
   useEffect(() => {
     form.setFieldsValue(data)
   }, [data, form])
-
-  if (!data)
-    return (
-      <div style={{ height: "312px" }} className="center-child">
-        <Empty description="请选择菜单" />
-      </div>
-    )
 
   return (
     <Form style={{ width: 600 }} form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
