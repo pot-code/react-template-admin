@@ -14,7 +14,7 @@ export default function PageLoading(props: PageLoadingProps) {
       style={{
         backgroundColor: colorBgContainer,
       }}
-      className="h-screen w-screen flex flex-col justify-center items-center"
+      className="h-screen w-screen center-child"
     >
       <Spin {...props} />
     </div>
