@@ -11,10 +11,8 @@ export function Menu() {
   return (
     <Row gutter={8}>
       <Col span={6}>
-        <Card title="菜单树" type="inner">
-          <div>
-            <Tree showLine treeData={treeRenderData} onSelect={onSelect} />
-          </div>
+        <Card className="h-full" title="菜单树" type="inner">
+          <Tree showLine treeData={treeRenderData} onSelect={onSelect} />
         </Card>
       </Col>
       <Col span={18}>
