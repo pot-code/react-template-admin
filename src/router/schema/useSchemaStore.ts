@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { devtools } from "zustand/middleware"
 import { RouteSchema } from "./type"
 
 interface SchemaState {
@@ -6,11 +7,13 @@ interface SchemaState {
   setSchemas: (routes: RouteSchema[]) => void
 }
 
-const useSchemaStore = create<SchemaState>((set) => ({
-  schemas: [],
-  setSchemas: (schemas) => {
-    set({ schemas })
-  },
-}))
+const useSchemaStore = create(
+  devtools<SchemaState>((set) => ({
+    schemas: [],
+    setSchemas: (schemas) => {
+      set({ schemas })
+    },
+  })),
+)
 
 export default useSchemaStore
