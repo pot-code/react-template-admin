@@ -4,7 +4,7 @@ import React from "react"
 import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
 import { routeApi } from "./api"
-import schemas from "./schema"
+import schemas, { DASHBOARD_ID } from "./schema"
 import { RemoteRouteSchema, RouteSchema } from "./schema/type"
 import useSchemaStore from "./schema/useSchemaStore"
 import ViewManager from "./view-manager"
@@ -33,6 +33,10 @@ export default function useRouter() {
   const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
       let copyOfSchemas = clone(schemas)
+
+      data.forEach((schema) => {
+        if (!schema.parentId) schema.parentId = DASHBOARD_ID
+      })
       copyOfSchemas = copyOfSchemas.concat(data)
 
       const schemaTree = routeSchemasToTree(copyOfSchemas)

@@ -5,7 +5,7 @@ import SchemaForm from "@/features/system/menu/SchemaForm"
 import TreeView from "@/features/system/menu/TreeView"
 
 export function Menu() {
-  const { isLoading, treeRenderData, selectedRoute, onSelect } = useMenu()
+  const { isLoading, treeNodes, selectedRoute, onSelect } = useMenu()
 
   if (isLoading) return <ContentLoading />
 
@@ -13,7 +13,7 @@ export function Menu() {
     <Row gutter={8}>
       <Col span={6}>
         <Card className="h-full" title="菜单树" type="inner">
-          <TreeView showLine treeData={treeRenderData} onSelect={onSelect} />
+          <TreeView showLine treeData={treeNodes} onSelect={onSelect} />
         </Card>
       </Col>
       <Col span={18}>

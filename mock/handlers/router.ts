@@ -7,7 +7,6 @@ export const handlers = [
       ctx.json([
         {
           id: "7519e10b69390b90a45d243dc4500676cecbac03",
-          parentId: "dashboard",
           path: "menu1",
           label: "菜单1",
           order: 3,
@@ -49,7 +48,6 @@ export const handlers = [
         },
         {
           id: "e70b5edc57c650560e1229122207060581a9c68c",
-          parentId: "dashboard",
           path: "menu2",
           label: "菜单2",
           order: 4,

@@ -1,10 +1,13 @@
+import * as d3 from "d3"
 import { useQuery } from "react-query"
 import { TreeProps } from "antd"
 import { routeApi } from "@/router/api"
 import { RouteSchema } from "@/router/schema/type"
 import TreeUtil from "@/utils/tree-util"
+import { routeSchemasToTree } from "@/router/schema/util"
+import { DASHBOARD_ID } from "@/router/schema"
 
-type RouteMap = Map<string, RouteSchema>
+type SchemaMap = Map<string, RouteSchema>
 
 interface TreeNode {
   title: string
@@ -12,43 +15,47 @@ interface TreeNode {
   children: TreeNode[]
 }
 
-function routeSchemaToTreeNode(schema: RouteSchema) {
+function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
-    title: schema.label,
-    key: schema.id,
+    title: node.data.label,
+    key: node.data.id,
   } as TreeNode
 }
 
-function setRouteMapValue(map: RouteMap, schema: RouteSchema) {
+function setSchemaMapValue(map: SchemaMap, schema: RouteSchema) {
   map.set(schema.id!, schema)
-  if (schema.children) {
-    schema.children.forEach((child) => setRouteMapValue(map, child))
-  }
 }
 
 export default function useMenu() {
-  const [routeData, setRouteData] = useState<RouteSchema[]>([])
+  const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
-  const routeMap = useMemo(() => {
-    const map: RouteMap = new Map()
-    routeData.forEach((schema) => setRouteMapValue(map, schema))
+  const schemaMap = useMemo(() => {
+    const map: SchemaMap = new Map()
+    schemas.forEach((schema) => setSchemaMapValue(map, schema))
     return map
-  }, [routeData])
-  const treeRenderData = useMemo(() => {
-    const virtualRoot: RouteSchema = { path: "", order: -1, children: routeData }
-    return new TreeUtil(virtualRoot).map(routeSchemaToTreeNode).root.children
-  }, [routeData])
+  }, [schemas])
+  const treeNodes = useMemo(() => {
+    const virtualRoot: RouteSchema = { id: DASHBOARD_ID, path: "", order: -1 }
+    const mappedSchema: RouteSchema[] = schemas.map((v) => {
+      const { parentId } = v
+      if (!parentId) return { ...v, parentId: DASHBOARD_ID }
+      return v
+    })
+    mappedSchema.push(virtualRoot)
+    const tree = routeSchemasToTree(mappedSchema)
+    return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
+  }, [schemas])
 
   const { isLoading } = useQuery(["menus"], () => routeApi.list(), {
     onSuccess({ data }) {
-      setRouteData(data)
+      setSchemas(data)
     },
   })
 
   const onSelect: TreeProps["onSelect"] = (keys) => {
     const firstKey = keys[0]
-    if (firstKey) setSelectedRoute(routeMap.get(firstKey.toString()))
+    if (firstKey) setSelectedRoute(schemaMap.get(firstKey.toString()))
   }
 
-  return { isLoading, selectedRoute, treeRenderData, onSelect }
+  return { isLoading, selectedRoute, treeNodes, onSelect }
 }
