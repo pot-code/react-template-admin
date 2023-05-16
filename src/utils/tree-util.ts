@@ -1,16 +1,11 @@
-/* eslint-disable no-underscore-dangle */
-import { cloneDeep, isEmpty } from "lodash-es"
+import { isEmpty } from "lodash-es"
 
 interface TreeLikeObject {
   children?: this[]
 }
 
 export default class TreeUtil<T extends TreeLikeObject> {
-  private _root: T
-
-  constructor(root: T) {
-    this._root = cloneDeep(root)
-  }
+  constructor(private root: T) {}
 
   map<R extends TreeLikeObject>(fn: (node: T) => R): TreeUtil<R> {
     const mapHelper = (n: T) => {
@@ -18,7 +13,7 @@ export default class TreeUtil<T extends TreeLikeObject> {
       if (n.children) mapped.children = n.children.map(mapHelper)
       return mapped
     }
-    this._root = mapHelper(this._root) as unknown as T
+    this.root = mapHelper(this.root) as unknown as T
     return this as unknown as TreeUtil<R>
   }
 
@@ -31,7 +26,7 @@ export default class TreeUtil<T extends TreeLikeObject> {
       }
       return true
     }
-    return filterHelper(this._root) ? this : undefined
+    return filterHelper(this.root) ? this : undefined
   }
 
   sortBy(compareFn: (a: T, b: T) => number) {
@@ -41,11 +36,11 @@ export default class TreeUtil<T extends TreeLikeObject> {
         n.children.forEach(sortHelper)
       }
     }
-    sortHelper(this._root)
+    sortHelper(this.root)
     return this
   }
 
-  get root() {
-    return this._root
+  get result() {
+    return this.root
   }
 }

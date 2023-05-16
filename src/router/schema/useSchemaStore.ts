@@ -2,19 +2,15 @@ import { create } from "zustand"
 import { RouteSchema } from "./type"
 
 interface SchemaState {
-  // schemas: RouteSchema[]
-  dashboardSchema: RouteSchema | undefined
-  // setSchemas: (routes: RouteSchema[]) => void
-  setDashboardSchema: (routes: RouteSchema) => void
+  schemas: RouteSchema[]
+  setSchemas: (routes: RouteSchema[]) => void
 }
 
 const useSchemaStore = create<SchemaState>((set) => ({
-  // schemas: [],
-  dashboardSchema: undefined,
-  // setSchemas: (schemas) => {
-  //   set({ schemas })
-  // },
-  setDashboardSchema: (dashboardSchema) => set({ dashboardSchema }),
+  schemas: [],
+  setSchemas: (schemas) => {
+    set({ schemas })
+  },
 }))
 
 export default useSchemaStore

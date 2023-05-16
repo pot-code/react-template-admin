@@ -1,7 +1,7 @@
 import { MenuProps } from "antd"
 import { isEmpty } from "lodash-es"
 import { useMatches } from "react-router-dom"
-import TreeUtil from "@/router/schema/tree-util"
+import TreeUtil from "@/utils/tree-util"
 import { RouteSchema } from "@/router/schema/type"
 import useSchemaStore from "@/router/schema/useSchemaStore"
 import { MenuItem } from "../type"

@@ -2,7 +2,7 @@ import { useQuery } from "react-query"
 import { TreeProps } from "antd"
 import { routeApi } from "@/router/api"
 import { RouteSchema } from "@/router/schema/type"
-import TreeUtil from "@/router/schema/tree-util"
+import TreeUtil from "@/utils/tree-util"
 
 type RouteMap = Map<string, RouteSchema>
 

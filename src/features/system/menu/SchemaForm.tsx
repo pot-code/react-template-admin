@@ -20,7 +20,7 @@ export default function SchemaForm({ data }: SchemaFormProps) {
       <Form.Item name="order" label="排序" rules={[{ required: true }]}>
         <InputNumber />
       </Form.Item>
-      <Form.Item name="path" label="路由地址" rules={[{ required: true }]}>
+      <Form.Item name="path" label="路由地址">
         <Input />
       </Form.Item>
       <Form.Item name="viewPath" label="视图地址">
