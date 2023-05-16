@@ -1,12 +1,12 @@
-import * as d3 from "d3"
 import { last } from "lodash-es"
 import { useMatches } from "react-router-dom"
 import useSchemaStore from "@/router/schema/useSchemaStore"
+import { routeSchemasToTree } from "@/router/schema/util"
 
 export default function useBreadcrumb() {
   const matches = useMatches()
-  const dashboardSchema = useSchemaStore((state) => state.dashboardSchema)
-  const schemaTree = useMemo(() => d3.hierarchy(dashboardSchema), [dashboardSchema])
+  const schemas = useSchemaStore((state) => state.schemas)
+  const schemaTree = useMemo(() => routeSchemasToTree(schemas), [schemas])
   const items = useMemo(() => {
     const nearestMatch = last(matches)
     const found = schemaTree.find((node) => node.data?.id === nearestMatch?.id)

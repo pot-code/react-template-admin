@@ -7,6 +7,7 @@ export const handlers = [
       ctx.json([
         {
           id: "7519e10b69390b90a45d243dc4500676cecbac03",
+          parentId: "dashboard",
           path: "menu1",
           label: "菜单1",
           order: 3,
@@ -15,7 +16,7 @@ export const handlers = [
         {
           id: "95ea8b637471c22168c26824a4be6e4c877fce59",
           parentId: "7519e10b69390b90a45d243dc4500676cecbac03",
-          path: "settings",
+          path: "sub1",
           label: "子菜单1",
           order: 1,
           viewPath: null,
@@ -40,14 +41,15 @@ export const handlers = [
         },
         {
           id: "a5e078d4fc35e7edf9025cb74c10e985245086e9",
+          parentId: "7519e10b69390b90a45d243dc4500676cecbac03",
           order: 2,
-          path: "appearance",
+          path: "sub2",
           label: "子菜单2",
           viewPath: "/menu1/sub2.tsx",
         },
         {
           id: "e70b5edc57c650560e1229122207060581a9c68c",
-          parentId: "a5e078d4fc35e7edf9025cb74c10e985245086e9",
+          parentId: "dashboard",
           path: "menu2",
           label: "菜单2",
           order: 4,
