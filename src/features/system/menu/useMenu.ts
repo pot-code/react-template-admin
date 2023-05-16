@@ -5,7 +5,7 @@ import { curry } from "lodash-es"
 import { routeApi } from "@/router/api"
 import { RouteSchema } from "@/router/schema/type"
 import TreeUtil from "@/utils/tree-util"
-import { routeSchemasToTree } from "@/router/schema/util"
+import { buildSchemaTree } from "@/router/schema/util"
 import { DASHBOARD_ID } from "@/router/schema"
 
 type SchemaMap = Map<string, RouteSchema>
@@ -46,7 +46,7 @@ export default function useMenu() {
     const virtualRoot: RouteSchema = { id: DASHBOARD_ID, path: "", order: -1 }
     const mappedSchema: RouteSchema[] = schemas.map(curry(setSchemaParentId)(DASHBOARD_ID))
     mappedSchema.push(virtualRoot)
-    const tree = routeSchemasToTree(mappedSchema)
+    const tree = buildSchemaTree(mappedSchema)
     return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
   }, [schemas])
 

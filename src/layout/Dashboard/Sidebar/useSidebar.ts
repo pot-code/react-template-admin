@@ -6,7 +6,7 @@ import TreeUtil from "@/utils/tree-util"
 import { RouteSchema } from "@/router/schema/type"
 import useSchemaStore from "@/router/schema/useSchemaStore"
 import { MenuItem } from "../type"
-import { routeSchemasToTree } from "@/router/schema/util"
+import { buildSchemaTree } from "@/router/schema/util"
 import { DASHBOARD_ID } from "@/router/schema"
 
 function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
@@ -16,11 +16,11 @@ function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
   } as MenuItem
 }
 
-function filterByHiddenInMenu(node: d3.HierarchyNode<RouteSchema>) {
+function filterRouteByHiddenInMenu(node: d3.HierarchyNode<RouteSchema>) {
   return !node.data.hiddenInMenu
 }
 
-function sortByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<RouteSchema>) {
+function sortRouteByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<RouteSchema>) {
   return a.data.order - b.data.order
 }
 
@@ -39,16 +39,18 @@ export default function useSidebar() {
   const [openKeys, setOpenKeys] = useState<string[]>()
   const routeMap = useMemo(() => {
     const map = new Map<string, string>()
-    const tree = routeSchemasToTree(schemas)
+    const tree = buildSchemaTree(schemas)
     if (tree) setRouteMapValue(map, tree, "")
     return map
   }, [schemas])
   const items = useMemo(() => {
-    const tree = routeSchemasToTree(schemas)
+    const tree = buildSchemaTree(schemas)
     const dashboard = tree.find((v) => v.data.id === DASHBOARD_ID)
     if (dashboard) {
-      return new TreeUtil(dashboard).filter(filterByHiddenInMenu)?.sortBy(sortByOrder).map(routeSchemaToMenuItem).result
-        .children
+      return new TreeUtil(dashboard)
+        .filter(filterRouteByHiddenInMenu)
+        ?.sortBy(sortRouteByOrder)
+        .map(routeSchemaToMenuItem).result.children
     }
     return []
   }, [schemas])

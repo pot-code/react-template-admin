@@ -7,7 +7,7 @@ import { SETTINGS_ID, settingSchemas } from "@/router/schema"
 import TreeUtil from "@/utils/tree-util"
 import { RouteSchema } from "@/router/schema/type"
 import { MenuItem } from "../type"
-import { routeSchemasToTree } from "@/router/schema/util"
+import { buildSchemaTree } from "@/router/schema/util"
 
 const { useToken } = theme
 
@@ -31,7 +31,7 @@ export default function UserSettings({ data }: UserSettingsProps) {
   const items = useMemo(() => {
     const copyOfSettingSchemas = cloneDeep(settingSchemas)
     copyOfSettingSchemas[0].parentId = ""
-    return new TreeUtil(routeSchemasToTree(copyOfSettingSchemas)).map(curry(routeSchemaToMenuItem)(SETTINGS_ID)).result
+    return new TreeUtil(buildSchemaTree(copyOfSettingSchemas)).map(curry(routeSchemaToMenuItem)(SETTINGS_ID)).result
       .children
   }, [])
 

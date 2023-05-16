@@ -9,11 +9,11 @@ import { RemoteRouteSchema, RouteSchema } from "./schema/type"
 import useSchemaStore from "./schema/useSchemaStore"
 import ViewManager from "./view-manager"
 import TreeUtil from "@/utils/tree-util"
-import { routeSchemasToTree } from "./schema/util"
+import { buildSchemaTree } from "./schema/util"
 
 const viewManager = new ViewManager()
 
-function nodeSchemaToRouteObject(node: d3.HierarchyNode<RouteSchema>) {
+function routeSchemaToRouteObject(node: d3.HierarchyNode<RouteSchema>) {
   const { path, element, id } = node.data
   return { id, path, element } as RouteObject
 }
@@ -39,8 +39,8 @@ export default function useRouter() {
       })
       copyOfSchemas = copyOfSchemas.concat(data)
 
-      const schemaTree = routeSchemasToTree(copyOfSchemas)
-      const routeTree = new TreeUtil(schemaTree).map(setRemoteRouteElement).map(nodeSchemaToRouteObject).result
+      const schemaTree = buildSchemaTree(copyOfSchemas)
+      const routeTree = new TreeUtil(schemaTree).map(setRemoteRouteElement).map(routeSchemaToRouteObject).result
       setSchemas(clone(copyOfSchemas))
       setRoutes([routeTree] || [])
     },
