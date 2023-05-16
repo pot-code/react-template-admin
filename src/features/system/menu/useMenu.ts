@@ -42,19 +42,22 @@ export default function useMenu() {
     schemas.forEach((schema) => setSchemaMapValue(map, schema))
     return map
   }, [schemas])
-  const treeNodes = useMemo(() => {
-    const virtualRoot: RouteSchema = { id: DASHBOARD_ID, path: "", order: -1 }
-    const mappedSchema: RouteSchema[] = schemas.map(curry(setSchemaParentId)(DASHBOARD_ID))
-    mappedSchema.push(virtualRoot)
-    const tree = buildSchemaTree(mappedSchema)
-    return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
-  }, [schemas])
 
-  const { isLoading } = useQuery(["menus"], () => routeApi.list(), {
+  const { data: res, isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
       setSchemas(data)
     },
   })
+  const treeNodes = useMemo(() => {
+    const virtualRoot: RouteSchema = { id: DASHBOARD_ID, path: "", order: -1 }
+    const mappedSchema: RouteSchema[] | undefined = res?.data.map(curry(setSchemaParentId)(DASHBOARD_ID))
+    if (mappedSchema) {
+      mappedSchema.push(virtualRoot)
+      const tree = buildSchemaTree(mappedSchema)
+      return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
+    }
+    return []
+  }, [res])
 
   const onSelect: TreeProps["onSelect"] = (keys) => {
     const firstKey = keys[0]
