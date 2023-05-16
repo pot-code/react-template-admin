@@ -6,36 +6,21 @@ import { routeApi } from "@/router/api"
 import { RouteSchema } from "@/router/schema/type"
 import TreeUtil from "@/utils/tree-util"
 import { buildSchemaTree, setRemoteSchemaParentId } from "@/router/schema/util"
+import { TreeNode } from "./types"
 
 const virtualRootId = "virtual"
-
-type SchemaMap = Map<string, RouteSchema>
-
-interface TreeNode {
-  title: string
-  key: string
-  children: TreeNode[]
-}
 
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
     title: node.data.label,
     key: node.data.id,
+    visible: !node.data.hiddenInMenu,
   } as TreeNode
-}
-
-function setSchemaMapValue(map: SchemaMap, schema: RouteSchema) {
-  map.set(schema.id!, schema)
 }
 
 export default function useMenu() {
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
-  const schemaMap = useMemo(() => {
-    const map: SchemaMap = new Map()
-    schemas.forEach((schema) => setSchemaMapValue(map, schema))
-    return map
-  }, [schemas])
 
   const { data: res, isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
@@ -54,8 +39,11 @@ export default function useMenu() {
   }, [res])
 
   const onSelect: TreeProps["onSelect"] = (keys) => {
-    const firstKey = keys[0]
-    if (firstKey) setSelectedRoute(schemaMap.get(firstKey.toString()))
+    const id = keys[0]
+    const found = schemas.find((v) => v.id === id)
+    if (found) {
+      setSelectedRoute(found)
+    }
   }
 
   return { isLoading, selectedRoute, treeNodes, onSelect }
