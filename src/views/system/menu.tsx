@@ -21,7 +21,7 @@ export function Menu() {
           {selectedRoute ? (
             <SchemaForm data={selectedRoute} />
           ) : (
-            <div style={{ height: "312px" }} className="center-child">
+            <div className="center-child">
               <Empty description="请选择菜单" />
             </div>
           )}

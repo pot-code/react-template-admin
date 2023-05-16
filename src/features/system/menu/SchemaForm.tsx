@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber } from "antd"
+import { Form, Input, InputNumber } from "antd"
 import { RouteSchema } from "@/router/schema/type"
 
 export interface SchemaFormProps {
@@ -25,9 +25,6 @@ export default function SchemaForm({ data }: SchemaFormProps) {
       </Form.Item>
       <Form.Item name="viewPath" label="视图地址">
         <Input />
-      </Form.Item>
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary">保存</Button>
       </Form.Item>
     </Form>
   )
