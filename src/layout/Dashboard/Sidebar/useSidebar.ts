@@ -7,7 +7,7 @@ import { RouteSchema } from "@/router/schema/type"
 import useSchemaStore from "@/router/schema/useSchemaStore"
 import { MenuItem } from "../type"
 import { buildSchemaTree } from "@/router/schema/util"
-import { DASHBOARD_ID } from "@/router/schema"
+import { DASHBOARD_ID } from "@/router/schema/config"
 
 function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
   return {

@@ -3,11 +3,12 @@ import { Avatar, Dropdown, MenuProps, theme } from "antd"
 import { cloneDeep, curry } from "lodash-es"
 import { AiFillCaretDown } from "react-icons/ai"
 import { UserInfo } from "@/features/user/type"
-import { SETTINGS_ID, settingSchemas } from "@/router/schema"
 import TreeUtil from "@/utils/tree-util"
 import { RouteSchema } from "@/router/schema/type"
 import { MenuItem } from "../type"
 import { buildSchemaTree } from "@/router/schema/util"
+import { settingSchemas } from "@/router/schema"
+import { SETTINGS_ID } from "@/router/schema/config"
 
 const { useToken } = theme
 
@@ -30,7 +31,6 @@ export default function UserSettings({ data }: UserSettingsProps) {
   } = useToken()
   const items = useMemo(() => {
     const copyOfSettingSchemas = cloneDeep(settingSchemas)
-    copyOfSettingSchemas[0].parentId = ""
     return new TreeUtil(buildSchemaTree(copyOfSettingSchemas)).map(curry(routeSchemaToMenuItem)(SETTINGS_ID)).result
       .children
   }, [])

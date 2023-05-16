@@ -5,8 +5,9 @@ import { curry } from "lodash-es"
 import { routeApi } from "@/router/api"
 import { RouteSchema } from "@/router/schema/type"
 import TreeUtil from "@/utils/tree-util"
-import { buildSchemaTree } from "@/router/schema/util"
-import { DASHBOARD_ID } from "@/router/schema"
+import { buildSchemaTree, setRemoteSchemaParentId } from "@/router/schema/util"
+
+const virtualRootId = "virtual"
 
 type SchemaMap = Map<string, RouteSchema>
 
@@ -27,13 +28,6 @@ function setSchemaMapValue(map: SchemaMap, schema: RouteSchema) {
   map.set(schema.id!, schema)
 }
 
-function setSchemaParentId(parentId: string, schema: RouteSchema) {
-  return {
-    ...schema,
-    parentId: schema.parentId || parentId,
-  }
-}
-
 export default function useMenu() {
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
@@ -49,11 +43,11 @@ export default function useMenu() {
     },
   })
   const treeNodes = useMemo(() => {
-    const virtualRoot: RouteSchema = { id: DASHBOARD_ID, path: "", order: -1 }
-    const mappedSchema: RouteSchema[] | undefined = res?.data.map(curry(setSchemaParentId)(DASHBOARD_ID))
-    if (mappedSchema) {
-      mappedSchema.push(virtualRoot)
-      const tree = buildSchemaTree(mappedSchema)
+    const virtualRoot: RouteSchema = { id: virtualRootId, path: "", order: -1 }
+    const remoteSchemas: RouteSchema[] | undefined = res?.data.map(curry(setRemoteSchemaParentId)(virtualRootId))
+    if (remoteSchemas) {
+      remoteSchemas.push(virtualRoot)
+      const tree = buildSchemaTree(remoteSchemas)
       return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
     }
     return []

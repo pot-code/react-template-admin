@@ -1,15 +1,16 @@
 import * as d3 from "d3"
-import { clone } from "lodash-es"
+import { clone, cloneDeep, curry } from "lodash-es"
 import React from "react"
 import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
 import { routeApi } from "./api"
-import schemas, { DASHBOARD_ID } from "./schema"
+import schemas, { settingSchemas } from "./schema"
 import { RemoteRouteSchema, RouteSchema } from "./schema/type"
 import useSchemaStore from "./schema/useSchemaStore"
 import ViewManager from "./view-manager"
 import TreeUtil from "@/utils/tree-util"
-import { buildSchemaTree } from "./schema/util"
+import { buildSchemaTree, setRemoteSchemaParentId } from "./schema/util"
+import { DASHBOARD_ID } from "./schema/config"
 
 const viewManager = new ViewManager()
 
@@ -32,12 +33,12 @@ export default function useRouter() {
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
   const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
-      let copyOfSchemas = clone(schemas)
+      const setDashboardAsParent = curry(setRemoteSchemaParentId)(DASHBOARD_ID)
 
-      data.forEach((schema) => {
-        if (!schema.parentId) schema.parentId = DASHBOARD_ID
-      })
-      copyOfSchemas = copyOfSchemas.concat(data)
+      let copyOfSchemas = cloneDeep(schemas)
+      const copyOfSettingsSchemas = cloneDeep(settingSchemas).map(setDashboardAsParent)
+      const remoteSchemas = data.map(setDashboardAsParent)
+      copyOfSchemas = copyOfSchemas.concat(remoteSchemas, copyOfSettingsSchemas)
 
       const schemaTree = buildSchemaTree(copyOfSchemas)
       const routeTree = new TreeUtil(schemaTree).map(setRemoteRouteElement).map(routeSchemaToRouteObject).result

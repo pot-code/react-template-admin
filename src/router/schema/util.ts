@@ -7,3 +7,10 @@ export function buildSchemaTree(routeSchemas: RouteSchema[]) {
     .id((v) => v.id)
     .parentId((v) => v.parentId)(routeSchemas)
 }
+
+export function setRemoteSchemaParentId(parentId: string, schema: RouteSchema) {
+  return {
+    ...schema,
+    parentId: schema.parentId || parentId,
+  }
+}

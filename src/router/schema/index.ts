@@ -5,14 +5,11 @@ import Appearance from "@/views/settings/appearance"
 import Info from "@/views/settings/info"
 import { RouteSchema } from "./type"
 import { Menu } from "@/views/system/menu"
-
-export const DASHBOARD_ID = "dashboard"
-export const SETTINGS_ID = "settings"
+import { SETTINGS_ID, DASHBOARD_ID } from "./config"
 
 export const settingSchemas: RouteSchema[] = [
   {
     id: SETTINGS_ID,
-    parentId: DASHBOARD_ID,
     path: SETTINGS_ID,
     label: "设置",
     hiddenInMenu: true,
@@ -66,7 +63,6 @@ const schemas: RouteSchema[] = [
     order: 1,
     element: React.createElement(Menu),
   },
-  ...settingSchemas,
 ]
 
 export default schemas
