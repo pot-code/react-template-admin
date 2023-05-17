@@ -63,6 +63,7 @@ export default function useMenu() {
         draft.push(newChildRoute)
       }),
     )
+    setSelectedRoute(newChildRoute)
   }
 
   async function onDeleteNode(node: TreeNode) {

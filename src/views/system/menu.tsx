@@ -31,6 +31,7 @@ export function Menu() {
           <TreeView
             showLine
             treeData={treeNodes}
+            selectedKeys={selectedRoute ? [selectedRoute.id!] : []}
             onSelect={onSelect}
             onAddChild={onAddChild}
             onDeleteNode={onDeleteNode}

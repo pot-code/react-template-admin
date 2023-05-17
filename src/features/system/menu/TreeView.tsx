@@ -1,7 +1,6 @@
 import { Dropdown, MenuProps, Tree, TreeProps, theme } from "antd"
 import { AiOutlineEyeInvisible } from "react-icons/ai"
 import { TreeNode } from "./types"
-import { VIRTUAL_ROOT_ID } from "./config"
 
 const { useToken } = theme
 
