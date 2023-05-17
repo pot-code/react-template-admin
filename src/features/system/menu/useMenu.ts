@@ -20,8 +20,12 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   } as TreeNode
 }
 
-function generateLocalRouteId(parentId: string) {
-  return `${parentId}-${Date.now()}`
+const tempIdPrefix = "temp-"
+
+let tempNodeId = 0
+
+function generateLocalRouteId() {
+  return `${tempIdPrefix}${tempNodeId++}`
 }
 
 export default function useMenu() {
@@ -31,6 +35,7 @@ export default function useMenu() {
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
   const qc = useQueryClient()
+
   const treeNodes = useMemo(() => {
     const virtualRoot: RouteSchema = { id: virtualRootId, path: "", order: -1 }
     const copyOfSchemas = clone(schemas)
@@ -45,6 +50,7 @@ export default function useMenu() {
       setSchemas(remoteSchemas)
     },
   })
+
   const { mutate } = useMutation(routeApi.delete, {
     onSuccess() {
       toggleOpenModal(false)
@@ -57,7 +63,7 @@ export default function useMenu() {
   function onAddChild(node: TreeNode) {
     const parentId = node.key
     const newChildRoute: RouteSchema = {
-      id: generateLocalRouteId(parentId),
+      id: generateLocalRouteId(),
       parentId,
       path: "",
       label: "未命名",

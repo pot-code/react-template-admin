@@ -18,7 +18,7 @@ export default function Dashboard() {
   const { items: breadcrumbItems } = useBreadcrumb()
   const { open, setOpen } = useSidebarStore()
   const {
-    token: { colorPrimary, colorBgContainer, colorBgBase, colorBorderSecondary, padding },
+    token: { colorPrimary, colorBgContainer, colorBgBase, colorBorderSecondary, fontSize, padding },
   } = useToken()
 
   function toggleSidebarOpen(next?: boolean) {
@@ -48,7 +48,7 @@ export default function Dashboard() {
             `}
           >
             <IconButton
-              icon={<BsLayoutSidebarInset size={14} color={colorPrimary} />}
+              icon={<BsLayoutSidebarInset size={fontSize} color={colorPrimary} />}
               onClick={() => toggleSidebarOpen()}
             />
             <Breadcrumb items={breadcrumbItems} />

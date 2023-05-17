@@ -1,4 +1,4 @@
-import { Card, Col, Empty, Modal, Row, theme } from "antd"
+import { Button, Card, Col, Empty, Modal, Row, theme } from "antd"
 import useMenu from "@/features/system/menu/useMenu"
 import ContentLoading from "@/components/ContentLoading"
 import SchemaForm from "@/features/system/menu/SchemaForm"
@@ -28,7 +28,7 @@ export function Menu() {
   return (
     <Row className="h-full" gutter={padding}>
       <Col span={6}>
-        <Card className="h-full" title="菜单树" type="inner">
+        <Card className="h-full" title="菜单树" type="inner" extra={<Button type="link">保存</Button>}>
           <TreeView
             showLine
             treeData={treeNodes}
@@ -44,7 +44,7 @@ export function Menu() {
             onOk={onModalOk}
             onCancel={onModalCancel}
           >
-            <p>确认删除该菜单？其所有子节点也会一并删除</p>
+            <p>确认删除该菜单？其所有子节点也会一并删除，未保存的修改也会被撤销</p>
           </Modal>
         </Card>
       </Col>
