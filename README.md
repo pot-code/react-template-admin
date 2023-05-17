@@ -14,3 +14,8 @@
 - Playwright
 - [why-did-you-render](https://github.com/welldone-software/why-did-you-render)
 - [msw(Mock Service Worker)](https://mswjs.io/) API mocking
+
+# Todo
+
+- [ ] include all routes in system-menu
+- [ ] find a better way to save menu tree
