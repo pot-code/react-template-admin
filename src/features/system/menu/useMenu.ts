@@ -67,11 +67,16 @@ export default function useMenu() {
 
   function onDeleteNode(node: TreeNode) {
     const parentId = node.key
-    setSchemas(
-      produce((draft) => {
-        return draft.filter((v) => v.id !== parentId && v.parentId !== parentId)
-      }),
-    )
+    return new Promise((res) => {
+      setTimeout(res, 2000)
+    }).then(() => {
+      setSchemas(
+        produce((draft) => {
+          return draft.filter((v) => v.id !== parentId && v.parentId !== parentId)
+        }),
+      )
+      setSelectedRoute(undefined)
+    })
   }
 
   return { isLoading, selectedRoute, treeNodes, onSelect, onAddChild, onDeleteNode }
