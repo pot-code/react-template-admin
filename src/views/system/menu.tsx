@@ -7,7 +7,7 @@ import TreeView from "@/features/system/menu/TreeView"
 const { useToken } = theme
 
 export function Menu() {
-  const { isLoading, treeNodes, selectedRoute, onSelect } = useMenu()
+  const { isLoading, treeNodes, selectedRoute, onSelect, onAddChild, onDeleteNode } = useMenu()
   const {
     token: { padding },
   } = useToken()
@@ -18,7 +18,13 @@ export function Menu() {
     <Row className="h-full" gutter={padding}>
       <Col span={6}>
         <Card className="h-full" title="菜单树" type="inner">
-          <TreeView showLine treeData={treeNodes} onSelect={onSelect} />
+          <TreeView
+            showLine
+            treeData={treeNodes}
+            onSelect={onSelect}
+            onAddChild={onAddChild}
+            onDeleteNode={onDeleteNode}
+          />
         </Card>
       </Col>
       <Col span={18}>

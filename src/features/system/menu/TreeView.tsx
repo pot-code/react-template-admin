@@ -6,7 +6,7 @@ const { useToken } = theme
 
 interface TitleEvents {
   onAddChild: (node: TreeNode) => void
-  onDeleteNode: (node: TreeNode) => void
+  onDeleteNode: (node: TreeNode) => Promise<void>
 }
 
 interface TitleRenderProp extends TitleEvents {
