@@ -1,6 +1,6 @@
 export interface TreeNode {
   title: React.ReactNode
   key: string
-  visible: boolean
+  invisible: boolean
   children: TreeNode[]
 }

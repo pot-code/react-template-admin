@@ -1,4 +1,5 @@
 import { ConfigProvider } from "antd"
+import zhCN from "antd/locale/zh_CN"
 import { isEmpty } from "lodash-es"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import PageLoading from "./components/PageLoading"
@@ -14,5 +15,9 @@ export default function App() {
     const router = createBrowserRouter(routes)
     child = <RouterProvider router={router} />
   }
-  return <ConfigProvider theme={{ algorithm, token: { colorPrimary: color } }}>{child}</ConfigProvider>
+  return (
+    <ConfigProvider theme={{ algorithm, token: { colorPrimary: color } }} locale={zhCN}>
+      {child}
+    </ConfigProvider>
+  )
 }

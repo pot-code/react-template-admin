@@ -14,7 +14,7 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
     title: node.data.label,
     key: node.data.id,
-    visible: !node.data.hiddenInMenu,
+    invisible: node.data.hiddenInMenu,
   } as TreeNode
 }
 
