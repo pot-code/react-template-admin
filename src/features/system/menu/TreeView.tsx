@@ -31,7 +31,7 @@ function TitleRender({ data, onAddChild, onDeleteNode }: TitleRenderProp) {
       {
         label: "删除菜单",
         key: "deleteNode",
-        disabled: data.key === VIRTUAL_ROOT_ID,
+        disabled: data.locked,
         danger: true,
         onClick: ({ domEvent }) => {
           onDeleteNode(data)

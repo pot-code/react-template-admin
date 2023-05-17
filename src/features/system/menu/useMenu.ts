@@ -20,6 +20,7 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
     title: node.data.label,
     key: node.data.id,
     invisible: node.data.hiddenInMenu,
+    locked: node.data.locked,
   } as TreeNode
 }
 
@@ -34,7 +35,7 @@ export default function useMenu() {
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
 
   const treeNodes = useMemo(() => {
-    const virtualRoot: RouteSchema = { id: VIRTUAL_ROOT_ID, label: "根节点", path: "", order: -1 }
+    const virtualRoot: RouteSchema = { id: VIRTUAL_ROOT_ID, label: "根节点", path: "", order: -1, locked: true }
     const copyOfSchemas = clone(schemas)
     copyOfSchemas.push(virtualRoot)
     const tree = buildSchemaTree(copyOfSchemas)

@@ -10,6 +10,7 @@ export const handlers = [
           path: "menu1",
           label: "菜单1",
           order: 3,
+          locked: true,
           viewPath: null,
         },
         {

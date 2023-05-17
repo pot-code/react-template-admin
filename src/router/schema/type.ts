@@ -7,6 +7,7 @@ export interface RouteSchema {
   index?: boolean
   order: number
   hiddenInMenu?: boolean
+  locked?: boolean
 }
 
 export interface RemoteRouteSchema extends RouteSchema {
