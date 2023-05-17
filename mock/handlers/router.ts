@@ -56,4 +56,5 @@ export const handlers = [
       ]),
     ),
   ),
+  rest.delete("/api/routes/:routeId", (_, res, ctx) => res(ctx.delay(500))),
 ]

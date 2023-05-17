@@ -1,8 +1,9 @@
 import * as d3 from "d3"
-import { useQuery } from "react-query"
-import { TreeProps } from "antd"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import { ModalProps, TreeProps, message } from "antd"
 import { clone, curry } from "lodash-es"
 import { produce } from "immer"
+import { useToggle } from "@react-hookz/web"
 import { routeApi } from "@/router/api"
 import { RouteSchema } from "@/router/schema/type"
 import TreeUtil from "@/utils/tree-util"
@@ -24,15 +25,12 @@ function generateLocalRouteId(parentId: string) {
 }
 
 export default function useMenu() {
+  const [openModal, toggleOpenModal] = useToggle(false)
+  const [modalConfirmLoading, toggleModalConfirmLoading] = useToggle(false)
+  const [deleteNode, setDeleteNode] = useState<TreeNode>()
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
-
-  const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
-    onSuccess({ data }) {
-      const remoteSchemas = data.map(curry(setRemoteSchemaParentId)(virtualRootId))
-      setSchemas(remoteSchemas)
-    },
-  })
+  const qc = useQueryClient()
   const treeNodes = useMemo(() => {
     const virtualRoot: RouteSchema = { id: virtualRootId, path: "", order: -1 }
     const copyOfSchemas = clone(schemas)
@@ -41,13 +39,20 @@ export default function useMenu() {
     return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
   }, [schemas])
 
-  const onSelect: TreeProps["onSelect"] = (keys) => {
-    const id = keys[0]
-    const found = schemas.find((v) => v.id === id)
-    if (found) {
-      setSelectedRoute(found)
-    }
-  }
+  const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
+    onSuccess({ data }) {
+      const remoteSchemas = data.map(curry(setRemoteSchemaParentId)(virtualRootId))
+      setSchemas(remoteSchemas)
+    },
+  })
+  const { mutate } = useMutation(routeApi.delete, {
+    onSuccess() {
+      toggleOpenModal(false)
+      toggleModalConfirmLoading(false)
+      qc.invalidateQueries(["routes"])
+      message.success("删除成功")
+    },
+  })
 
   function onAddChild(node: TreeNode) {
     const parentId = node.key
@@ -65,19 +70,41 @@ export default function useMenu() {
     )
   }
 
-  function onDeleteNode(node: TreeNode) {
-    const parentId = node.key
-    return new Promise((res) => {
-      setTimeout(res, 2000)
-    }).then(() => {
-      setSchemas(
-        produce((draft) => {
-          return draft.filter((v) => v.id !== parentId && v.parentId !== parentId)
-        }),
-      )
-      setSelectedRoute(undefined)
-    })
+  async function onDeleteNode(node: TreeNode) {
+    toggleOpenModal(true)
+    setDeleteNode(node)
   }
 
-  return { isLoading, selectedRoute, treeNodes, onSelect, onAddChild, onDeleteNode }
+  const onSelect: TreeProps["onSelect"] = (keys) => {
+    const id = keys[0]
+    const found = schemas.find((v) => v.id === id)
+    if (found) {
+      setSelectedRoute(found)
+    }
+  }
+
+  const onModalOk: ModalProps["onOk"] = () => {
+    if (deleteNode) {
+      const nodeId = deleteNode.key
+      toggleModalConfirmLoading(true)
+      mutate(nodeId)
+    }
+  }
+
+  const onModalCancel: ModalProps["onCancel"] = () => {
+    toggleOpenModal(false)
+  }
+
+  return {
+    isLoading,
+    openModal,
+    modalConfirmLoading,
+    selectedRoute,
+    treeNodes,
+    onSelect,
+    onAddChild,
+    onDeleteNode,
+    onModalOk,
+    onModalCancel,
+  }
 }

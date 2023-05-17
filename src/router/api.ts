@@ -5,4 +5,7 @@ export const routeApi = {
   list() {
     return http.get<RemoteRouteSchema[]>("/routes")
   },
+  delete(routeId: string) {
+    return http.delete(`/routes/${routeId}`)
+  },
 }

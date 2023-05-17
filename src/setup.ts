@@ -14,8 +14,10 @@ async function installWdyr() {
 }
 
 export async function setup() {
-  if (import.meta.env.DEV) {
+  if (import.meta.env.VITE_MSW_ENABLED === "true") {
     await installMockService()
+  }
+  if (import.meta.env.VITE_WDYR_ENABLED === "true") {
     await installWdyr()
   }
 }

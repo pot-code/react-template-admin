@@ -1,4 +1,4 @@
-import { Card, Col, Empty, Row, theme } from "antd"
+import { Card, Col, Empty, Modal, Row, theme } from "antd"
 import useMenu from "@/features/system/menu/useMenu"
 import ContentLoading from "@/components/ContentLoading"
 import SchemaForm from "@/features/system/menu/SchemaForm"
@@ -7,7 +7,18 @@ import TreeView from "@/features/system/menu/TreeView"
 const { useToken } = theme
 
 export function Menu() {
-  const { isLoading, treeNodes, selectedRoute, onSelect, onAddChild, onDeleteNode } = useMenu()
+  const {
+    openModal,
+    modalConfirmLoading,
+    isLoading,
+    treeNodes,
+    selectedRoute,
+    onSelect,
+    onAddChild,
+    onDeleteNode,
+    onModalOk,
+    onModalCancel,
+  } = useMenu()
   const {
     token: { padding },
   } = useToken()
@@ -25,6 +36,16 @@ export function Menu() {
             onAddChild={onAddChild}
             onDeleteNode={onDeleteNode}
           />
+          <Modal
+            title="确认删除"
+            okType="danger"
+            confirmLoading={modalConfirmLoading}
+            open={openModal}
+            onOk={onModalOk}
+            onCancel={onModalCancel}
+          >
+            <p>确认删除该菜单？其所有子节点也会一并删除</p>
+          </Modal>
         </Card>
       </Col>
       <Col span={18}>
