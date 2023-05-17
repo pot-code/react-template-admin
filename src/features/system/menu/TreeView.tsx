@@ -1,6 +1,7 @@
 import { Dropdown, MenuProps, Tree, TreeProps, theme } from "antd"
 import { AiOutlineEyeInvisible } from "react-icons/ai"
 import { TreeNode } from "./types"
+import { VIRTUAL_ROOT_ID } from "./config"
 
 const { useToken } = theme
 
@@ -10,7 +11,7 @@ interface TitleEvents {
 }
 
 interface TitleRenderProp extends TitleEvents {
-  data: any
+  data: TreeNode
 }
 
 function TitleRender({ data, onAddChild, onDeleteNode }: TitleRenderProp) {
@@ -22,11 +23,15 @@ function TitleRender({ data, onAddChild, onDeleteNode }: TitleRenderProp) {
       {
         label: "添加子菜单",
         key: "addChild",
-        onClick: () => onAddChild(data),
+        onClick: ({ domEvent }) => {
+          onAddChild(data)
+          domEvent.stopPropagation()
+        },
       },
       {
         label: "删除菜单",
         key: "deleteNode",
+        disabled: data.key === VIRTUAL_ROOT_ID,
         danger: true,
         onClick: ({ domEvent }) => {
           onDeleteNode(data)

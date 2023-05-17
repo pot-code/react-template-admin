@@ -9,8 +9,7 @@ import { RouteSchema } from "@/router/schema/type"
 import TreeUtil from "@/utils/tree-util"
 import { buildSchemaTree, setRemoteSchemaParentId } from "@/router/schema/util"
 import { TreeNode } from "./types"
-
-const virtualRootId = "virtual"
+import { VIRTUAL_ROOT_ID } from "./config"
 
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
@@ -20,12 +19,12 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   } as TreeNode
 }
 
-const tempIdPrefix = "temp-"
+const tmpIdPrefix = "tmp-"
 
-let tempNodeId = 0
+let tmpNodeId = 0
 
 function generateLocalRouteId() {
-  return `${tempIdPrefix}${tempNodeId++}`
+  return `${tmpIdPrefix}${tmpNodeId++}`
 }
 
 export default function useMenu() {
@@ -37,16 +36,16 @@ export default function useMenu() {
   const qc = useQueryClient()
 
   const treeNodes = useMemo(() => {
-    const virtualRoot: RouteSchema = { id: virtualRootId, path: "", order: -1 }
+    const virtualRoot: RouteSchema = { id: VIRTUAL_ROOT_ID, label: "根节点", path: "", order: -1 }
     const copyOfSchemas = clone(schemas)
     copyOfSchemas.push(virtualRoot)
     const tree = buildSchemaTree(copyOfSchemas)
-    return new TreeUtil(tree).map(routeSchemaToTreeNode).result.children
+    return [new TreeUtil(tree).map(routeSchemaToTreeNode).result]
   }, [schemas])
 
   const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
     onSuccess({ data }) {
-      const remoteSchemas = data.map(curry(setRemoteSchemaParentId)(virtualRootId))
+      const remoteSchemas = data.map(curry(setRemoteSchemaParentId)(VIRTUAL_ROOT_ID))
       setSchemas(remoteSchemas)
     },
   })
