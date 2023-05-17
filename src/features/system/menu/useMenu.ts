@@ -1,6 +1,6 @@
 import * as d3 from "d3"
-import { useMutation, useQuery, useQueryClient } from "react-query"
-import { ModalProps, TreeProps, message } from "antd"
+import { useQuery } from "react-query"
+import { ModalProps, TreeProps } from "antd"
 import { clone, curry } from "lodash-es"
 import { produce } from "immer"
 import { useToggle } from "@react-hookz/web"
@@ -11,6 +11,10 @@ import { buildSchemaTree, setRemoteSchemaParentId } from "@/router/schema/util"
 import { TreeNode } from "./types"
 import { VIRTUAL_ROOT_ID } from "./config"
 
+const tmpIdPrefix = "tmp-"
+
+let tmpNodeId = 0
+
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
     title: node.data.label,
@@ -19,21 +23,15 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   } as TreeNode
 }
 
-const tmpIdPrefix = "tmp-"
-
-let tmpNodeId = 0
-
-function generateLocalRouteId() {
+function generateTmpRouteId() {
   return `${tmpIdPrefix}${tmpNodeId++}`
 }
 
 export default function useMenu() {
   const [openModal, toggleOpenModal] = useToggle(false)
-  const [modalConfirmLoading, toggleModalConfirmLoading] = useToggle(false)
   const [deleteNode, setDeleteNode] = useState<TreeNode>()
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
-  const qc = useQueryClient()
 
   const treeNodes = useMemo(() => {
     const virtualRoot: RouteSchema = { id: VIRTUAL_ROOT_ID, label: "根节点", path: "", order: -1 }
@@ -50,19 +48,10 @@ export default function useMenu() {
     },
   })
 
-  const { mutate } = useMutation(routeApi.delete, {
-    onSuccess() {
-      toggleOpenModal(false)
-      toggleModalConfirmLoading(false)
-      qc.invalidateQueries(["routes"])
-      message.success("删除成功")
-    },
-  })
-
   function onAddChild(node: TreeNode) {
     const parentId = node.key
     const newChildRoute: RouteSchema = {
-      id: generateLocalRouteId(),
+      id: generateTmpRouteId(),
       parentId,
       path: "",
       label: "未命名",
@@ -90,9 +79,13 @@ export default function useMenu() {
 
   const onModalOk: ModalProps["onOk"] = () => {
     if (deleteNode) {
-      const nodeId = deleteNode.key
-      toggleModalConfirmLoading(true)
-      mutate(nodeId)
+      const id = deleteNode.key
+      setSchemas(
+        produce((draft) => {
+          return draft.filter((v) => v.id !== id && v.parentId !== id)
+        }),
+      )
+      toggleOpenModal(false)
     }
   }
 
@@ -103,7 +96,6 @@ export default function useMenu() {
   return {
     isLoading,
     openModal,
-    modalConfirmLoading,
     selectedRoute,
     treeNodes,
     onSelect,

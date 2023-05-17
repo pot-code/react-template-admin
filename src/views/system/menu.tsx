@@ -9,7 +9,6 @@ const { useToken } = theme
 export function Menu() {
   const {
     openModal,
-    modalConfirmLoading,
     isLoading,
     treeNodes,
     selectedRoute,
@@ -36,15 +35,8 @@ export function Menu() {
             onAddChild={onAddChild}
             onDeleteNode={onDeleteNode}
           />
-          <Modal
-            title="确认删除"
-            okType="danger"
-            confirmLoading={modalConfirmLoading}
-            open={openModal}
-            onOk={onModalOk}
-            onCancel={onModalCancel}
-          >
-            <p>确认删除该菜单？其所有子节点也会一并删除，未保存的修改也会被撤销</p>
+          <Modal title="确认删除" okType="danger" open={openModal} onOk={onModalOk} onCancel={onModalCancel}>
+            <p>确认删除该菜单？其所有子节点也会一并删除</p>
           </Modal>
         </Card>
       </Col>
