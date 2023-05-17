@@ -9,17 +9,18 @@ export interface IconButtonProps extends React.ComponentPropsWithoutRef<"button"
 
 export default function IconButton({ icon, ...rest }: IconButtonProps) {
   const {
-    token: { colorFillSecondary },
+    token: { colorFillSecondary, padding },
   } = useToken()
 
   return (
     <button
       css={css`
+        padding: ${padding / 2}px;
         &:hover {
           background-color: ${colorFillSecondary};
         }
       `}
-      className="transition-colors bg-transparent border-none p-2 flex rounded cursor-pointer"
+      className="transition-colors bg-transparent border-none flex rounded cursor-pointer"
       {...rest}
     >
       {icon}
