@@ -14,7 +14,7 @@ export default function SchemaForm({ data }: SchemaFormProps) {
   }, [data, form])
 
   return (
-    <Form style={{ width: 600 }} form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+    <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
       <Form.Item name="label" label="菜单名称" rules={[{ required: true }]}>
         <Input />
       </Form.Item>

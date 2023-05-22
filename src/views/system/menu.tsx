@@ -1,4 +1,4 @@
-import { Button, Card, Col, Empty, Modal, Row, theme } from "antd"
+import { Card, Col, Empty, Modal, Row, theme } from "antd"
 import useMenu from "@/features/system/menu/useMenu"
 import ContentLoading from "@/components/ContentLoading"
 import SchemaForm from "@/features/system/menu/SchemaForm"
@@ -8,15 +8,22 @@ const { useToken } = theme
 
 export function Menu() {
   const {
-    openModal,
+    contextHolder,
+    showDeleteConfirmModal,
+    confirmDeleteLoading,
+    showCreateMenuModal,
+    confirmCreateLoading,
     isLoading,
     treeNodes,
+    unSavedSchema,
     selectedRoute,
     onSelect,
     onAddChild,
     onDeleteNode,
-    onModalOk,
-    onModalCancel,
+    onDeleteModalOk,
+    onDeleteModalCancel,
+    onCreateModalOk,
+    onCreateModalCancel,
   } = useMenu()
   const {
     token: { padding },
@@ -27,7 +34,7 @@ export function Menu() {
   return (
     <Row className="h-full" gutter={padding}>
       <Col span={6}>
-        <Card className="h-full" title="菜单树" type="inner" extra={<Button type="link">保存</Button>}>
+        <Card className="h-full" title="菜单树" type="inner">
           <TreeView
             showLine
             treeData={treeNodes}
@@ -36,8 +43,24 @@ export function Menu() {
             onAddChild={onAddChild}
             onDeleteNode={onDeleteNode}
           />
-          <Modal title="确认删除" okType="danger" open={openModal} onOk={onModalOk} onCancel={onModalCancel}>
+          <Modal
+            title="确认删除"
+            okType="danger"
+            confirmLoading={confirmDeleteLoading}
+            open={showDeleteConfirmModal}
+            onOk={onDeleteModalOk}
+            onCancel={onDeleteModalCancel}
+          >
             <p>确认删除该菜单？其所有子节点也会一并删除</p>
+          </Modal>
+          <Modal
+            title="新增菜单"
+            confirmLoading={confirmCreateLoading}
+            open={showCreateMenuModal}
+            onOk={onCreateModalOk}
+            onCancel={onCreateModalCancel}
+          >
+            <SchemaForm data={unSavedSchema!} />
           </Modal>
         </Card>
       </Col>
@@ -46,6 +69,7 @@ export function Menu() {
           {selectedRoute ? <SchemaForm data={selectedRoute} /> : <Empty description="请选择菜单" />}
         </Card>
       </Col>
+      {contextHolder}
     </Row>
   )
 }
