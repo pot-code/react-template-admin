@@ -20,6 +20,14 @@ export default defineConfig({
       imports: ["react", "react-router-dom"],
     }),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

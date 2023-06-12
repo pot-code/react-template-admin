@@ -1,7 +1,7 @@
 import { rest } from "msw"
 
 export const handlers = [
-  rest.get("/api/routes", (_, res, ctx) =>
+  rest.get("/mock/routes", (_, res, ctx) =>
     res(
       ctx.delay(500),
       ctx.json([
@@ -57,5 +57,5 @@ export const handlers = [
       ]),
     ),
   ),
-  rest.delete("/api/routes/:routeId", (_, res, ctx) => res(ctx.delay(500))),
+  rest.delete("/mock/routes/:routeId", (_, res, ctx) => res(ctx.delay(500))),
 ]
