@@ -19,6 +19,7 @@ export default function useBreadcrumb() {
         .filter(Boolean)
         .map((title) => ({ title }))
         .reverse()
+        .slice(1) // remove root label
     }
     return []
   }, [matches, schemaTree])

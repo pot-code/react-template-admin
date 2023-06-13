@@ -11,10 +11,12 @@ export default function App() {
   const { algorithm, color } = useTheme()
 
   let child = <PageLoading />
+
   if (!isLoading && !isEmpty(routes)) {
     const router = createBrowserRouter(routes)
     child = <RouterProvider router={router} />
   }
+
   return (
     <ConfigProvider theme={{ algorithm, token: { colorPrimary: color } }} locale={zhCN}>
       {child}

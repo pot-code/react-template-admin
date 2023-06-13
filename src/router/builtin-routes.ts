@@ -2,7 +2,7 @@ import React from "react"
 import { RouteSchema } from "@/features/system/menu/types"
 import UserInfo from "@/views/settings/user-info"
 import Appearance from "@/views/settings/appearance"
-import Dashboard from "@/layout/Dashboard"
+import Dashboard from "@/layout/dashboard"
 
 export const SETTINGS_ID = "settings"
 export const DASHBOARD_ID = "dashboard"
@@ -19,6 +19,7 @@ export const settings: RouteSchema[] = [
   },
   {
     parentId: SETTINGS_ID,
+    id: "user-center",
     path: "user-center",
     label: "个人中心",
     order: 1,
@@ -27,6 +28,7 @@ export const settings: RouteSchema[] = [
   },
   {
     parentId: SETTINGS_ID,
+    id: "appearance",
     path: "appearance",
     label: "外观设置",
     order: 2,
