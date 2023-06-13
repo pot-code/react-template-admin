@@ -62,9 +62,5 @@ export default function TreeView({ onAddChild, onDeleteNode, ...rest }: TreeView
     [onAddChild, onDeleteNode],
   )
 
-  return (
-    <div>
-      <Tree titleRender={titleRender} {...rest} />
-    </div>
-  )
+  return <Tree titleRender={titleRender} {...rest} />
 }

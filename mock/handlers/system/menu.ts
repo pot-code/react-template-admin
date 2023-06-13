@@ -58,4 +58,6 @@ export const handlers = [
     ),
   ),
   rest.delete("/mock/system/menu/:routeId", (_, res, ctx) => res(ctx.delay(500))),
+  rest.post("/mock/system/menu", (_, res, ctx) => res(ctx.delay(500))),
+  rest.put("/mock/system/menu", (_, res, ctx) => res(ctx.delay(500))),
 ]

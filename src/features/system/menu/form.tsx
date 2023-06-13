@@ -1,11 +1,15 @@
-import { Form, Input, InputNumber, Switch } from "antd"
+import { Button, Form, Input, InputNumber, Space, Switch } from "antd"
 import { RouteSchema } from "./types"
 
 export interface SchemaFormProps {
   data: RouteSchema
+  isLoading?: boolean
+  showCancel?: boolean
+  onSubmit: (data: RouteSchema) => void
+  onCancel?: () => void
 }
 
-export default function SchemaForm({ data }: SchemaFormProps) {
+export default function SchemaForm({ data, isLoading, showCancel, onSubmit, onCancel }: SchemaFormProps) {
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -14,7 +18,10 @@ export default function SchemaForm({ data }: SchemaFormProps) {
   }, [data, form])
 
   return (
-    <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+    <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onSubmit}>
+      <Form.Item name="id" hidden>
+        <Input />
+      </Form.Item>
       <Form.Item name="label" label="菜单名称" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -29,6 +36,14 @@ export default function SchemaForm({ data }: SchemaFormProps) {
       </Form.Item>
       <Form.Item name="viewPath" label="视图地址" tooltip="不用添加 views 文件夹前缀">
         <Input />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8 }}>
+        <Space>
+          <Button loading={isLoading} type="primary" htmlType="submit">
+            保存
+          </Button>
+          {showCancel && <Button onClick={onCancel}>取消</Button>}
+        </Space>
       </Form.Item>
     </Form>
   )

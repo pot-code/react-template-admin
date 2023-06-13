@@ -8,28 +8,28 @@ const { useToken } = theme
 
 export function Menu() {
   const {
-    contextHolder,
-    showDeleteConfirmModal,
-    confirmDeleteLoading,
-    showCreateMenuModal,
-    confirmCreateLoading,
     isLoading,
-    treeNodes,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    showCreateMenuModal,
+    showDeleteConfirmModal,
     unSavedSchema,
     selectedRoute,
+    treeNodes,
+    contextHolder,
     onSelect,
     onAddChild,
     onDeleteNode,
     onDeleteModalOk,
     onDeleteModalCancel,
-    onCreateModalOk,
-    onCreateModalCancel,
+    onRouteSchemaCreated,
+    onRouteSchemaUpdated,
+    onCreationCanceled,
   } = useMenu()
   const {
     token: { padding },
   } = useToken()
-
-  if (isLoading) return <ContentLoading />
 
   return (
     <Row className="h-full" gutter={padding}>
@@ -46,27 +46,31 @@ export function Menu() {
           <Modal
             title="确认删除"
             okType="danger"
-            confirmLoading={confirmDeleteLoading}
+            confirmLoading={isDeleting}
             open={showDeleteConfirmModal}
             onOk={onDeleteModalOk}
             onCancel={onDeleteModalCancel}
           >
             <p>确认删除该菜单？其所有子节点也会一并删除</p>
           </Modal>
-          <Modal
-            title="新增菜单"
-            confirmLoading={confirmCreateLoading}
-            open={showCreateMenuModal}
-            onOk={onCreateModalOk}
-            onCancel={onCreateModalCancel}
-          >
-            <SchemaForm data={unSavedSchema!} />
+          <Modal title="新增菜单" footer={null} open={showCreateMenuModal}>
+            <SchemaForm
+              showCancel
+              isLoading={isCreating}
+              data={unSavedSchema!}
+              onSubmit={onRouteSchemaCreated}
+              onCancel={onCreationCanceled}
+            />
           </Modal>
         </Card>
       </Col>
       <Col span={18}>
         <Card title="设置" type="inner">
-          {selectedRoute ? <SchemaForm data={selectedRoute} /> : <Empty description="请选择菜单" />}
+          {selectedRoute ? (
+            <SchemaForm isLoading={isUpdating} data={selectedRoute} onSubmit={onRouteSchemaUpdated} />
+          ) : (
+            <Empty description="请选择菜单" />
+          )}
         </Card>
       </Col>
       {contextHolder}
