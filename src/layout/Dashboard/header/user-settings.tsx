@@ -1,19 +1,14 @@
-import * as d3 from "d3"
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
-import { cloneDeep, curry } from "lodash-es"
+import { curry } from "lodash-es"
 import { AiFillCaretDown } from "react-icons/ai"
+import { RouteSchema } from "@/features/system/menu/types"
 import { UserInfo } from "@/features/user/type"
-import TreeUtil from "@/utils/tree-util"
-import { RouteSchema } from "@/router/schema/type"
+import { SETTINGS_ID, settings } from "@/router/builtin-routes"
 import { MenuItem } from "../type"
-import { buildSchemaTree } from "@/router/schema/util"
-import { settingSchemas } from "@/router/schema"
-import { SETTINGS_ID } from "@/router/schema/config"
 
 const { useToken } = theme
 
-function routeSchemaToMenuItem(prefix: string, route: d3.HierarchyNode<RouteSchema>) {
-  const schema = route.data
+function routeSchemaToMenuItem(prefix: string, schema: RouteSchema) {
   return {
     key: `${prefix}/${schema.path}`,
     label: schema.label,
@@ -30,9 +25,7 @@ export default function UserSettings({ data }: UserSettingsProps) {
     token: { colorBgSpotlight },
   } = useToken()
   const items = useMemo(() => {
-    const copyOfSettingSchemas = cloneDeep(settingSchemas)
-    return new TreeUtil(buildSchemaTree(copyOfSettingSchemas)).map(curry(routeSchemaToMenuItem)(SETTINGS_ID)).result
-      .children
+    return settings.filter((v) => v.parentId === SETTINGS_ID).map(curry(routeSchemaToMenuItem)(SETTINGS_ID))
   }, [])
 
   const onClick: MenuProps["onClick"] = ({ key }) => {

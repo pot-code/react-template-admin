@@ -1,8 +1,11 @@
 import { ComponentType } from "react"
 
+const viewSuffix = ".tsx"
+
 export default class ViewManager {
   private viewDir = "/src/views"
-  private modules = import.meta.glob("@/views/**/*.tsx")
+  private rootDir = "/src"
+  private modules = import.meta.glob("@/**/*.tsx")
 
   getViewComponent(viewPath: string) {
     const path = this.getLocalViewPath(viewPath)
@@ -10,7 +13,18 @@ export default class ViewManager {
   }
 
   private getLocalViewPath(viewPath: string) {
-    if (viewPath.startsWith("/")) return `${this.viewDir}/${viewPath.slice(1)}`
-    return `${this.viewDir}/${viewPath}`
+    let path = ""
+
+    if (viewPath.startsWith("/")) {
+      path = `${this.rootDir}/${viewPath.slice(1)}${viewSuffix}`
+    } else {
+      path = `${this.viewDir}/${viewPath}${viewSuffix}`
+    }
+
+    if (!path.endsWith(viewSuffix)) {
+      path += viewSuffix
+    }
+
+    return path
   }
 }

@@ -1,5 +1,5 @@
 import * as d3 from "d3"
-import { RouteSchema } from "./type"
+import { RouteSchema } from "./types"
 
 export function buildSchemaTree(routeSchemas: RouteSchema[]) {
   return d3
@@ -8,9 +8,6 @@ export function buildSchemaTree(routeSchemas: RouteSchema[]) {
     .parentId((v) => v.parentId)(routeSchemas)
 }
 
-export function setRemoteSchemaParentId(parentId: string, schema: RouteSchema) {
-  return {
-    ...schema,
-    parentId: schema.parentId || parentId,
-  }
+export function isDashboardSchema(schema: RouteSchema) {
+  return schema.path === "/"
 }

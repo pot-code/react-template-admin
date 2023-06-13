@@ -3,12 +3,11 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import { ModalProps, TreeProps, message } from "antd"
 import { clone, curry } from "lodash-es"
 import { useToggle } from "@react-hookz/web"
-import { routeApi } from "@/router/api"
-import { RouteSchema } from "@/router/schema/type"
+import { menuApi } from "@/features/system/menu/api"
 import TreeUtil from "@/utils/tree-util"
-import { buildSchemaTree, setRemoteSchemaParentId } from "@/router/schema/util"
-import { TreeNode } from "./types"
+import { RouteSchema, TreeNode } from "./types"
 import { VIRTUAL_ROOT_ID } from "./config"
+import { buildSchemaTree } from "./util"
 
 const tmpIdPrefix = "tmp-"
 
@@ -52,8 +51,8 @@ export default function useMenu() {
     return [new TreeUtil(tree).map(routeSchemaToTreeNode).result]
   }, [schemas])
 
-  const { mutate } = useMutation(routeApi.delete)
-  const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
+  const { mutate } = useMutation(menuApi.delete)
+  const { isLoading } = useQuery(["routes"], () => menuApi.list(), {
     onSuccess({ data }) {
       const remoteSchemas = data.map(curry(setRemoteSchemaParentId)(VIRTUAL_ROOT_ID))
       setSchemas(remoteSchemas)

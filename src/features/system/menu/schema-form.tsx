@@ -1,5 +1,5 @@
 import { Form, Input, InputNumber, Switch } from "antd"
-import { RouteSchema } from "@/router/schema/type"
+import { RouteSchema } from "./types"
 
 export interface SchemaFormProps {
   data: RouteSchema

@@ -1,28 +1,33 @@
 import * as d3 from "d3"
-import { clone, cloneDeep, curry } from "lodash-es"
+import { cloneDeep } from "lodash-es"
 import React from "react"
 import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
-import { routeApi } from "./api"
-import schemas, { settingSchemas } from "./schema"
-import { RemoteRouteSchema, RouteSchema } from "./schema/type"
-import useSchemaStore from "./schema/use-schema-store"
-import ViewManager from "./view-manager"
 import TreeUtil from "@/utils/tree-util"
-import { buildSchemaTree, setRemoteSchemaParentId } from "./schema/util"
-import { DASHBOARD_ID } from "./schema/config"
+import { RemoteRouteSchema, RouteSchema } from "@/features/system/menu/types"
+import { menuApi } from "../features/system/menu/api"
+import useSchemaStore from "../features/system/menu/use-schema-store"
+import { buildSchemaTree, isDashboardSchema } from "../features/system/menu/util"
+import { settings, SETTINGS_ID } from "./builtin-routes"
+import ViewManager from "./view-manager"
 
 const viewManager = new ViewManager()
 
-function routeSchemaToRouteObject(node: d3.HierarchyNode<RouteSchema>) {
-  const { path, element, id } = node.data
+function routeSchemaToRouteObject(schema: RouteSchema) {
+  const { path, element, id } = schema
   return { id, path, element } as RouteObject
+}
+
+function routeNodeToRouteObject(node: d3.HierarchyNode<RouteSchema>) {
+  return routeSchemaToRouteObject(node.data)
 }
 
 function setRemoteRouteElement(node: d3.HierarchyNode<RouteSchema>) {
   const schema = node.data as RemoteRouteSchema
   if (schema.viewPath) {
-    const component = React.lazy(viewManager.getViewComponent(schema.viewPath))
+    const componentFactory = viewManager.getViewComponent(schema.viewPath)
+    const component = React.lazy(componentFactory)
+
     schema.element = React.createElement(component)
   }
   return node
@@ -31,19 +36,24 @@ function setRemoteRouteElement(node: d3.HierarchyNode<RouteSchema>) {
 export default function useRouter() {
   const { setSchemas } = useSchemaStore()
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
-  const { isLoading } = useQuery(["routes"], () => routeApi.list(), {
+  const { isLoading } = useQuery(["routes"], () => menuApi.list(), {
     onSuccess({ data }) {
-      const setDashboardAsParent = curry(setRemoteSchemaParentId)(DASHBOARD_ID)
+      setSchemas(cloneDeep(data))
 
-      let copyOfSchemas = cloneDeep(schemas)
-      const copyOfSettingsSchemas = cloneDeep(settingSchemas).map(setDashboardAsParent)
-      const remoteSchemas = data.map(setDashboardAsParent)
-      copyOfSchemas = copyOfSchemas.concat(remoteSchemas, copyOfSettingsSchemas)
+      let schemas: RouteSchema[] = [...data]
+      const dashboardSchema = schemas.find(isDashboardSchema)
+      if (dashboardSchema) {
+        const settingsSchema = cloneDeep(settings)
+        const settingsRoot = settingsSchema.find((v) => v.id === SETTINGS_ID)
 
-      const schemaTree = buildSchemaTree(copyOfSchemas)
-      const routeTree = new TreeUtil(schemaTree).map(setRemoteRouteElement).map(routeSchemaToRouteObject).result
-      setSchemas(clone(copyOfSchemas))
-      setRoutes([routeTree] || [])
+        if (settingsRoot) settingsRoot.parentId = dashboardSchema.id
+        schemas = schemas.concat(settingsSchema)
+      }
+
+      const dashboardRoutes = new TreeUtil(buildSchemaTree(schemas))
+        .map(setRemoteRouteElement)
+        .map(routeNodeToRouteObject).result
+      setRoutes([dashboardRoutes] || [])
     },
   })
 

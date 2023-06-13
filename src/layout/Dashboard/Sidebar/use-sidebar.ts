@@ -1,13 +1,12 @@
-import * as d3 from "d3"
 import { MenuProps } from "antd"
+import * as d3 from "d3"
 import { isEmpty } from "lodash-es"
 import { useMatches } from "react-router-dom"
+import useSchemaStore from "@/features/system/menu/use-schema-store"
+import { buildSchemaTree, isDashboardSchema } from "@/features/system/menu/util"
 import TreeUtil from "@/utils/tree-util"
-import { RouteSchema } from "@/router/schema/type"
-import useSchemaStore from "@/router/schema/use-schema-store"
 import { MenuItem } from "../type"
-import { buildSchemaTree } from "@/router/schema/util"
-import { DASHBOARD_ID } from "@/router/schema/config"
+import { RouteSchema } from "@/features/system/menu/types"
 
 function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
   return {
@@ -24,28 +23,34 @@ function sortRouteByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<
   return a.data.order - b.data.order
 }
 
+function isDashboardNode(node: d3.HierarchyNode<RouteSchema>) {
+  return isDashboardSchema(node.data)
+}
+
 function setRouteMapValue(map: Map<string, string>, node: d3.HierarchyNode<RouteSchema>, parentPath: string) {
   const schema = node.data
   const routePath = isEmpty(parentPath) ? schema.path : `${parentPath}/${schema.path}`.replace("//", "/")
+
   if (schema.id) map.set(schema.id, routePath)
   if (node.children) node.children.forEach((child) => setRouteMapValue(map, child, routePath))
 }
 
 export default function useSidebar() {
+  const [selectedKeys, setSelectedKeys] = useState<string[]>()
+  const [openKeys, setOpenKeys] = useState<string[]>()
+
   const navigate = useNavigate()
   const matches = useMatches()
   const schemas = useSchemaStore((state) => state.schemas)
-  const [selectedKeys, setSelectedKeys] = useState<string[]>()
-  const [openKeys, setOpenKeys] = useState<string[]>()
+
+  const schemaTree = useMemo(() => buildSchemaTree(schemas), [schemas])
   const routeMap = useMemo(() => {
     const map = new Map<string, string>()
-    const tree = buildSchemaTree(schemas)
-    if (tree) setRouteMapValue(map, tree, "")
+    if (schemaTree) setRouteMapValue(map, schemaTree, "")
     return map
-  }, [schemas])
+  }, [schemaTree])
   const items = useMemo(() => {
-    const tree = buildSchemaTree(schemas)
-    const dashboard = tree.find((v) => v.data.id === DASHBOARD_ID)
+    const dashboard = schemaTree.find(isDashboardNode)?.copy()
     if (dashboard) {
       return new TreeUtil(dashboard)
         .filter(filterRouteByHiddenInMenu)
@@ -53,12 +58,13 @@ export default function useSidebar() {
         .map(routeSchemaToMenuItem).result.children
     }
     return []
-  }, [schemas])
+  }, [schemaTree])
 
   const onSelect: MenuProps["onSelect"] = ({ key }) => {
     const routePath = routeMap.get(key)
     if (routePath) navigate(routePath)
   }
+
   const onOpenChange: MenuProps["onOpenChange"] = (keys) => {
     setOpenKeys(keys)
   }
