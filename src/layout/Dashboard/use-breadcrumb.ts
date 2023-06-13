@@ -6,6 +6,7 @@ import { buildSchemaTree } from "@/features/system/menu/util"
 export default function useBreadcrumb() {
   const matches = useMatches()
   const schemas = useSchemaStore((state) => state.schemas)
+
   const schemaTree = useMemo(() => buildSchemaTree(schemas), [schemas])
   const items = useMemo(() => {
     const nearestMatch = last(matches)
@@ -21,6 +22,7 @@ export default function useBreadcrumb() {
     }
     return []
   }, [matches, schemaTree])
+
   const current = last(items)
 
   return { current, items }

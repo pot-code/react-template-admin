@@ -2,12 +2,15 @@ import React from "react"
 import { RouteSchema } from "@/features/system/menu/types"
 import UserInfo from "@/views/settings/user-info"
 import Appearance from "@/views/settings/appearance"
+import Dashboard from "@/layout/Dashboard"
 
 export const SETTINGS_ID = "settings"
+export const DASHBOARD_ID = "dashboard"
 
 export const settings: RouteSchema[] = [
   {
     id: SETTINGS_ID,
+    parentId: DASHBOARD_ID,
     path: "settings",
     label: "设置",
     order: 1,
@@ -30,4 +33,16 @@ export const settings: RouteSchema[] = [
     locked: true,
     element: React.createElement(Appearance),
   },
+]
+
+export const dashboard: RouteSchema[] = [
+  {
+    id: DASHBOARD_ID,
+    path: "/",
+    label: "根菜单",
+    order: 1,
+    locked: true,
+    element: React.createElement(Dashboard),
+  },
+  ...settings,
 ]

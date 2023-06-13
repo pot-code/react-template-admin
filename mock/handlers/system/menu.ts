@@ -1,7 +1,7 @@
 import { rest } from "msw"
 
 export const handlers = [
-  rest.get("/mock/routes", (_, res, ctx) =>
+  rest.get("/mock/system/menu", (_, res, ctx) =>
     res(
       ctx.delay(500),
       ctx.json([
@@ -28,7 +28,7 @@ export const handlers = [
           label: "列表",
           order: 1,
           hiddenInMenu: true,
-          viewPath: "/menu1/sub1.tsx",
+          viewPath: "menu1/sub1",
         },
         {
           id: "c69effc08c5d77cc2180ba85c5112d554236675d",
@@ -37,7 +37,7 @@ export const handlers = [
           order: 2,
           label: "编辑",
           hiddenInMenu: true,
-          viewPath: "/menu1/sub2.tsx",
+          viewPath: "menu1/sub2",
         },
         {
           id: "a5e078d4fc35e7edf9025cb74c10e985245086e9",
@@ -45,17 +45,17 @@ export const handlers = [
           order: 2,
           path: "sub2",
           label: "子菜单2",
-          viewPath: "/menu1/sub2.tsx",
+          viewPath: "menu1/sub2",
         },
         {
           id: "e70b5edc57c650560e1229122207060581a9c68c",
           path: "menu2",
           label: "菜单2",
           order: 4,
-          viewPath: "/menu2.tsx",
+          viewPath: "menu2",
         },
       ]),
     ),
   ),
-  rest.delete("/mock/routes/:routeId", (_, res, ctx) => res(ctx.delay(500))),
+  rest.delete("/mock/system/menu/:routeId", (_, res, ctx) => res(ctx.delay(500))),
 ]

@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import { isEmpty } from "lodash-es"
 import { useMatches } from "react-router-dom"
 import useSchemaStore from "@/features/system/menu/use-schema-store"
-import { buildSchemaTree, isDashboardSchema } from "@/features/system/menu/util"
+import { buildSchemaTree } from "@/features/system/menu/util"
 import TreeUtil from "@/utils/tree-util"
 import { MenuItem } from "../type"
 import { RouteSchema } from "@/features/system/menu/types"
@@ -21,10 +21,6 @@ function filterRouteByHiddenInMenu(node: d3.HierarchyNode<RouteSchema>) {
 
 function sortRouteByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<RouteSchema>) {
   return a.data.order - b.data.order
-}
-
-function isDashboardNode(node: d3.HierarchyNode<RouteSchema>) {
-  return isDashboardSchema(node.data)
 }
 
 function setRouteMapValue(map: Map<string, string>, node: d3.HierarchyNode<RouteSchema>, parentPath: string) {
@@ -50,7 +46,7 @@ export default function useSidebar() {
     return map
   }, [schemaTree])
   const items = useMemo(() => {
-    const dashboard = schemaTree.find(isDashboardNode)?.copy()
+    const dashboard = schemaTree.copy()
     if (dashboard) {
       return new TreeUtil(dashboard)
         .filter(filterRouteByHiddenInMenu)

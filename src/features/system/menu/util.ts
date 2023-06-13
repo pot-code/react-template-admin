@@ -7,7 +7,3 @@ export function buildSchemaTree(routeSchemas: RouteSchema[]) {
     .id((v) => v.id)
     .parentId((v) => v.parentId)(routeSchemas)
 }
-
-export function isDashboardSchema(schema: RouteSchema) {
-  return schema.path === "/"
-}
