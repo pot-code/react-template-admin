@@ -1,13 +1,13 @@
 import { useToggle } from "@react-hookz/web"
 import { ModalProps, TreeProps, message } from "antd"
 import * as d3 from "d3"
-import { clone, isEmpty, isNil } from "lodash-es"
+import { clone, isEmpty } from "lodash-es"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import TreeUtil from "@/utils/tree-util"
 import { menuApi } from "@/features/system/menu/api"
 import { DASHBOARD_ID } from "./builtins"
 import { RouteSchema, TreeNode } from "./types"
-import { buildSchemaTree } from "./util"
+import { buildSchemaTree, isRootMenu } from "./util"
 
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
@@ -116,11 +116,9 @@ export default function useMenu() {
 
   useQuery(["routes"], () => menuApi.list(), {
     onSuccess({ data }) {
-      data
-        .filter((v) => isNil(v.parentId))
-        .forEach((v) => {
-          v.parentId = DASHBOARD_ID
-        })
+      data.filter(isRootMenu).forEach((v) => {
+        v.parentId = DASHBOARD_ID
+      })
       setSchemas(data)
     },
   })
