@@ -1,5 +1,5 @@
 import { theme } from "antd"
-import useThemeStore from "./useThemeStore"
+import useThemeStore from "./use-theme-store"
 
 export default function useTheme() {
   const { darkMode, compact, color, setCompact, setDarkMode, setColor } = useThemeStore()

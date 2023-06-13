@@ -1,6 +1,6 @@
 import { Card, Form, Switch } from "antd"
-import useTheme from "@/theme/useTheme"
-import ColorRadioGroup from "@/features/settings/ColorRadioGroup"
+import useTheme from "@/theme/use-theme"
+import ColorRadioGroup from "@/features/settings/color-radio-group"
 import { COLOR_PALETTE } from "@/theme/config"
 
 export default function Appearance() {

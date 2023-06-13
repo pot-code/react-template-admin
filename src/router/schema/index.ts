@@ -1,5 +1,5 @@
 import React from "react"
-import Dashboard from "@/layout/Dashboard"
+import Dashboard from "@/layout/dashboard"
 import Home from "@/views/home"
 import Appearance from "@/views/settings/appearance"
 import Info from "@/views/settings/info"

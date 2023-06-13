@@ -1,5 +1,5 @@
 import { Menu } from "antd"
-import useSidebar from "./useSidebar"
+import useSidebar from "./use-sidebar"
 
 export interface SidebarProps {}
 

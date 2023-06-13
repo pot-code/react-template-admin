@@ -2,9 +2,9 @@ import { ConfigProvider } from "antd"
 import zhCN from "antd/locale/zh_CN"
 import { isEmpty } from "lodash-es"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import PageLoading from "./components/PageLoading"
-import useRouter from "./router/useRouter"
-import useTheme from "./theme/useTheme"
+import PageLoading from "./components/page-loading"
+import useRouter from "./router/use-router"
+import useTheme from "./theme/use-theme"
 
 export default function App() {
   const { isLoading, routes } = useRouter()

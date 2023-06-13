@@ -2,8 +2,8 @@ import { css } from "@emotion/react"
 import { Layout, theme } from "antd"
 import { useQuery } from "react-query"
 import { userApi } from "@/features/user/api"
-import UserSettings from "./UserSettings"
-import Logo from "./Logo"
+import UserSettings from "./user-settings"
+import Logo from "./logo"
 
 const { Header } = Layout
 
