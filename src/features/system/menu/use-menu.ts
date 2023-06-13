@@ -9,6 +9,8 @@ import { DASHBOARD_ID } from "./builtins"
 import { RouteSchema, TreeNode } from "./types"
 import { buildSchemaTree, isRootMenu } from "./util"
 
+const virtualRoot: RouteSchema = { id: DASHBOARD_ID, label: "根节点", path: "", order: -1, locked: true }
+
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
     title: node.data.label,
@@ -53,7 +55,6 @@ export default function useMenu() {
   const treeNodes = useMemo(() => {
     if (isEmpty(schemas)) return []
 
-    const virtualRoot: RouteSchema = { id: DASHBOARD_ID, label: "根节点", path: "", order: -1, locked: true }
     const clonedSchemas = clone(schemas)
     clonedSchemas.push(virtualRoot)
 
