@@ -1,8 +1,8 @@
 import { Card, Col, Empty, Modal, Row, theme } from "antd"
 import useMenu from "@/features/system/menu/use-menu"
 import ContentLoading from "@/components/content-loading"
-import SchemaForm from "@/features/system/menu/schema-form"
-import TreeView from "@/features/system/menu/tree-view"
+import SchemaForm from "@/features/system/menu/form"
+import TreeView from "@/features/system/menu/menu-tree"
 
 const { useToken } = theme
 

@@ -4,6 +4,7 @@ import UserInfo from "@/views/settings/user-info"
 import Appearance from "@/views/settings/appearance"
 import Dashboard from "@/layout/dashboard"
 import Home from "@/views/home"
+import { Menu } from "@/views/system/menu"
 
 export const SETTINGS_ID = "settings"
 export const DASHBOARD_ID = "dashboard"
@@ -55,6 +56,23 @@ export const dashboard: RouteSchema[] = [
     order: 1,
     locked: true,
     element: React.createElement(Home),
+  },
+  {
+    parentId: DASHBOARD_ID,
+    id: "system",
+    path: "system",
+    label: "系统管理",
+    order: 999,
+    locked: true,
+  },
+  {
+    parentId: "system",
+    id: "menu",
+    path: "menu",
+    label: "菜单管理",
+    order: 1,
+    locked: true,
+    element: React.createElement(Menu),
   },
   ...settings,
 ]

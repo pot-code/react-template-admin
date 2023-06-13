@@ -3,7 +3,7 @@ import { curry } from "lodash-es"
 import { AiFillCaretDown } from "react-icons/ai"
 import { RouteSchema } from "@/features/system/menu/types"
 import { UserInfo } from "@/features/user/type"
-import { SETTINGS_ID, settings } from "@/router/builtin-routes"
+import { SETTINGS_ID, settings } from "@/features/system/menu/builtins"
 import { MenuItem } from "../type"
 
 const { useToken } = theme

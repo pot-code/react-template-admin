@@ -1,17 +1,13 @@
-import * as d3 from "d3"
-import { useMutation, useQuery, useQueryClient } from "react-query"
-import { ModalProps, TreeProps, message } from "antd"
-import { clone, curry } from "lodash-es"
 import { useToggle } from "@react-hookz/web"
-import { menuApi } from "@/features/system/menu/api"
+import { ModalProps, TreeProps, message } from "antd"
+import * as d3 from "d3"
+import { clone, isNil } from "lodash-es"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import TreeUtil from "@/utils/tree-util"
+import { menuApi } from "@/features/system/menu/api"
+import { DASHBOARD_ID } from "./builtins"
 import { RouteSchema, TreeNode } from "./types"
-import { VIRTUAL_ROOT_ID } from "./config"
 import { buildSchemaTree } from "./util"
-
-const tmpIdPrefix = "tmp-"
-
-let tmpNodeId = 0
 
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
@@ -22,27 +18,33 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   } as TreeNode
 }
 
-function generateTmpRouteId() {
-  return `${tmpIdPrefix}${tmpNodeId++}`
-}
-
 export default function useMenu() {
-  const qc = useQueryClient()
-  const [messageApi, contextHolder] = message.useMessage()
-
-  const [showDeleteConfirmModal, toggleShowDeleteConfirmModal] = useToggle(false)
-  const [confirmDeleteLoading, toggleConfirmDeleteLoading] = useToggle(false)
-
-  const [showCreateMenuModal, toggleShowCreateMenuModal] = useToggle(false)
-  const [confirmCreateLoading, toggleConfirmCreateLoading] = useToggle(false)
-
   const [deleteNode, setDeleteNode] = useState<TreeNode>()
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [unSavedSchema, setUnSavedSchema] = useState<RouteSchema>()
   const [selectedRoute, setSelectedRoute] = useState<RouteSchema>()
 
+  const [showDeleteConfirmModal, toggleShowDeleteConfirmModal] = useToggle(false)
+  const [confirmDeleteLoading, toggleConfirmDeleteLoading] = useToggle(false)
+  const [showCreateMenuModal, toggleShowCreateMenuModal] = useToggle(false)
+  const [confirmCreateLoading, toggleConfirmCreateLoading] = useToggle(false)
+
+  const qc = useQueryClient()
+  const [messageApi, contextHolder] = message.useMessage()
+  const { mutate } = useMutation(menuApi.delete)
+  const { isLoading } = useQuery(["routes"], () => menuApi.list(), {
+    onSuccess({ data }) {
+      data
+        .filter((v) => isNil(v.parentId))
+        .forEach((v) => {
+          v.parentId = DASHBOARD_ID
+        })
+      setSchemas(data)
+    },
+  })
+
   const treeNodes = useMemo(() => {
-    const virtualRoot: RouteSchema = { id: VIRTUAL_ROOT_ID, label: "根节点", path: "", order: -1, locked: true }
+    const virtualRoot: RouteSchema = { id: DASHBOARD_ID, label: "根节点", path: "", order: -1, locked: true }
 
     const copyOfSchemas = clone(schemas)
     copyOfSchemas.push(virtualRoot)
@@ -51,18 +53,9 @@ export default function useMenu() {
     return [new TreeUtil(tree).map(routeSchemaToTreeNode).result]
   }, [schemas])
 
-  const { mutate } = useMutation(menuApi.delete)
-  const { isLoading } = useQuery(["routes"], () => menuApi.list(), {
-    onSuccess({ data }) {
-      const remoteSchemas = data.map(curry(setRemoteSchemaParentId)(VIRTUAL_ROOT_ID))
-      setSchemas(remoteSchemas)
-    },
-  })
-
   function onAddChild(node: TreeNode) {
     const parentId = node.key
     const newChildRoute: RouteSchema = {
-      id: generateTmpRouteId(),
       parentId,
       path: "",
       label: "未命名",

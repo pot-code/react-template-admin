@@ -8,7 +8,7 @@ import { RemoteRouteSchema, RouteSchema } from "@/features/system/menu/types"
 import { menuApi } from "../features/system/menu/api"
 import useSchemaStore from "../features/system/menu/use-schema-store"
 import { buildSchemaTree } from "../features/system/menu/util"
-import { DASHBOARD_ID, dashboard } from "./builtin-routes"
+import { DASHBOARD_ID, dashboard } from "../features/system/menu/builtins"
 import ViewManager from "./view-manager"
 
 const viewManager = new ViewManager()
