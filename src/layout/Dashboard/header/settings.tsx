@@ -15,11 +15,11 @@ function routeSchemaToMenuItem(prefix: string, schema: RouteSchema) {
   } as MenuItem
 }
 
-export interface UserSettingsProps {
+export interface SettingsMenuProps {
   data?: UserInfo
 }
 
-export default function UserSettings({ data }: UserSettingsProps) {
+export default function SettingsMenu({ data }: SettingsMenuProps) {
   const navigate = useNavigate()
   const {
     token: { colorBgSpotlight },

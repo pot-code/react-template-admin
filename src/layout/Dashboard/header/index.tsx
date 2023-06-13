@@ -2,7 +2,7 @@ import { css } from "@emotion/react"
 import { Layout, theme } from "antd"
 import { useQuery } from "react-query"
 import { userApi } from "@/features/user/api"
-import UserSettings from "./user-settings"
+import SettingsMenu from "./settings"
 import Logo from "./logo"
 
 const { Header } = Layout
@@ -25,7 +25,7 @@ export default function Navbar() {
     >
       <Logo />
       <div className="flex gap-2 items-center">
-        <UserSettings data={data?.data} />
+        <SettingsMenu data={data?.data} />
       </div>
     </Header>
   )

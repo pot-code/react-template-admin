@@ -50,17 +50,6 @@ export default function useMenu() {
     },
   })
 
-  useQuery(["routes"], () => menuApi.list(), {
-    onSuccess({ data }) {
-      data
-        .filter((v) => isNil(v.parentId))
-        .forEach((v) => {
-          v.parentId = DASHBOARD_ID
-        })
-      setSchemas(data)
-    },
-  })
-
   const treeNodes = useMemo(() => {
     if (isEmpty(schemas)) return []
 
@@ -71,7 +60,6 @@ export default function useMenu() {
     const tree = buildSchemaTree(clonedSchemas)
     return [new TreeUtil(tree).map(routeSchemaToTreeNode).result]
   }, [schemas])
-  const isLoading = isEmpty(treeNodes)
 
   function onAddChild(node: TreeNode) {
     const parentId = node.key
@@ -126,9 +114,19 @@ export default function useMenu() {
     toggleShowCreateMenuModal(false)
   }
 
+  useQuery(["routes"], () => menuApi.list(), {
+    onSuccess({ data }) {
+      data
+        .filter((v) => isNil(v.parentId))
+        .forEach((v) => {
+          v.parentId = DASHBOARD_ID
+        })
+      setSchemas(data)
+    },
+  })
+
   return {
     contextHolder,
-    isLoading,
     isDeleting,
     isUpdating,
     isCreating,

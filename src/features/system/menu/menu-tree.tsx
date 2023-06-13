@@ -43,7 +43,7 @@ function TitleRender({ data, onAddChild, onDeleteNode }: TitleRenderProp) {
   const { title, invisible } = data as TreeNode
 
   return (
-    <Dropdown menu={{ items }} trigger={["contextMenu"]}>
+    <Dropdown menu={{ items }} trigger={["hover"]} mouseEnterDelay={0.5}>
       <div className="flex gap-2 items-center">
         <span>{title}</span>
         {invisible && <AiOutlineEyeInvisible color={colorTextTertiary} />}
@@ -52,9 +52,9 @@ function TitleRender({ data, onAddChild, onDeleteNode }: TitleRenderProp) {
   )
 }
 
-export interface TreeViewProps extends TreeProps, TitleEvents {}
+export interface MenuTreeProps extends TreeProps, TitleEvents {}
 
-export default function TreeView({ onAddChild, onDeleteNode, ...rest }: TreeViewProps) {
+export default function MenuTree({ onAddChild, onDeleteNode, ...rest }: MenuTreeProps) {
   const titleRender = useCallback(
     (nodeData: any) => {
       return <TitleRender data={nodeData} onAddChild={onAddChild} onDeleteNode={onDeleteNode} />

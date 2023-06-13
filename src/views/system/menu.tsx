@@ -1,14 +1,12 @@
 import { Card, Col, Empty, Modal, Row, theme } from "antd"
 import useMenu from "@/features/system/menu/use-menu"
-import ContentLoading from "@/components/content-loading"
 import SchemaForm from "@/features/system/menu/form"
-import TreeView from "@/features/system/menu/menu-tree"
+import MenuTree from "@/features/system/menu/menu-tree"
 
 const { useToken } = theme
 
 export function Menu() {
   const {
-    isLoading,
     isCreating,
     isUpdating,
     isDeleting,
@@ -35,7 +33,7 @@ export function Menu() {
     <Row className="h-full" gutter={padding}>
       <Col span={6}>
         <Card className="h-full" title="菜单树" type="inner">
-          <TreeView
+          <MenuTree
             showLine
             treeData={treeNodes}
             selectedKeys={selectedRoute ? [selectedRoute.id!] : []}
