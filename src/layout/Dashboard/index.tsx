@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom"
 import { BsLayoutSidebarInset } from "react-icons/bs"
 import { motion } from "framer-motion"
 import useBreadcrumb from "@/layout/dashboard/use-breadcrumb"
-import Navbar from "./header"
+import Header from "./header"
 import Sidebar from "./sidebar"
 import { sidebarVariants } from "./variants"
 import useSidebarStore from "./sidebar/use-sidebar-store"
@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col h-screen">
-      <Navbar />
+      <Header />
       <div className="flex flex-1">
         <motion.section
           style={{ backgroundColor: colorBgContainer }}
