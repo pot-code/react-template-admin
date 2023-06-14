@@ -3,10 +3,10 @@ import { DropDownProps, MenuProps, ModalProps, TreeProps, message } from "antd"
 import * as d3 from "d3"
 import { produce } from "immer"
 import { useMutation, useQuery, useQueryClient } from "react-query"
-import { cloneDeep } from "lodash-es"
+import { cloneDeep, isEmpty } from "lodash-es"
 import TreeUtil from "@/utils/tree-util"
 import { menuApi } from "@/features/system/menu/api"
-import { RouteSchema } from "./schema"
+import { RemoteRouteSchema, RouteSchema } from "./schema"
 import { TreeNode } from "./types"
 import { buildSchemaTree, isRootMenu } from "./util"
 
@@ -27,7 +27,7 @@ function sortMenuByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<R
 }
 
 export default function useMenuTree() {
-  const [remoteSchemas, setRemoteSchemas] = useState<RouteSchema[]>([])
+  const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [draftMenu, setDraftMenu] = useState<RouteSchema>()
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
   const [selectedParentMenu, setSelectedParentMenu] = useState<RouteSchema>()
@@ -37,16 +37,13 @@ export default function useMenuTree() {
   const [openCreationModal, toggleOpenCreationModal] = useToggle(false)
   const [openContextmenu, toggleOpenContextmenu] = useToggle(false)
 
-  const schemas = useMemo(
+  const treeNodes = useMemo(
     () =>
-      produce(remoteSchemas, (draft) => {
-        draft.push(virtualRoot)
-      }),
-    [remoteSchemas],
+      isEmpty(schemas)
+        ? []
+        : [new TreeUtil(buildSchemaTree(cloneDeep(schemas))).sortBy(sortMenuByOrder).map(routeSchemaToTreeNode).result],
+    [schemas],
   )
-  const treeNodes = useMemo(() => {
-    return [new TreeUtil(buildSchemaTree(cloneDeep(schemas))).sortBy(sortMenuByOrder).map(routeSchemaToTreeNode).result]
-  }, [schemas])
 
   const qc = useQueryClient()
   const [messageApi, contextHolder] = message.useMessage()
@@ -174,8 +171,9 @@ export default function useMenuTree() {
         draft.filter(isRootMenu).forEach((v) => {
           v.parentId = virtualRootId
         })
+        draft.push(virtualRoot as RemoteRouteSchema)
       })
-      setRemoteSchemas(remote)
+      setSchemas(remote)
     },
   })
 
