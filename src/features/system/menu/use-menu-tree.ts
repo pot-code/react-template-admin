@@ -26,6 +26,10 @@ function sortMenuByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<R
   return a.data.order - b.data.order
 }
 
+function isVirtualRoot(schema: RouteSchema) {
+  return schema.id === virtualRootId
+}
+
 export default function useMenuTree() {
   const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [draftMenu, setDraftMenu] = useState<RouteSchema>()
@@ -86,9 +90,9 @@ export default function useMenuTree() {
   }
 
   const onTreeNodeSelect: TreeProps["onSelect"] = (keys) => {
-    const found = schemas.find((v) => v.id === keys[0])
-    if (found) {
-      setSelectedMenu(found)
+    const menu = schemas.find((v) => v.id === keys[0])
+    if (menu && !isVirtualRoot(menu)) {
+      setSelectedMenu(menu)
     }
   }
 
@@ -103,9 +107,9 @@ export default function useMenuTree() {
   const onTreeNodeRightClick: TreeProps["onRightClick"] = ({ event, node }) => {
     toggleOpenContextmenu(false)
 
-    const parentMenu = schemas.find((v) => v.id === node.key)
-    if (parentMenu) {
-      setSelectedParentMenu(parentMenu)
+    const menu = schemas.find((v) => v.id === node.key)
+    if (menu) {
+      setSelectedParentMenu(menu)
       setContextmenuPosition(getContextmenuPosition(event.target as HTMLElement))
       toggleOpenContextmenu(true)
     }
