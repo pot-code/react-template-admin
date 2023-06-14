@@ -1,5 +1,5 @@
 import { Button, Form, Input, InputNumber, Space, Switch } from "antd"
-import { RouteSchema } from "./types"
+import { RouteSchema } from "./schema"
 
 export interface SchemaFormProps {
   data: RouteSchema

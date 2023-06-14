@@ -1,5 +1,5 @@
 import React from "react"
-import { RouteSchema } from "@/features/system/menu/types"
+import { RouteSchema } from "./types"
 import UserInfo from "@/views/settings/user-info"
 import Appearance from "@/views/settings/appearance"
 import Dashboard from "@/layout/dashboard"

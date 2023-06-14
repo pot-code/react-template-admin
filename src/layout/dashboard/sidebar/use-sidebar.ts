@@ -1,12 +1,11 @@
 import { MenuProps } from "antd"
 import * as d3 from "d3"
-import { isEmpty } from "lodash-es"
 import { useMatches } from "react-router-dom"
+import { RouteSchema } from "@/features/system/menu/schema"
 import useSchemaStore from "@/features/system/menu/use-schema-store"
 import { buildSchemaTree } from "@/features/system/menu/util"
 import TreeUtil from "@/utils/tree-util"
 import { MenuItem } from "../type"
-import { RouteSchema } from "@/features/system/menu/types"
 
 function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
   return {
@@ -23,14 +22,6 @@ function sortRouteByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<
   return a.data.order - b.data.order
 }
 
-function setRouteMapValue(map: Map<string, string>, node: d3.HierarchyNode<RouteSchema>, parentPath: string) {
-  const schema = node.data
-  const routePath = isEmpty(parentPath) ? schema.path : `${parentPath}/${schema.path}`.replace("//", "/")
-
-  if (schema.id) map.set(schema.id, routePath)
-  if (node.children) node.children.forEach((child) => setRouteMapValue(map, child, routePath))
-}
-
 export default function useSidebar() {
   const [selectedKeys, setSelectedKeys] = useState<string[]>()
   const [openKeys, setOpenKeys] = useState<string[]>()
@@ -40,11 +31,6 @@ export default function useSidebar() {
   const schemas = useSchemaStore((state) => state.schemas)
 
   const schemaTree = useMemo(() => buildSchemaTree(schemas), [schemas])
-  const routeMap = useMemo(() => {
-    const map = new Map<string, string>()
-    if (schemaTree) setRouteMapValue(map, schemaTree, "")
-    return map
-  }, [schemaTree])
   const items = useMemo(() => {
     const dashboard = schemaTree.copy()
     if (dashboard) {
@@ -57,8 +43,16 @@ export default function useSidebar() {
   }, [schemaTree])
 
   const onSelect: MenuProps["onSelect"] = ({ key }) => {
-    const routePath = routeMap.get(key)
-    if (routePath) navigate(routePath)
+    const foundSchema = schemaTree.find((v) => v.data.id === key)
+    if (foundSchema) {
+      const url = foundSchema
+        .ancestors()
+        .map((v) => v.data.path)
+        .reverse()
+        .join("/")
+        .replace("//", "/")
+      navigate(url)
+    }
   }
 
   const onOpenChange: MenuProps["onOpenChange"] = (keys) => {

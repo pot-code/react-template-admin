@@ -5,11 +5,12 @@ import { clone, isEmpty } from "lodash-es"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import TreeUtil from "@/utils/tree-util"
 import { menuApi } from "@/features/system/menu/api"
-import { DASHBOARD_ID } from "./builtins"
-import { RouteSchema, TreeNode } from "./types"
+import { RouteSchema } from "./schema"
+import { TreeNode } from "./types"
 import { buildSchemaTree, isRootMenu } from "./util"
 
-const virtualRoot: RouteSchema = { id: DASHBOARD_ID, label: "根节点", path: "", order: -1, locked: true }
+const virtualRootId = "virtual"
+const virtualRoot: RouteSchema = { id: virtualRootId, label: "根节点", path: "", order: -1, locked: true }
 
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
@@ -67,7 +68,7 @@ export default function useMenu() {
     const newChildRoute: RouteSchema = {
       parentId,
       path: "",
-      label: "未命名",
+      label: "",
       order: 1,
     }
     setUnSavedSchema(newChildRoute)
@@ -100,7 +101,7 @@ export default function useMenu() {
   }
 
   const onRouteSchemaCreated = (data: RouteSchema) => {
-    if (data.parentId === DASHBOARD_ID) {
+    if (data.parentId === virtualRootId) {
       data.parentId = undefined
     }
     createSchema(data)
@@ -118,7 +119,7 @@ export default function useMenu() {
   useQuery(["routes"], () => menuApi.list(), {
     onSuccess({ data }) {
       data.filter(isRootMenu).forEach((v) => {
-        v.parentId = DASHBOARD_ID
+        v.parentId = virtualRootId
       })
       setSchemas(data)
     },
