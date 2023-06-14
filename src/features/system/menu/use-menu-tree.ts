@@ -23,14 +23,14 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
 
 export default function useMenuTree() {
   const [remoteSchemas, setRemoteSchemas] = useState<RouteSchema[]>([])
-  const [newMenuItem, setNewMenuItem] = useState<RouteSchema>()
+  const [draftMenu, setDraftMenu] = useState<RouteSchema>()
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
   const [selectedParentMenu, setSelectedParentMenu] = useState<RouteSchema>()
   const [contextmenuPosition, setContextmenuPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
 
-  const [showDeleteConfirmModal, toggleShowDeleteConfirmModal] = useToggle(false)
-  const [showCreationModal, toggleShowCreationModal] = useToggle(false)
-  const [showContextmenu, toggleShowContextmenu] = useToggle(false)
+  const [openDeleteConfirmModal, toggleOpenDeleteConfirmModal] = useToggle(false)
+  const [openCreationModal, toggleOpenCreationModal] = useToggle(false)
+  const [openContextmenu, toggleOpenContextmenu] = useToggle(false)
 
   const schemas = useMemo(
     () =>
@@ -49,7 +49,7 @@ export default function useMenuTree() {
     onSuccess() {
       qc.invalidateQueries(["system", "menu"])
       setSelectedMenu(undefined)
-      toggleShowDeleteConfirmModal(false)
+      toggleOpenDeleteConfirmModal(false)
       messageApi.success("删除成功")
     },
   })
@@ -62,7 +62,7 @@ export default function useMenuTree() {
   const { mutate: createSchema, isLoading: isCreating } = useMutation(menuApi.create, {
     onSuccess() {
       qc.invalidateQueries(["system", "menu"])
-      toggleShowCreationModal(false)
+      toggleOpenCreationModal(false)
       messageApi.success("新增成功")
     },
   })
@@ -78,9 +78,9 @@ export default function useMenuTree() {
       order: 1,
       parentId,
     }
-    setNewMenuItem(newChildSchema)
-    toggleShowCreationModal(true)
-    toggleShowContextmenu(false)
+    setDraftMenu(newChildSchema)
+    toggleOpenCreationModal(true)
+    toggleOpenContextmenu(false)
   }
 
   const onTreeNodeSelect: TreeProps["onSelect"] = (keys) => {
@@ -99,33 +99,33 @@ export default function useMenuTree() {
   }
 
   const onTreeNodeRightClick: TreeProps["onRightClick"] = ({ event, node }) => {
-    toggleShowContextmenu(false)
+    toggleOpenContextmenu(false)
 
     const parentMenu = schemas.find((v) => v.id === node.key)
     if (parentMenu) {
       setSelectedParentMenu(parentMenu)
       setContextmenuPosition(getContextmenuPosition(event.target as HTMLElement))
-      toggleShowContextmenu(true)
+      toggleOpenContextmenu(true)
     }
   }
 
   function onDeleteMenu() {
     if (!selectedParentMenu) return
 
-    toggleShowDeleteConfirmModal(true)
-    toggleShowContextmenu(false)
+    toggleOpenDeleteConfirmModal(true)
+    toggleOpenContextmenu(false)
   }
 
   const onDeleteMenuConfirm: ModalProps["onOk"] = () => {
     if (selectedParentMenu) {
       deleteSchema(selectedParentMenu.id)
     } else {
-      toggleShowDeleteConfirmModal(false)
+      toggleOpenDeleteConfirmModal(false)
     }
   }
 
   const onDeleteMenuCancel: ModalProps["onCancel"] = () => {
-    toggleShowDeleteConfirmModal(false)
+    toggleOpenDeleteConfirmModal(false)
   }
 
   const onMenuUpdated = (data: RouteSchema) => {
@@ -140,12 +140,12 @@ export default function useMenuTree() {
   }
 
   const onCreationCanceled = () => {
-    setNewMenuItem(undefined)
-    toggleShowCreationModal(false)
+    setDraftMenu(undefined)
+    toggleOpenCreationModal(false)
   }
 
   const onContextmenuClose: DropDownProps["onOpenChange"] = (open) => {
-    if (!open) toggleShowContextmenu(false)
+    if (!open) toggleOpenContextmenu(false)
   }
 
   const contextMenuItems: MenuProps["items"] = [
@@ -178,11 +178,11 @@ export default function useMenuTree() {
     isDeleting,
     isUpdating,
     isCreating,
-    showDeleteConfirmModal,
-    showCreationModal,
-    showContextmenu,
+    openDeleteConfirmModal,
+    openCreationModal,
+    openContextmenu,
     treeNodes,
-    newMenuItem,
+    draftMenu,
     selectedMenu,
     contextMenuItems,
     contextHolder,

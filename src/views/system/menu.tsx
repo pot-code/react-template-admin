@@ -13,11 +13,11 @@ export function Menu() {
     isCreating,
     isUpdating,
     isDeleting,
-    showContextmenu,
-    showCreationModal,
-    showDeleteConfirmModal,
+    openContextmenu,
+    openCreationModal,
+    openDeleteConfirmModal,
     treeNodes,
-    newMenuItem,
+    draftMenu,
     selectedMenu,
     contextmenuPosition,
     contextMenuItems,
@@ -47,17 +47,17 @@ export function Menu() {
             title="确认删除"
             okType="danger"
             confirmLoading={isDeleting}
-            open={showDeleteConfirmModal}
+            open={openDeleteConfirmModal}
             onOk={onDeleteMenuConfirm}
             onCancel={onDeleteMenuCancel}
           >
             <p>确认删除该菜单？其所有子节点也会一并删除</p>
           </Modal>
-          <Modal title="新增菜单" footer={null} open={showCreationModal}>
+          <Modal title="新增菜单" footer={null} open={openCreationModal}>
             <SchemaForm
               showCancel
               isLoading={isCreating}
-              data={newMenuItem!}
+              data={draftMenu!}
               onSubmit={onMenuCreated}
               onCancel={onCreationCanceled}
             />
@@ -65,8 +65,8 @@ export function Menu() {
           <Dropdown
             trigger={["click"]}
             overlayStyle={{ left: `${contextmenuPosition.x}px`, top: `${contextmenuPosition.y}px` }}
+            open={openContextmenu}
             menu={{ items: contextMenuItems }}
-            open={showContextmenu}
             onOpenChange={onContextmenuClose}
           >
             <div className="absolute" />
