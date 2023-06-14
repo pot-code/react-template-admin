@@ -51,7 +51,7 @@ export const dashboard: RouteSchema[] = [
   {
     parentId: DASHBOARD_ID,
     id: "home",
-    path: "home",
+    path: "",
     label: "首页",
     order: 1,
     locked: true,

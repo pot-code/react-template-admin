@@ -3,6 +3,7 @@ import { cloneDeep } from "lodash-es"
 import React from "react"
 import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
+import { produce } from "immer"
 import TreeUtil from "@/utils/tree-util"
 import { RemoteRouteSchema, RouteSchema } from "@/features/system/menu/schema"
 import { menuApi } from "../features/system/menu/api"
@@ -38,14 +39,16 @@ export default function useRouter() {
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
   const { isLoading } = useQuery(["routes"], () => menuApi.list(), {
     onSuccess({ data }) {
-      data.filter(isRootMenu).forEach((v) => {
-        v.parentId = DASHBOARD_ID
+      const remote = produce(data, (draft) => {
+        draft.filter(isRootMenu).forEach((v) => {
+          v.parentId = DASHBOARD_ID
+        })
       })
 
-      const schemas = [...data, ...dashboard]
-      setSchemas(cloneDeep(schemas))
+      const schemas = [...remote, ...dashboard]
+      setSchemas(schemas)
 
-      const dashboardRoutes = new TreeUtil(buildSchemaTree(schemas))
+      const dashboardRoutes = new TreeUtil(buildSchemaTree(cloneDeep(schemas)))
         .map(setRemoteRouteElement)
         .map(routeNodeToRouteObject).result
       setRoutes([dashboardRoutes] || [])

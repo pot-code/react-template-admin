@@ -3,6 +3,7 @@ import { ModalProps, TreeProps, message } from "antd"
 import * as d3 from "d3"
 import { clone, isEmpty } from "lodash-es"
 import { useMutation, useQuery, useQueryClient } from "react-query"
+import { produce } from "immer"
 import TreeUtil from "@/utils/tree-util"
 import { menuApi } from "@/features/system/menu/api"
 import { RouteSchema } from "./schema"
@@ -56,11 +57,10 @@ export default function useMenu() {
   const treeNodes = useMemo(() => {
     if (isEmpty(schemas)) return []
 
-    const clonedSchemas = clone(schemas)
-    clonedSchemas.push(virtualRoot)
-
-    const tree = buildSchemaTree(clonedSchemas)
-    return [new TreeUtil(tree).map(routeSchemaToTreeNode).result]
+    const menus = produce(schemas, (draft) => {
+      draft.push(virtualRoot)
+    })
+    return [new TreeUtil(buildSchemaTree(menus)).map(routeSchemaToTreeNode).result]
   }, [schemas])
 
   function onAddChild(node: TreeNode) {
@@ -118,10 +118,12 @@ export default function useMenu() {
 
   useQuery(["routes"], () => menuApi.list(), {
     onSuccess({ data }) {
-      data.filter(isRootMenu).forEach((v) => {
-        v.parentId = virtualRootId
+      const remote = produce(data, (draft) => {
+        draft.filter(isRootMenu).forEach((v) => {
+          v.parentId = virtualRootId
+        })
       })
-      setSchemas(data)
+      setSchemas(remote)
     },
   })
 

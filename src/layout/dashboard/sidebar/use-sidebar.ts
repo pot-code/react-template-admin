@@ -31,16 +31,14 @@ export default function useSidebar() {
   const schemas = useSchemaStore((state) => state.schemas)
 
   const schemaTree = useMemo(() => buildSchemaTree(schemas), [schemas])
-  const items = useMemo(() => {
-    const dashboard = schemaTree.copy()
-    if (dashboard) {
-      return new TreeUtil(dashboard)
+  const items = useMemo(
+    () =>
+      new TreeUtil(schemaTree.copy())
         .filter(filterRouteByHiddenInMenu)
         ?.sortBy(sortRouteByOrder)
-        .map(routeSchemaToMenuItem).result.children
-    }
-    return []
-  }, [schemaTree])
+        .map(routeSchemaToMenuItem).result.children,
+    [schemaTree],
+  )
 
   const onSelect: MenuProps["onSelect"] = ({ key }) => {
     const foundSchema = schemaTree.find((v) => v.data.id === key)
