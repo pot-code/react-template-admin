@@ -3,6 +3,7 @@ import { DropDownProps, MenuProps, ModalProps, TreeProps, message } from "antd"
 import * as d3 from "d3"
 import { produce } from "immer"
 import { useMutation, useQuery, useQueryClient } from "react-query"
+import { cloneDeep } from "lodash-es"
 import TreeUtil from "@/utils/tree-util"
 import { menuApi } from "@/features/system/menu/api"
 import { RouteSchema } from "./schema"
@@ -19,6 +20,10 @@ function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
     invisible: node.data.hiddenInMenu,
     locked: node.data.locked,
   } as TreeNode
+}
+
+function sortMenuByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<RouteSchema>) {
+  return a.data.order - b.data.order
 }
 
 export default function useMenuTree() {
@@ -40,7 +45,7 @@ export default function useMenuTree() {
     [remoteSchemas],
   )
   const treeNodes = useMemo(() => {
-    return [new TreeUtil(buildSchemaTree(schemas)).map(routeSchemaToTreeNode).result]
+    return [new TreeUtil(buildSchemaTree(cloneDeep(schemas))).sortBy(sortMenuByOrder).map(routeSchemaToTreeNode).result]
   }, [schemas])
 
   const qc = useQueryClient()
