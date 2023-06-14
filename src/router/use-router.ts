@@ -37,7 +37,7 @@ function setRemoteRouteElement(node: d3.HierarchyNode<RouteSchema>) {
 export default function useRouter() {
   const { setSchemas } = useSchemaStore()
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
-  const { isLoading } = useQuery(["routes"], () => menuApi.list(), {
+  const { isLoading } = useQuery(["system", "menu"], () => menuApi.list(), {
     onSuccess({ data }) {
       const remote = produce(data, (draft) => {
         draft.filter(isRootMenu).forEach((v) => {

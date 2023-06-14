@@ -53,7 +53,7 @@ export const dashboard: RouteSchema[] = [
     id: "home",
     path: "",
     label: "首页",
-    order: 1,
+    order: -1,
     locked: true,
     element: React.createElement(Home),
   },

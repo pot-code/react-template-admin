@@ -22,11 +22,14 @@ export default function SchemaForm({ data, isLoading, showCancel, onSubmit, onCa
       <Form.Item name="id" hidden>
         <Input />
       </Form.Item>
+      <Form.Item name="parentId" hidden>
+        <Input />
+      </Form.Item>
       <Form.Item name="label" label="菜单名称" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
       <Form.Item name="order" label="排序" rules={[{ required: true }]}>
-        <InputNumber />
+        <InputNumber min={1} />
       </Form.Item>
       <Form.Item name="hiddenInMenu" label="是否隐藏" valuePropName="checked" tooltip="是否在菜单里隐藏">
         <Switch />

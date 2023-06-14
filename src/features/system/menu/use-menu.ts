@@ -35,28 +35,27 @@ export default function useMenu() {
   const [messageApi, contextHolder] = message.useMessage()
   const { mutate: deleteSchema, isLoading: isDeleting } = useMutation(menuApi.delete, {
     onSuccess() {
-      qc.invalidateQueries(["routes"])
+      qc.invalidateQueries(["system", "menu"])
+      setSelectedRoute(undefined)
       toggleShowDeleteConfirmModal(false)
       messageApi.success("删除成功")
     },
   })
   const { mutate: updateSchema, isLoading: isUpdating } = useMutation(menuApi.update, {
     onSuccess() {
-      qc.invalidateQueries(["routes"])
+      qc.invalidateQueries(["system", "menu"])
       messageApi.success("修改成功")
     },
   })
   const { mutate: createSchema, isLoading: isCreating } = useMutation(menuApi.create, {
     onSuccess() {
-      qc.invalidateQueries(["routes"])
+      qc.invalidateQueries(["system", "menu"])
       toggleShowCreateMenuModal(false)
       messageApi.success("新增成功")
     },
   })
 
   const treeNodes = useMemo(() => {
-    if (isEmpty(schemas)) return []
-
     const menus = produce(schemas, (draft) => {
       draft.push(virtualRoot)
     })
@@ -116,7 +115,7 @@ export default function useMenu() {
     toggleShowCreateMenuModal(false)
   }
 
-  useQuery(["routes"], () => menuApi.list(), {
+  useQuery(["system", "menu"], () => menuApi.list(), {
     onSuccess({ data }) {
       const remote = produce(data, (draft) => {
         draft.filter(isRootMenu).forEach((v) => {
