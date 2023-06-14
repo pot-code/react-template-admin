@@ -53,7 +53,7 @@ export function Menu() {
           >
             <p>确认删除该菜单？其所有子节点也会一并删除</p>
           </Modal>
-          <Modal title="新增菜单" footer={null} open={openCreationModal}>
+          <Modal title="新增菜单" footer={null} open={openCreationModal} onCancel={onCreationCanceled}>
             <SchemaForm
               showCancel
               isLoading={isCreating}

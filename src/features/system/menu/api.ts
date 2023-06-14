@@ -3,15 +3,15 @@ import { RemoteRouteSchema, RouteSchema } from "./schema"
 
 export const menuApi = {
   list() {
-    return http.get<RemoteRouteSchema[]>("/system/menu")
+    return http.get<RemoteRouteSchema[]>("/system/menu", { baseURL: "/mock" })
   },
   delete(routeId: string) {
-    return http.delete(`/system/menu/${routeId}`)
+    return http.delete(`/system/menu/${routeId}`, { baseURL: "/mock" })
   },
   update(payload: RouteSchema) {
-    return http.put(`/system/menu`, payload)
+    return http.put(`/system/menu`, payload, { baseURL: "/mock" })
   },
   create(payload: RouteSchema) {
-    return http.post(`/system/menu`, payload)
+    return http.post(`/system/menu`, payload, { baseURL: "/mock" })
   },
 }
