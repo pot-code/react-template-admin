@@ -1,5 +1,9 @@
-import { Table, TableProps } from "antd"
+import { css } from "@emotion/react"
+import { Button, Table, TableProps, theme } from "antd"
+import { AntdPaginationParams } from "@/core/http/pagination"
 import { Privilege } from "./types"
+
+const { useToken } = theme
 
 const columns: TableProps<Privilege>["columns"] = [
   {
@@ -25,9 +29,28 @@ const columns: TableProps<Privilege>["columns"] = [
 ]
 
 interface PrivilegeTableProps {
-  data: Privilege[]
+  isLoading: boolean
+  pagination?: AntdPaginationParams
+  data?: Privilege[]
 }
 
-export default function PrivilegeTable({ data }: PrivilegeTableProps) {
-  return <Table columns={columns} dataSource={data} />
+export default function PrivilegeTable({ data, pagination, isLoading }: PrivilegeTableProps) {
+  const {
+    token: { margin },
+  } = useToken()
+  const tableData = data ?? []
+
+  return (
+    <div>
+      <div
+        className="text-right"
+        css={css`
+          margin-bottom: ${margin}px;
+        `}
+      >
+        <Button type="primary">新增</Button>
+      </div>
+      <Table loading={isLoading} columns={columns} dataSource={tableData} pagination={pagination} />
+    </div>
+  )
 }

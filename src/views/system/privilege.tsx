@@ -1,6 +1,6 @@
-import { Card, Col, Row, Tree, theme } from "antd"
-import usePrivilege from "@/features/system/privilege/use-privilege"
+import { Card, Col, Empty, Row, Tree, theme } from "antd"
 import PrivilegeTable from "@/features/system/privilege/privilege-table"
+import usePrivilege from "@/features/system/privilege/use-privilege"
 
 const { useToken } = theme
 
@@ -8,7 +8,7 @@ export default function Privilege() {
   const {
     token: { padding },
   } = useToken()
-  const { treeNodes, selectedMenu, onTreeNodeSelect } = usePrivilege()
+  const { data, pagination, isLoading, treeNodes, selectedMenu, onTreeNodeSelect } = usePrivilege()
 
   return (
     <Row className="h-full" gutter={padding}>
@@ -23,8 +23,12 @@ export default function Privilege() {
         </Card>
       </Col>
       <Col span={18}>
-        <Card title="权限信息" type="inner">
-          <PrivilegeTable data={[]} />
+        <Card title="权限设置" type="inner">
+          {selectedMenu ? (
+            <PrivilegeTable isLoading={isLoading} data={data} pagination={pagination} />
+          ) : (
+            <Empty description="请选择菜单" />
+          )}
         </Card>
       </Col>
     </Row>
