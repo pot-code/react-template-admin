@@ -1,6 +1,5 @@
 import * as d3 from "d3"
 import { produce } from "immer"
-import { cloneDeep } from "lodash-es"
 import React from "react"
 import { RouteObject } from "react-router-dom"
 import TreeUtil from "@/utils/tree-util"
@@ -48,7 +47,7 @@ export default function useRouter() {
       const schemas = [...remote, ...dashboard]
       setSchemas(schemas)
 
-      const dashboardRoutes = new TreeUtil(buildSchemaTree(cloneDeep(schemas)))
+      const dashboardRoutes = new TreeUtil(buildSchemaTree(schemas))
         .map(setRemoteRouteElement)
         .map(routeNodeToRouteObject).result
       setRoutes([dashboardRoutes] || [])

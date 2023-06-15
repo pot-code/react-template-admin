@@ -1,5 +1,5 @@
 import { produce } from "immer"
-import { isEmpty, cloneDeep } from "lodash-es"
+import { isEmpty } from "lodash-es"
 import { RouteSchema, RemoteRouteSchema } from "@/core/route"
 import TreeUtil from "@/utils/tree-util"
 import useFetchMenu from "./use-fetch-menu"
@@ -32,7 +32,7 @@ export default function useMenuTree() {
     () =>
       isEmpty(menus)
         ? []
-        : [new TreeUtil(buildSchemaTree(cloneDeep(menus))).sortBy(sortMenuByOrder).map(routeSchemaToTreeNode).result],
+        : [new TreeUtil(buildSchemaTree(menus)).sortBy(sortMenuByOrder).map(routeSchemaToTreeNode).result],
     [menus],
   )
 
