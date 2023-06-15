@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 import { useQuery } from "@tanstack/react-query"
 import { demoApi } from "@/features/app/api"
 
-function Home() {
+export default function Home() {
   const { t } = useTranslation()
   const { data, isLoading } = useQuery(["hello"], ({ signal }) => demoApi.hello(signal))
 
@@ -12,5 +12,3 @@ function Home() {
 
   return null
 }
-
-export default Home

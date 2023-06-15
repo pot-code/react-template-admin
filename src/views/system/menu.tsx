@@ -5,7 +5,7 @@ import useMenu from "@/features/system/menu/use-menu"
 
 const { useToken } = theme
 
-export function Menu() {
+export default function Menu() {
   const {
     token: { padding },
   } = useToken()

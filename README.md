@@ -17,5 +17,5 @@
 
 # Todo
 
-- [ ] include all routes in system-menu
-- [ ] find a better way to save menu tree
+- [x] include all routes in system-menu
+- [x] find a better way to save menu tree

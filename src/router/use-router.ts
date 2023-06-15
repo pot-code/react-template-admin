@@ -31,6 +31,12 @@ function setRemoteRouteElement(schema: RouteSchema) {
   }
 }
 
+function setRemoteRouteParent(schema: RouteSchema) {
+  if (isRootMenu(schema)) {
+    schema.parentId = DASHBOARD_ID
+  }
+}
+
 function removeSchemaElement(schema: RouteSchema) {
   return omit(schema, "element")
 }
@@ -43,9 +49,7 @@ export default function useRouter() {
   useEffect(() => {
     if (isSuccess && data) {
       const remote = produce(data, (draft) => {
-        draft.filter(isRootMenu).forEach((v) => {
-          v.parentId = DASHBOARD_ID
-        })
+        draft.forEach(setRemoteRouteParent)
         draft.forEach(setRemoteRouteElement)
       })
 
