@@ -1,5 +1,5 @@
 import { Card, Col, Dropdown, Empty, Modal, Row, theme } from "antd"
-import MenuForm from "@/features/system/menu/form"
+import MenuForm from "@/features/system/menu/menu-form"
 import MenuTree from "@/features/system/menu/menu-tree"
 import useMenu from "@/features/system/menu/use-menu"
 
@@ -74,7 +74,7 @@ export function Menu() {
         </Card>
       </Col>
       <Col span={18}>
-        <Card title="设置" type="inner">
+        <Card title="菜单信息" type="inner">
           {selectedMenu ? (
             <MenuForm isLoading={isUpdating} data={selectedMenu} onSubmit={onMenuUpdated} />
           ) : (

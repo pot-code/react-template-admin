@@ -1,38 +1,12 @@
 import { useToggle } from "@react-hookz/web"
-import { DropDownProps, MenuProps, ModalProps, TreeProps, message } from "antd"
-import * as d3 from "d3"
-import { produce } from "immer"
-import { cloneDeep, isEmpty } from "lodash-es"
 import { useMutation } from "@tanstack/react-query"
-import TreeUtil from "@/utils/tree-util"
+import { DropDownProps, MenuProps, ModalProps, TreeProps, message } from "antd"
 import { menuApi } from "@/features/system/menu/api"
-import { TreeNode } from "./types"
+import { RouteSchema } from "@/core/route"
 import useFetchMenu from "./use-fetch-menu"
-import { buildSchemaTree, isRootMenu } from "./util"
-import { RouteSchema, RemoteRouteSchema } from "@/core/route"
-
-const virtualRootId = "virtual"
-const virtualRoot: RouteSchema = { id: virtualRootId, label: "根节点", path: "", order: -1, locked: true }
-
-function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
-  return {
-    title: node.data.label,
-    key: node.data.id,
-    invisible: node.data.hiddenInMenu,
-    locked: node.data.locked,
-  } as TreeNode
-}
-
-function sortMenuByOrder(a: d3.HierarchyNode<RouteSchema>, b: d3.HierarchyNode<RouteSchema>) {
-  return a.data.order - b.data.order
-}
-
-function isVirtualRoot(schema: RouteSchema) {
-  return schema.id === virtualRootId
-}
+import useMenuTree from "./use-menu-tree"
 
 export default function useMenu() {
-  const [schemas, setSchemas] = useState<RouteSchema[]>([])
   const [draftMenu, setDraftMenu] = useState<RouteSchema>()
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
   const [rightSelectedMenu, setRightSelectedMenu] = useState<RouteSchema>()
@@ -43,7 +17,8 @@ export default function useMenu() {
   const [openContextmenu, toggleOpenContextmenu] = useToggle(false)
 
   const [messageApi, contextHolder] = message.useMessage()
-  const { data, invalidateCache, isSuccess } = useFetchMenu()
+  const { invalidateCache } = useFetchMenu()
+  const { menus, treeNodes, isVirtualRoot } = useMenuTree()
   const { mutate: deleteSchema, isLoading: isDeleting } = useMutation(menuApi.delete, {
     onSuccess() {
       invalidateCache()
@@ -65,13 +40,6 @@ export default function useMenu() {
       messageApi.success("新增成功")
     },
   })
-  const treeNodes = useMemo(
-    () =>
-      isEmpty(schemas)
-        ? []
-        : [new TreeUtil(buildSchemaTree(cloneDeep(schemas))).sortBy(sortMenuByOrder).map(routeSchemaToTreeNode).result],
-    [schemas],
-  )
 
   function onAddChildMenu() {
     if (!rightSelectedMenu) return
@@ -90,7 +58,7 @@ export default function useMenu() {
   }
 
   const onTreeNodeSelect: TreeProps["onSelect"] = (keys) => {
-    const menu = schemas.find((v) => v.id === keys[0])
+    const menu = menus.find((v) => v.id === keys[0])
     if (menu && !isVirtualRoot(menu)) {
       setSelectedMenu(menu)
     }
@@ -107,7 +75,7 @@ export default function useMenu() {
   const onTreeNodeRightClick: TreeProps["onRightClick"] = ({ event, node }) => {
     toggleOpenContextmenu(false)
 
-    const menu = schemas.find((v) => v.id === node.key)
+    const menu = menus.find((v) => v.id === node.key)
     if (menu) {
       setRightSelectedMenu(menu)
       setContextmenuPosition(getContextmenuPosition(event.target as HTMLElement))
@@ -139,7 +107,7 @@ export default function useMenu() {
   }
 
   const onMenuCreated = (menu: RouteSchema) => {
-    if (menu.parentId === virtualRootId) {
+    if (menu.parentId && isVirtualRoot(menu.parentId)) {
       menu.parentId = undefined
     }
     createMenu(menu)
@@ -168,18 +136,6 @@ export default function useMenu() {
       onClick: onDeleteMenu,
     },
   ]
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      const remote = produce(data, (draft) => {
-        draft.filter(isRootMenu).forEach((v) => {
-          v.parentId = virtualRootId
-        })
-        draft.push(virtualRoot as RemoteRouteSchema)
-      })
-      setSchemas(remote)
-    }
-  }, [isSuccess, data])
 
   return {
     isDeleting,
