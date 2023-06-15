@@ -1,10 +1,10 @@
 import React from "react"
-import { RouteSchema } from "./types"
 import UserInfo from "@/views/settings/user-info"
 import Appearance from "@/views/settings/appearance"
 import Dashboard from "@/layout/dashboard"
 import Home from "@/views/home"
 import { Menu } from "@/views/system/menu"
+import { RouteSchema } from "./types"
 
 export const SETTINGS_ID = "settings"
 export const DASHBOARD_ID = "dashboard"

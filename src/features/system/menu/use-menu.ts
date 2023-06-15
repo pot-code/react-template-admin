@@ -6,10 +6,10 @@ import { cloneDeep, isEmpty } from "lodash-es"
 import { useMutation } from "@tanstack/react-query"
 import TreeUtil from "@/utils/tree-util"
 import { menuApi } from "@/features/system/menu/api"
-import { RemoteRouteSchema, RouteSchema } from "./schema"
 import { TreeNode } from "./types"
 import useFetchMenu from "./use-fetch-menu"
 import { buildSchemaTree, isRootMenu } from "./util"
+import { RouteSchema, RemoteRouteSchema } from "@/core/route"
 
 const virtualRootId = "virtual"
 const virtualRoot: RouteSchema = { id: virtualRootId, label: "根节点", path: "", order: -1, locked: true }

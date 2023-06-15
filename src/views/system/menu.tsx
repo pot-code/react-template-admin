@@ -1,5 +1,5 @@
 import { Card, Col, Dropdown, Empty, Modal, Row, theme } from "antd"
-import SchemaForm from "@/features/system/menu/form"
+import MenuForm from "@/features/system/menu/form"
 import MenuTree from "@/features/system/menu/menu-tree"
 import useMenu from "@/features/system/menu/use-menu"
 
@@ -54,7 +54,7 @@ export function Menu() {
             <p>确认删除该菜单？其所有子节点也会一并删除</p>
           </Modal>
           <Modal title="新增菜单" footer={null} open={openCreationModal} onCancel={onCreationCanceled}>
-            <SchemaForm
+            <MenuForm
               showCancel
               isLoading={isCreating}
               data={draftMenu!}
@@ -76,7 +76,7 @@ export function Menu() {
       <Col span={18}>
         <Card title="设置" type="inner">
           {selectedMenu ? (
-            <SchemaForm isLoading={isUpdating} data={selectedMenu} onSubmit={onMenuUpdated} />
+            <MenuForm isLoading={isUpdating} data={selectedMenu} onSubmit={onMenuUpdated} />
           ) : (
             <Empty description="请选择菜单" />
           )}

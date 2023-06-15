@@ -1,9 +1,9 @@
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
 import { curry } from "lodash-es"
 import { AiFillCaretDown } from "react-icons/ai"
-import { RouteSchema, SETTINGS_ID, settings } from "@/features/system/menu/schema"
 import { UserInfo } from "@/features/user/type"
 import { MenuItem } from "../type"
+import { RouteSchema, settings, SETTINGS_ID } from "@/core/route"
 
 const { useToken } = theme
 

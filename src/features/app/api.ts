@@ -1,4 +1,4 @@
-import http from "@/lib/http"
+import http from "@/core/http"
 
 export const demoApi = {
   hello: (signal?: AbortSignal) => http.get<string>("/hello", { signal, baseURL: "/mock" }),

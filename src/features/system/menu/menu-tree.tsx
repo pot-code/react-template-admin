@@ -25,9 +25,7 @@ function TitleRender({ data }: TitleRenderProp) {
 export interface MenuTreeProps extends TreeProps {}
 
 export default function MenuTree({ ...rest }: MenuTreeProps) {
-  const titleRender = useCallback((nodeData: any) => {
-    return <TitleRender data={nodeData} />
-  }, [])
+  const titleRender = useCallback((nodeData: any) => <TitleRender data={nodeData} />, [])
 
   return <Tree titleRender={titleRender} {...rest} />
 }

@@ -1,4 +1,4 @@
-import http from "@/lib/http"
+import http from "@/core/http"
 import { UserInfo } from "./type"
 
 export const userApi = {

@@ -1,5 +1,5 @@
-import http from "@/lib/http"
-import { RemoteRouteSchema, RouteSchema } from "./schema"
+import http from "@/core/http"
+import { RemoteRouteSchema, RouteSchema } from "@/core/route"
 
 export const menuApi = {
   list() {

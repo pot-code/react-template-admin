@@ -5,11 +5,10 @@ import React from "react"
 import { RouteObject } from "react-router-dom"
 import TreeUtil from "@/utils/tree-util"
 import useFetchMenu from "@/features/system/menu/use-fetch-menu"
-import { RemoteRouteSchema, RouteSchema } from "@/features/system/menu/schema"
-import { DASHBOARD_ID, dashboard } from "../features/system/menu/schema"
-import useSchemaStore from "../features/system/menu/use-schema-store"
+import useSchemaStore from "../store/use-schema-store"
 import { buildSchemaTree, isRootMenu } from "../features/system/menu/util"
-import ViewManager from "./view-manager"
+import ViewManager from "../core/route/view-manager"
+import { RouteSchema, RemoteRouteSchema, DASHBOARD_ID, dashboard } from "@/core/route"
 
 const viewManager = new ViewManager()
 

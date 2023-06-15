@@ -1,11 +1,11 @@
 import { MenuProps } from "antd"
 import * as d3 from "d3"
 import { useMatches } from "react-router-dom"
-import { RouteSchema } from "@/features/system/menu/schema"
-import useSchemaStore from "@/features/system/menu/use-schema-store"
+import useSchemaStore from "@/store/use-schema-store"
 import { buildSchemaTree } from "@/features/system/menu/util"
 import TreeUtil from "@/utils/tree-util"
 import { MenuItem } from "../type"
+import { RouteSchema } from "@/core/route"
 
 function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
   return {

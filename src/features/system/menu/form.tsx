@@ -1,7 +1,7 @@
 import { Button, Form, Input, InputNumber, Space, Switch } from "antd"
-import { RouteSchema } from "./schema"
+import { RouteSchema } from "@/core/route"
 
-export interface SchemaFormProps {
+interface MenuFormProps {
   data: RouteSchema
   isLoading?: boolean
   showCancel?: boolean
@@ -9,7 +9,7 @@ export interface SchemaFormProps {
   onCancel?: () => void
 }
 
-export default function SchemaForm({ data, isLoading, showCancel, onSubmit, onCancel }: SchemaFormProps) {
+export default function MenuForm({ data, isLoading, showCancel, onSubmit, onCancel }: MenuFormProps) {
   const [form] = Form.useForm()
 
   useEffect(() => {
