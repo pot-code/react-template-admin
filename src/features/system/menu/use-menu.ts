@@ -6,6 +6,14 @@ import { RouteSchema } from "@/core/route"
 import useFetchMenu from "./use-fetch-menu"
 import useMenuTree from "./use-menu-tree"
 
+function getContextmenuPosition(ref: HTMLElement) {
+  const rect = ref.getBoundingClientRect()
+  return {
+    x: rect.x + rect.width / 2,
+    y: rect.y + rect.height,
+  }
+}
+
 export default function useMenu() {
   const [draftMenu, setDraftMenu] = useState<RouteSchema>()
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
@@ -61,14 +69,6 @@ export default function useMenu() {
     const menu = menus.find((v) => v.id === keys[0])
     if (menu && !isVirtualRoot(menu)) {
       setSelectedMenu(menu)
-    }
-  }
-
-  function getContextmenuPosition(ref: HTMLElement) {
-    const rect = ref.getBoundingClientRect()
-    return {
-      x: rect.x + rect.width / 2,
-      y: rect.y + rect.height,
     }
   }
 
