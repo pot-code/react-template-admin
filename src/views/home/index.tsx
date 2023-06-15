@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { demoApi } from "@/features/app/api"
 
 function Home() {

@@ -1,12 +1,11 @@
 import * as d3 from "d3"
+import { produce } from "immer"
 import { cloneDeep } from "lodash-es"
 import React from "react"
-import { useQuery } from "react-query"
 import { RouteObject } from "react-router-dom"
-import { produce } from "immer"
 import TreeUtil from "@/utils/tree-util"
+import useFetchMenu from "@/features/system/menu/use-fetch-menu"
 import { RemoteRouteSchema, RouteSchema } from "@/features/system/menu/schema"
-import { menuApi } from "../features/system/menu/api"
 import { DASHBOARD_ID, dashboard } from "../features/system/menu/schema"
 import useSchemaStore from "../features/system/menu/use-schema-store"
 import { buildSchemaTree, isRootMenu } from "../features/system/menu/util"
@@ -37,8 +36,10 @@ function setRemoteRouteElement(node: d3.HierarchyNode<RouteSchema>) {
 export default function useRouter() {
   const { setSchemas } = useSchemaStore()
   const [routes, setRoutes] = React.useState<RouteObject[]>([])
-  const { isLoading } = useQuery(["system", "menu"], () => menuApi.list(), {
-    onSuccess({ data }) {
+  const { isLoading, isSuccess, data } = useFetchMenu()
+
+  useEffect(() => {
+    if (isSuccess && data) {
       const remote = produce(data, (draft) => {
         draft.filter(isRootMenu).forEach((v) => {
           v.parentId = DASHBOARD_ID
@@ -52,8 +53,8 @@ export default function useRouter() {
         .map(setRemoteRouteElement)
         .map(routeNodeToRouteObject).result
       setRoutes([dashboardRoutes] || [])
-    },
-  })
+    }
+  }, [data, isSuccess, setSchemas])
 
   return { isLoading, routes }
 }

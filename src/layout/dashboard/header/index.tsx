@@ -1,6 +1,6 @@
 import { css } from "@emotion/react"
 import { Layout, theme } from "antd"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { userApi } from "@/features/user/api"
 import SettingsMenu from "./settings"
 import Logo from "./logo"

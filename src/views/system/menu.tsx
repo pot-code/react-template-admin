@@ -1,7 +1,7 @@
 import { Card, Col, Dropdown, Empty, Modal, Row, theme } from "antd"
 import SchemaForm from "@/features/system/menu/form"
 import MenuTree from "@/features/system/menu/menu-tree"
-import useMenuTree from "@/features/system/menu/use-menu-tree"
+import useMenu from "@/features/system/menu/use-menu"
 
 const { useToken } = theme
 
@@ -30,7 +30,7 @@ export function Menu() {
     onDeleteMenuConfirm,
     onCreationCanceled,
     onContextmenuClose,
-  } = useMenuTree()
+  } = useMenu()
 
   return (
     <Row className="h-full" gutter={padding}>
