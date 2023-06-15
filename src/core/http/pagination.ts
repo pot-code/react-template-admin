@@ -27,7 +27,7 @@ export function getPaginationData<T>(res: PaginationResponse<T>) {
   return res.data
 }
 
-export function toAntdPaginationParams(params: PaginationResponseParams): AntdPaginationParams {
+export function toAntdPagination(params: PaginationResponseParams): AntdPaginationParams {
   return {
     current: params.page,
     pageSize: params.pageSize,

@@ -1,14 +1,19 @@
-import { TreeProps } from "antd"
-import { toAntdPaginationParams } from "@/core/http/pagination"
+import { TableProps, TreeProps } from "antd"
 import { RouteSchema } from "@/core/route"
+import usePagination from "@/hooks/use-pagination"
 import useMenuTree from "../menu/use-menu-tree"
 import useFetchPrivilege from "./use-fetch-privilege"
+import { Privilege } from "./types"
 
 export default function usePrivilege() {
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
 
   const { menus, treeNodes, isVirtualRoot } = useMenuTree()
-  const { data, pagination: paginationParams, isLoading } = useFetchPrivilege(selectedMenu?.id)
+  const { paginationParams, changePagination } = usePagination({ page: 1, pageSize: 10 })
+  const { data, pagination, isLoading } = useFetchPrivilege({
+    menuId: selectedMenu?.id,
+    ...paginationParams,
+  })
 
   const onTreeNodeSelect: TreeProps["onSelect"] = (keys) => {
     const menu = menus.find((v) => v.id === keys[0])
@@ -17,7 +22,9 @@ export default function usePrivilege() {
     }
   }
 
-  const pagination = paginationParams ? toAntdPaginationParams(paginationParams) : undefined
+  const onChange: TableProps<Privilege>["onChange"] = ({ current, pageSize }) => {
+    changePagination(current, pageSize)
+  }
 
   return {
     data,
@@ -25,6 +32,8 @@ export default function usePrivilege() {
     treeNodes,
     selectedMenu,
     isLoading,
+    changePagination,
+    onChange,
     onTreeNodeSelect,
   }
 }

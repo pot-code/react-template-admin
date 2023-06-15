@@ -8,7 +8,7 @@ export default function Privilege() {
   const {
     token: { padding },
   } = useToken()
-  const { data, pagination, isLoading, treeNodes, selectedMenu, onTreeNodeSelect } = usePrivilege()
+  const { data, pagination, isLoading, treeNodes, selectedMenu, onChange, onTreeNodeSelect } = usePrivilege()
 
   return (
     <Row className="h-full" gutter={padding}>
@@ -25,7 +25,7 @@ export default function Privilege() {
       <Col span={18}>
         <Card title="权限设置" type="inner">
           {selectedMenu ? (
-            <PrivilegeTable isLoading={isLoading} data={data} pagination={pagination} />
+            <PrivilegeTable loading={isLoading} dataSource={data} pagination={pagination} onChange={onChange} />
           ) : (
             <Empty description="请选择菜单" />
           )}
