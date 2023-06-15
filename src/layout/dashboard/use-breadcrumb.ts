@@ -9,8 +9,8 @@ export default function useBreadcrumb() {
 
   const schemaTree = useMemo(() => buildSchemaTree(schemas), [schemas])
   const items = useMemo(() => {
-    const nearestMatch = last(matches)
-    const found = schemaTree.find((node) => node.data?.id === nearestMatch?.id)
+    const matchRoute = last(matches)
+    const found = schemaTree.find((node) => node.data?.id.toString() === matchRoute?.id)
 
     if (found) {
       return found
@@ -19,7 +19,7 @@ export default function useBreadcrumb() {
         .filter(Boolean)
         .map((title) => ({ title }))
         .reverse()
-        .slice(1) // remove root label
+        .slice(1) // remove virtual root
     }
     return []
   }, [matches, schemaTree])

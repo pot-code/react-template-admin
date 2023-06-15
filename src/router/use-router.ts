@@ -13,7 +13,7 @@ const viewManager = new ViewManager()
 
 function routeSchemaToRouteObject(schema: RouteSchema) {
   const { path, element, id } = schema
-  return { id, path, element } as RouteObject
+  return { id: id.toString(), path, element } as RouteObject
 }
 
 function routeNodeToRouteObject(node: d3.HierarchyNode<RouteSchema>) {
