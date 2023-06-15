@@ -30,15 +30,14 @@ const columns: TableProps<Privilege>["columns"] = [
 
 interface PrivilegeTableProps {
   isLoading: boolean
+  data: Privilege[]
   pagination?: AntdPaginationParams
-  data?: Privilege[]
 }
 
 export default function PrivilegeTable({ data, pagination, isLoading }: PrivilegeTableProps) {
   const {
     token: { margin },
   } = useToken()
-  const tableData = data ?? []
 
   return (
     <div>
@@ -50,7 +49,7 @@ export default function PrivilegeTable({ data, pagination, isLoading }: Privileg
       >
         <Button type="primary">新增</Button>
       </div>
-      <Table loading={isLoading} columns={columns} dataSource={tableData} pagination={pagination} />
+      <Table loading={isLoading} columns={columns} dataSource={data} pagination={pagination} />
     </div>
   )
 }
