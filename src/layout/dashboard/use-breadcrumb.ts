@@ -22,7 +22,7 @@ export default function useBreadcrumb() {
         .slice(1)
         .map((v) => schemas.find((schema) => schema.id === v.id))
         .filter(Boolean)
-        .map(schemaToBreadcrumbItem),
+        .map(schemaToBreadcrumbItem) as { title: string }[],
     [matches, schemas],
   )
   const current = last(items)
