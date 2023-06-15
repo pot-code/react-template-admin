@@ -39,7 +39,7 @@ export default function useMenuTree() {
   function isVirtualRoot(id: string): boolean
   function isVirtualRoot(menu: RouteSchema): boolean
   function isVirtualRoot(param: RouteSchema | string) {
-    if (typeof param === "string") return false
+    if (typeof param === "string") return param === virtualRootId
     return param.id === virtualRootId
   }
 
