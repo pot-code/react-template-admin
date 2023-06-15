@@ -14,7 +14,7 @@ const viewManager = new ViewManager()
 
 function routeSchemaToRouteObject(schema: RouteSchema) {
   const { path, element, id } = schema
-  return { id: id.toString(), path, element } as RouteObject
+  return { id, path, element } as RouteObject
 }
 
 function schemaToRouteObject(node: d3.HierarchyNode<RouteSchema>) {
@@ -37,8 +37,12 @@ function setRemoteRouteParent(schema: RouteSchema) {
   }
 }
 
-function removeSchemaElement(schema: RouteSchema) {
+function omitSchemaElement(schema: RouteSchema) {
   return omit(schema, "element")
+}
+
+function schemaIdToString(schema: RouteSchema) {
+  return { ...schema, id: schema.id.toString() }
 }
 
 export default function useRouter() {
@@ -53,8 +57,8 @@ export default function useRouter() {
         draft.forEach(setRemoteRouteElement)
       })
 
-      const schemas = [...remote, ...dashboard]
-      setSchemas(schemas.map(removeSchemaElement))
+      const schemas = [...remote, ...dashboard].map(schemaIdToString)
+      setSchemas(schemas.map(omitSchemaElement))
 
       const dashboardRoutes = new TreeUtil(buildSchemaTree(schemas)).map(schemaToRouteObject).result
       setRoutes([dashboardRoutes] || [])

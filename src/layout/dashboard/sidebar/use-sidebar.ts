@@ -41,7 +41,7 @@ export default function useSidebar() {
   )
 
   const onSelect: MenuProps["onSelect"] = ({ key }) => {
-    const found = schemaTree.find((v) => v.data.id.toString() === key)
+    const found = schemaTree.find((v) => v.data.id === key)
     if (found) {
       const url = found
         .ancestors()
