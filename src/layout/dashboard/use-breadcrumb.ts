@@ -3,13 +3,10 @@ import { useMatches } from "react-router-dom"
 import { RouteSchema } from "@/core/route"
 import useSchemaStore from "@/store/use-schema-store"
 
-function schemaToBreadcrumbItem(schema?: RouteSchema) {
-  if (schema) {
-    return {
-      title: schema.label,
-    }
+function schemaToBreadcrumbItem(schema: RouteSchema) {
+  return {
+    title: schema.label,
   }
-  return null
 }
 
 export default function useBreadcrumb() {
@@ -22,7 +19,7 @@ export default function useBreadcrumb() {
         .slice(1)
         .map((v) => schemas.find((schema) => schema.id === v.id))
         .filter(Boolean)
-        .map(schemaToBreadcrumbItem) as { title: string }[],
+        .map((v) => schemaToBreadcrumbItem(v!)),
     [matches, schemas],
   )
   const current = last(items)
