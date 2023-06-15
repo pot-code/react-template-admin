@@ -24,7 +24,7 @@ export default function SettingsMenu({ data }: SettingsMenuProps) {
     token: { colorBgSpotlight },
   } = useToken()
   const items = useMemo(() => {
-    return settings.filter((v) => v.parentId === SETTINGS_ID).map(curry(routeSchemaToMenuItem)(SETTINGS_ID))
+    return settings().map(curry(routeSchemaToMenuItem)(SETTINGS_ID))
   }, [])
 
   const onClick: MenuProps["onClick"] = ({ key }) => {

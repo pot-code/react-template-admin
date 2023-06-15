@@ -57,7 +57,7 @@ export default function useRouter() {
         draft.forEach(setRemoteRouteElement)
       })
 
-      const schemas = [...remote, ...dashboard].map(schemaIdToString)
+      const schemas = [...remote, ...dashboard()].map(schemaIdToString)
       setSchemas(schemas.map(omitSchemaElement))
 
       const dashboardRoutes = new TreeUtil(buildSchemaTree(schemas)).map(schemaToRouteObject).result
