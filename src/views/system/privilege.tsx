@@ -1,4 +1,4 @@
-import { Button, Card, Col, Empty, Modal, Row, Tree, theme } from "antd"
+import { Card, Col, Empty, Modal, Row, Tree, theme } from "antd"
 import PrivilegeTable from "@/features/system/privilege/privilege-table"
 import usePrivilege from "@/features/system/privilege/use-privilege"
 
@@ -6,7 +6,7 @@ const { useToken } = theme
 
 export default function Privilege() {
   const {
-    token: { padding, margin },
+    token: { padding },
   } = useToken()
   const {
     isLoading,
@@ -36,14 +36,13 @@ export default function Privilege() {
       <Col span={18}>
         <Card title="权限设置" type="inner">
           {selectedMenu ? (
-            <div>
-              <div style={{ marginBottom: `${margin}px` }}>
-                <Button type="primary" onClick={onAddPrivilege}>
-                  新增
-                </Button>
-              </div>
-              <PrivilegeTable loading={isLoading} dataSource={data} pagination={pagination} onChange={onChange} />
-            </div>
+            <PrivilegeTable
+              loading={isLoading}
+              dataSource={data}
+              pagination={pagination}
+              onChange={onChange}
+              onAddPrivilege={onAddPrivilege}
+            />
           ) : (
             <Empty description="请选择菜单" />
           )}

@@ -1,4 +1,4 @@
-import { Table, TableProps } from "antd"
+import { Button, Table, TableProps, theme } from "antd"
 import { Privilege } from "./types"
 
 const columns: TableProps<Privilege>["columns"] = [
@@ -24,8 +24,25 @@ const columns: TableProps<Privilege>["columns"] = [
   },
 ]
 
-interface PrivilegeTableProps extends TableProps<Privilege> {}
+const { useToken } = theme
 
-export default function PrivilegeTable(props: PrivilegeTableProps) {
-  return <Table {...props} columns={columns} />
+interface PrivilegeTableProps extends TableProps<Privilege> {
+  onAddPrivilege: () => void
+}
+
+export default function PrivilegeTable({ onAddPrivilege, ...rest }: PrivilegeTableProps) {
+  const {
+    token: { margin },
+  } = useToken()
+
+  return (
+    <div>
+      <div style={{ marginBottom: `${margin}px` }}>
+        <Button type="primary" onClick={onAddPrivilege}>
+          新增
+        </Button>
+      </div>
+      <Table {...rest} columns={columns} />
+    </div>
+  )
 }
