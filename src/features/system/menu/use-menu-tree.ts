@@ -1,6 +1,6 @@
 import { produce } from "immer"
 import { isEmpty } from "lodash-es"
-import { RouteSchema, RemoteRouteSchema } from "@/core/route"
+import { RouteSchema } from "@/core/route"
 import TreeUtil from "@/utils/tree-util"
 import useFetchMenu from "./use-fetch-menu"
 import { buildSchemaTree, isRootMenu } from "./util"
@@ -49,7 +49,7 @@ export default function useMenuTree() {
         draft.filter(isRootMenu).forEach((v) => {
           v.parentId = virtualRootId
         })
-        draft.push(virtualRoot as RemoteRouteSchema)
+        draft.push(virtualRoot)
       })
       setMenus(remote)
     }

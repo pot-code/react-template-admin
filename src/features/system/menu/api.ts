@@ -1,9 +1,9 @@
 import http from "@/core/http"
-import { RemoteRouteSchema, RouteSchema } from "@/core/route"
+import { RouteSchema } from "@/core/route"
 
 export const menuApi = {
   list() {
-    return http.get<RemoteRouteSchema[]>("/system/menu")
+    return http.get<RouteSchema[]>("/system/menu")
   },
   delete(routeId: string) {
     return http.delete(`/system/menu/${routeId}`)

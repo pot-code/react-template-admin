@@ -37,7 +37,7 @@ export default function MenuForm({ data, isLoading, showCancel, onSubmit, onCanc
       <Form.Item name="path" label="路由地址" tooltip="地址为空可用于 layout 组件或 index 路由">
         <Input />
       </Form.Item>
-      <Form.Item name="viewPath" label="视图地址" tooltip="不用添加 views 文件夹前缀">
+      <Form.Item name="viewPath" label="视图地址" tooltip="不用添加 views 文件夹前缀和 .tsx 后缀">
         <Input />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8 }}>

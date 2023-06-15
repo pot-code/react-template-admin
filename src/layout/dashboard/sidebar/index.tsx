@@ -1,9 +1,7 @@
 import { Menu } from "antd"
 import useSidebar from "./use-sidebar"
 
-export interface SidebarProps {}
-
-export default function Sidebar({}: SidebarProps) {
+export default function Sidebar() {
   const { items, openKeys, selectedKeys, onSelect, onOpenChange } = useSidebar()
 
   return (

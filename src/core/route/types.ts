@@ -8,10 +8,5 @@ export interface RouteSchema {
   order: number
   hiddenInMenu?: boolean
   locked?: boolean
-  children?: RouteSchema[]
-}
-
-export interface RemoteRouteSchema extends RouteSchema {
-  viewPath: string
-  children?: RemoteRouteSchema[]
+  viewPath?: string
 }
