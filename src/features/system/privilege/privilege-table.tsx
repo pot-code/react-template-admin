@@ -1,8 +1,5 @@
-import { css } from "@emotion/react"
-import { Button, Table, TableProps, theme } from "antd"
+import { Table, TableProps } from "antd"
 import { Privilege } from "./types"
-
-const { useToken } = theme
 
 const columns: TableProps<Privilege>["columns"] = [
   {
@@ -30,21 +27,5 @@ const columns: TableProps<Privilege>["columns"] = [
 interface PrivilegeTableProps extends TableProps<Privilege> {}
 
 export default function PrivilegeTable(props: PrivilegeTableProps) {
-  const {
-    token: { margin },
-  } = useToken()
-
-  return (
-    <div>
-      <div
-        className="text-right"
-        css={css`
-          margin-bottom: ${margin}px;
-        `}
-      >
-        <Button type="primary">新增</Button>
-      </div>
-      <Table {...props} columns={columns} />
-    </div>
-  )
+  return <Table {...props} columns={columns} />
 }

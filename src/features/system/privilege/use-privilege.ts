@@ -1,4 +1,5 @@
 import { TableProps, TreeProps } from "antd"
+import { useToggle } from "@react-hookz/web"
 import { RouteSchema } from "@/core/route"
 import usePagination from "@/hooks/use-pagination"
 import useMenuTree from "../menu/use-menu-tree"
@@ -8,6 +9,7 @@ import { Privilege } from "./types"
 export default function usePrivilege() {
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
 
+  const [showCreateModal, toggleShowCreateModal] = useToggle(false)
   const { menus, treeNodes, isVirtualRoot } = useMenuTree()
   const { paginationParams, changePagination } = usePagination({ page: 1, pageSize: 10 })
   const { data, pagination, isLoading } = useFetchPrivilege({
@@ -26,14 +28,25 @@ export default function usePrivilege() {
     changePagination(current, pageSize)
   }
 
+  function onAddPrivilege() {
+    toggleShowCreateModal(true)
+  }
+
+  function onCreateCancel() {
+    toggleShowCreateModal(false)
+  }
+
   return {
     data,
     pagination,
     treeNodes,
     selectedMenu,
     isLoading,
+    showCreateModal,
     changePagination,
     onChange,
     onTreeNodeSelect,
+    onAddPrivilege,
+    onCreateCancel,
   }
 }
