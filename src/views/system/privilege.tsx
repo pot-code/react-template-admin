@@ -1,6 +1,7 @@
 import { Card, Col, Empty, Modal, Row, Tree, theme } from "antd"
 import PrivilegeTable from "@/features/system/privilege/privilege-table"
 import usePrivilege from "@/features/system/privilege/use-privilege"
+import PrivilegeForm from "@/features/system/privilege/privilege-form"
 
 const { useToken } = theme
 
@@ -10,6 +11,7 @@ export default function Privilege() {
   } = useToken()
   const {
     isLoading,
+    isCreating,
     showCreateModal,
     data,
     pagination,
@@ -19,6 +21,7 @@ export default function Privilege() {
     onTreeNodeSelect,
     onCreateCancel,
     onAddPrivilege,
+    onCreatePrivilege,
   } = usePrivilege()
 
   return (
@@ -48,8 +51,8 @@ export default function Privilege() {
           )}
         </Card>
       </Col>
-      <Modal title="新增权限" open={showCreateModal} onCancel={onCreateCancel}>
-        todo
+      <Modal title="新增权限" open={showCreateModal} onCancel={onCreateCancel} footer={null}>
+        {/* <PrivilegeForm isLoading={isCreating} onSubmit={onCreatePrivilege} onCancel={onCreateCancel} /> */}
       </Modal>
     </Row>
   )
