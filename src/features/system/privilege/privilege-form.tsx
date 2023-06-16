@@ -21,6 +21,9 @@ export default function PrivilegeForm({ data, isLoading, onSubmit, onCancel }: P
       <Form.Item name="id" hidden>
         <Input />
       </Form.Item>
+      <Form.Item name="menuId" hidden>
+        <Input />
+      </Form.Item>
       <Form.Item name="name" label="权限标识" rules={[{ required: true }]}>
         <Input />
       </Form.Item>

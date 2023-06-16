@@ -12,7 +12,10 @@ export const privilegeApi = {
       params,
     })
   },
-  delete(id: string) {
+  getById(id: number) {
+    return http.get<Privilege>(`/system/privilege/${id}`)
+  },
+  delete(id: number) {
     return http.delete(`/system/privilege/${id}`)
   },
   update(payload: Privilege) {
