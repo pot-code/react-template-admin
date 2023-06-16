@@ -1,6 +1,6 @@
 import { useToggle } from "@react-hookz/web"
-import { TreeProps } from "antd"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { TreeProps, message } from "antd"
+import { useMutation } from "@tanstack/react-query"
 import { RouteSchema } from "@/core/route"
 import useMenuTree from "../menu/use-menu-tree"
 import { privilegeApi } from "./api"
@@ -11,24 +11,21 @@ export default function usePrivilege() {
   const [selectedMenu, setSelectedMenu] = useState<RouteSchema>()
   const [draftPrivilege, setDraftPrivilege] = useState<Partial<Privilege>>({})
 
-  const [showCreateModal, toggleShowCreateModal] = useToggle(false)
+  const [showModal, toggleShowModal] = useToggle(false)
+  const [messageApi, contextHolder] = message.useMessage()
   const { menus, treeNodes, isVirtualRoot } = useMenuTree()
-  const {
-    data,
-    isLoading: isLoadingPrivilege,
-    isSuccess,
-  } = useQuery(
-    ["privilege", draftPrivilege.id],
-    () => privilegeApi.getById(draftPrivilege.id!).then((res) => res.data),
-    {
-      enabled: Boolean(draftPrivilege.id),
-    },
-  )
   const { invalidateCache } = useFetchPrivilege()
-  const { mutate: createPrivilege, isLoading: isCreating } = useMutation(privilegeApi.create, {
+  const { mutate: createOrUpdatePrivilege, isLoading: isSubmitting } = useMutation(privilegeApi.createOrUpdate, {
     onSuccess() {
       invalidateCache()
-      toggleShowCreateModal(false)
+      messageApi.success("保存成功")
+      toggleShowModal(false)
+    },
+  })
+  const { mutate: deletePrivilege, isLoading: isDeleting } = useMutation(privilegeApi.delete, {
+    onSuccess() {
+      invalidateCache()
+      messageApi.success("删除成功")
     },
   })
 
@@ -45,33 +42,43 @@ export default function usePrivilege() {
     setDraftPrivilege({
       menuId: selectedMenu.id,
     })
-    toggleShowCreateModal(true)
+    toggleShowModal(true)
   }
 
-  function onCreateCancel() {
-    toggleShowCreateModal(false)
+  function onEditPrivilege(row: Privilege) {
+    if (!selectedMenu) return
+
+    setDraftPrivilege(row)
+    toggleShowModal(true)
   }
 
-  function onCreatePrivilege(submitData: Privilege) {
-    createPrivilege(submitData)
+  function onDeletePrivilege(row: Privilege) {
+    if (!selectedMenu) return
+
+    deletePrivilege(row.id)
   }
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      setDraftPrivilege(data)
-    }
-  }, [data, isSuccess])
+  function onModalCancel() {
+    toggleShowModal(false)
+  }
+
+  function onSubmit(submitData: Privilege) {
+    createOrUpdatePrivilege(submitData)
+  }
 
   return {
-    isCreating,
-    isLoadingPrivilege,
+    isSubmitting,
+    isDeleting,
+    showModal,
+    contextHolder,
     treeNodes,
     draftPrivilege,
     selectedMenu,
-    showCreateModal,
     onTreeNodeSelect,
+    onSubmit,
     onAddPrivilege,
-    onCreateCancel,
-    onCreatePrivilege,
+    onModalCancel,
+    onEditPrivilege,
+    onDeletePrivilege,
   }
 }

@@ -3,12 +3,12 @@ import { Privilege } from "./types"
 
 interface PrivilegeFormProps {
   data: Partial<Privilege>
-  isLoading?: boolean
+  isSubmitting?: boolean
   onSubmit: (data: Privilege) => void
   onCancel: () => void
 }
 
-export default function PrivilegeForm({ data, isLoading, onSubmit, onCancel }: PrivilegeFormProps) {
+export default function PrivilegeForm({ data, isSubmitting, onSubmit, onCancel }: PrivilegeFormProps) {
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function PrivilegeForm({ data, isLoading, onSubmit, onCancel }: P
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8 }}>
         <Space>
-          <Button loading={isLoading} type="primary" htmlType="submit">
+          <Button loading={isSubmitting} type="primary" htmlType="submit">
             保存
           </Button>
           <Button onClick={onCancel}>取消</Button>

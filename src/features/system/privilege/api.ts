@@ -18,10 +18,10 @@ export const privilegeApi = {
   delete(id: number) {
     return http.delete(`/system/privilege/${id}`)
   },
-  update(payload: Privilege) {
-    return http.put(`/system/privilege`, payload)
-  },
-  create(payload: Privilege) {
+  createOrUpdate(payload: Privilege) {
+    if (payload.id) {
+      return http.put(`/system/privilege`, payload)
+    }
     return http.post(`/system/privilege`, payload)
   },
 }

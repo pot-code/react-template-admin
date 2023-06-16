@@ -10,15 +10,18 @@ export default function Privilege() {
     token: { padding, margin },
   } = useToken()
   const {
-    isCreating,
-    showCreateModal,
+    isSubmitting,
+    showModal,
+    contextHolder,
     draftPrivilege,
     treeNodes,
     selectedMenu,
+    onSubmit,
     onTreeNodeSelect,
-    onCreateCancel,
+    onModalCancel,
     onAddPrivilege,
-    onCreatePrivilege,
+    onDeletePrivilege,
+    onEditPrivilege,
   } = usePrivilege()
 
   return (
@@ -42,21 +45,17 @@ export default function Privilege() {
                   新增
                 </Button>
               </div>
-              <PrivilegeTable menuId={selectedMenu.id} />
+              <PrivilegeTable menuId={selectedMenu.id} onEditRow={onEditPrivilege} onDeleteRow={onDeletePrivilege} />
             </div>
           ) : (
             <Empty description="请选择菜单" />
           )}
         </Card>
       </Col>
-      <Modal title="新增权限" open={showCreateModal} onCancel={onCreateCancel} footer={null}>
-        <PrivilegeForm
-          isLoading={isCreating}
-          data={draftPrivilege}
-          onSubmit={onCreatePrivilege}
-          onCancel={onCreateCancel}
-        />
+      <Modal title="新增权限" open={showModal} footer={null}>
+        <PrivilegeForm isSubmitting={isSubmitting} data={draftPrivilege} onSubmit={onSubmit} onCancel={onModalCancel} />
       </Modal>
+      {contextHolder}
     </Row>
   )
 }
