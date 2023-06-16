@@ -14,11 +14,13 @@ export default function PrivilegeTable({ menuId, onDeleteRow, onEditRow }: Privi
       title: "权限标识",
       dataIndex: "name",
       key: "name",
+      ellipsis: true,
     },
     {
       title: "描述",
       dataIndex: "description",
       key: "description",
+      ellipsis: true,
     },
     {
       title: "创建时间",
