@@ -2,8 +2,8 @@ import http from "@/core/http"
 import { RouteSchema } from "@/core/route"
 
 export const menuApi = {
-  list() {
-    return http.get<RouteSchema[]>("/system/menu")
+  list(signal?: AbortSignal) {
+    return http.get<RouteSchema[]>("/system/menu", { signal })
   },
   delete(routeId: string) {
     return http.delete(`/system/menu/${routeId}`)

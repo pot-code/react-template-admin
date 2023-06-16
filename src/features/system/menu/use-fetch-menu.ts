@@ -6,9 +6,13 @@ const queryKey = ["system", "menu"]
 
 export default function useFetchMenu() {
   const qc = useQueryClient()
-  const { data, isSuccess, isLoading } = useQuery(queryKey, () => menuApi.list().then((res) => res.data), {
-    staleTime: Time.Minutes * 10,
-  })
+  const { data, isSuccess, isLoading } = useQuery(
+    queryKey,
+    ({ signal }) => menuApi.list(signal).then((res) => res.data),
+    {
+      staleTime: Time.Minutes * 10,
+    },
+  )
 
   function invalidateCache() {
     qc.invalidateQueries(queryKey)

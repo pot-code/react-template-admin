@@ -7,9 +7,10 @@ export interface QueryPrivilegeParams extends PaginationParams {
 }
 
 export const privilegeApi = {
-  list(params: QueryPrivilegeParams) {
+  list(params: QueryPrivilegeParams, signal?: AbortSignal) {
     return http.get<PaginationResponse<Privilege>>("/system/privilege", {
       params,
+      signal,
     })
   },
   getById(id: number) {

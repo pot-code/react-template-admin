@@ -11,7 +11,7 @@ export default function useFetchPrivilege(params?: QueryPrivilegeParams) {
     data: response,
     isLoading,
     isSuccess,
-  } = useQuery([...queryKey, params], () => privilegeApi.list(params!).then((res) => res.data), {
+  } = useQuery([...queryKey, params], ({ signal }) => privilegeApi.list(params!, signal).then((res) => res.data), {
     enabled: !isNil(params?.menuId),
   })
   const { data, pagination } = usePaginationResponse(response)
