@@ -1,27 +1,51 @@
 import { produce } from "immer"
-import { PaginationParams } from "@/core/http/pagination"
+import { PaginationProps } from "antd"
+import { PaginationParams, PaginationResponse } from "@/core/http/pagination"
 
-export default function usePagination(defaultPagination: PaginationParams) {
-  const [paginationParams, setPaginationParams] = useState<PaginationParams>(defaultPagination)
+export type AntdPaginationParams = Pick<
+  PaginationProps,
+  "showSizeChanger" | "showTotal" | "current" | "pageSize" | "pageSizeOptions" | "total"
+>
+
+function toPaginationParams(pagination: AntdPaginationParams): PaginationParams {
+  return {
+    page: pagination.current,
+    pageSize: pagination.pageSize,
+  }
+}
+
+export default function usePagination(defaultPagination: AntdPaginationParams) {
+  const [antdPagination, setAntdPagination] = useState<AntdPaginationParams>(defaultPagination)
+  const paginationParams = toPaginationParams(antdPagination)
 
   function changePagination(page?: number, pageSize?: number) {
-    setPaginationParams(
+    setAntdPagination(
       produce((draft) => {
         if (page) {
-          draft.page = page
+          draft.current = page
+        }
+        if (draft.pageSize !== pageSize) {
+          draft.current = 1
         }
         if (pageSize) {
           draft.pageSize = pageSize
-        }
-        if (draft.pageSize !== pageSize) {
-          draft.page = 1
         }
       }),
     )
   }
 
+  function setTotalFromResponse<T>(response: PaginationResponse<T>) {
+    setAntdPagination(
+      produce((draft) => {
+        draft.total = response.total
+      }),
+    )
+  }
+
   return {
+    pagination: antdPagination,
     paginationParams,
+    setTotalFromResponse,
     changePagination,
   }
 }

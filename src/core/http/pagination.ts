@@ -9,14 +9,8 @@ export interface PaginationResponseParams extends PaginationParams {
 }
 
 export interface PaginationParams {
-  page: number
-  pageSize: number
-}
-
-export interface AntdPaginationParams {
-  current: number
-  pageSize: number
-  total: number
+  page?: number
+  pageSize?: number
 }
 
 export function getPaginationResponseParams<T>(res: PaginationResponse<T>): PaginationResponseParams {
@@ -25,12 +19,4 @@ export function getPaginationResponseParams<T>(res: PaginationResponse<T>): Pagi
 
 export function getPaginationData<T>(res: PaginationResponse<T>) {
   return res.data
-}
-
-export function toAntdPagination(params: PaginationResponseParams): AntdPaginationParams {
-  return {
-    current: params.page,
-    pageSize: params.pageSize,
-    total: params.total,
-  }
 }

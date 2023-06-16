@@ -1,5 +1,5 @@
 import { useToggle } from "@react-hookz/web"
-import { TreeProps, message } from "antd"
+import { TableProps, TreeProps, message } from "antd"
 import { useMutation } from "@tanstack/react-query"
 import { RouteSchema } from "@/core/route"
 import useMenuTree from "../menu/use-menu-tree"
@@ -14,7 +14,10 @@ export default function usePrivilege() {
   const [showModal, toggleShowModal] = useToggle(false)
   const [messageApi, contextHolder] = message.useMessage()
   const { menus, treeNodes, isVirtualRoot } = useMenuTree()
-  const { invalidateCache } = useFetchPrivilege()
+  const { isLoading, data, pagination, changePagination, resetPagination, invalidateCache } = useFetchPrivilege(
+    selectedMenu?.id,
+  )
+
   const { mutate: createOrUpdatePrivilege, isLoading: isSubmitting } = useMutation(privilegeApi.createOrUpdate, {
     onSuccess() {
       invalidateCache()
@@ -24,7 +27,7 @@ export default function usePrivilege() {
   })
   const { mutate: deletePrivilege, isLoading: isDeleting } = useMutation(privilegeApi.delete, {
     onSuccess() {
-      invalidateCache()
+      resetPagination()
       messageApi.success("删除成功")
     },
   })
@@ -66,18 +69,26 @@ export default function usePrivilege() {
     createOrUpdatePrivilege(submitData)
   }
 
+  const onTableChange: TableProps<Privilege>["onChange"] = ({ current, pageSize }) => {
+    changePagination(current, pageSize)
+  }
+
   return {
+    isLoading,
     isSubmitting,
     isDeleting,
     showModal,
-    contextHolder,
+    data,
     treeNodes,
     draftPrivilege,
     selectedMenu,
+    pagination,
+    contextHolder,
     onTreeNodeSelect,
     onSubmit,
     onAddPrivilege,
     onModalCancel,
+    onTableChange,
     onEditPrivilege,
     onDeletePrivilege,
   }

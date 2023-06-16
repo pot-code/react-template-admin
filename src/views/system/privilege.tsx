@@ -10,13 +10,17 @@ export default function Privilege() {
     token: { padding, margin },
   } = useToken()
   const {
+    isLoading,
     isSubmitting,
     showModal,
-    contextHolder,
+    data,
+    pagination,
     draftPrivilege,
     treeNodes,
     selectedMenu,
+    contextHolder,
     onSubmit,
+    onTableChange,
     onTreeNodeSelect,
     onModalCancel,
     onAddPrivilege,
@@ -37,7 +41,7 @@ export default function Privilege() {
         </Card>
       </Col>
       <Col span={18}>
-        <Card title="权限设置" type="inner">
+        <Card className="h-full" title="权限设置" type="inner">
           {selectedMenu ? (
             <div>
               <div style={{ marginBottom: `${margin}px` }}>
@@ -45,7 +49,14 @@ export default function Privilege() {
                   新增
                 </Button>
               </div>
-              <PrivilegeTable menuId={selectedMenu.id} onEditRow={onEditPrivilege} onDeleteRow={onDeletePrivilege} />
+              <PrivilegeTable
+                isLoading={isLoading}
+                data={data}
+                pagination={pagination}
+                onEditRow={onEditPrivilege}
+                onDeleteRow={onDeletePrivilege}
+                onTableChange={onTableChange}
+              />
             </div>
           ) : (
             <Empty description="请选择菜单" />

@@ -1,14 +1,24 @@
 import { Button, Popconfirm, Space, Table, TableProps } from "antd"
+import { PaginationProps } from "antd/lib/pagination"
 import { Privilege } from "./types"
-import usePrivilegeTable from "./use-privilege-table"
 
 interface PrivilegeTableProps {
-  menuId?: string
+  isLoading?: boolean
+  data: Privilege[]
+  pagination: PaginationProps
   onEditRow: (row: Privilege) => void
   onDeleteRow: (row: Privilege) => void
+  onTableChange: TableProps<Privilege>["onChange"]
 }
 
-export default function PrivilegeTable({ menuId, onDeleteRow, onEditRow }: PrivilegeTableProps) {
+export default function PrivilegeTable({
+  isLoading,
+  data,
+  pagination,
+  onDeleteRow,
+  onEditRow,
+  onTableChange,
+}: PrivilegeTableProps) {
   const columns: TableProps<Privilege>["columns"] = [
     {
       title: "权限标识",
@@ -48,7 +58,6 @@ export default function PrivilegeTable({ menuId, onDeleteRow, onEditRow }: Privi
       ),
     },
   ]
-  const { isLoading, data, pagination, onChange } = usePrivilegeTable(menuId)
 
   return (
     <Table
@@ -57,7 +66,7 @@ export default function PrivilegeTable({ menuId, onDeleteRow, onEditRow }: Privi
       columns={columns}
       dataSource={data}
       pagination={pagination}
-      onChange={onChange}
+      onChange={onTableChange}
     />
   )
 }
