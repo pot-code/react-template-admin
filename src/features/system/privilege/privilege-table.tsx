@@ -46,11 +46,11 @@ export default function PrivilegeTable({
       title: "操作",
       render: (_, record) => (
         <Space>
-          <Button size="small" type="primary" onClick={() => onEditRow(record)}>
+          <Button size="small" type="link" onClick={() => onEditRow(record)}>
             编辑
           </Button>
           <Popconfirm onConfirm={() => onDeleteRow(record)} title="确定删除吗?" placement="topLeft" key={record.id}>
-            <Button size="small" danger>
+            <Button danger size="small" type="link">
               删除
             </Button>
           </Popconfirm>
