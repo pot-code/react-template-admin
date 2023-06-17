@@ -28,6 +28,7 @@ export default function usePrivilege() {
   const { mutate: deletePrivilege, isLoading: isDeleting } = useMutation(privilegeApi.delete, {
     onSuccess() {
       resetPagination()
+      invalidateCache()
       messageApi.success("删除成功")
     },
   })
