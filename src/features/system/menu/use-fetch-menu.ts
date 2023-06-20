@@ -8,7 +8,7 @@ export default function useFetchMenu() {
   const qc = useQueryClient()
   const { data, isSuccess, isLoading } = useQuery(
     queryKey,
-    ({ signal }) => menuApi.list(signal).then((res) => res.data),
+    ({ signal }) => menuApi.list(signal).then((res) => res.data.data),
     {
       staleTime: Time.Minutes * 10,
     },

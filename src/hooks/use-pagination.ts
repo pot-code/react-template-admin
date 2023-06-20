@@ -1,6 +1,6 @@
 import { produce } from "immer"
 import { PaginationProps } from "antd"
-import { PaginationParams, PaginationResponse } from "@/core/http/pagination"
+import { PaginationParams, HttpPaginationResponse } from "@/core/http/pagination"
 
 export type AntdPaginationParams = Pick<
   PaginationProps,
@@ -34,7 +34,7 @@ export default function usePagination(defaultPagination: AntdPaginationParams) {
     )
   }
 
-  function setTotalFromResponse<T>(response: PaginationResponse<T>) {
+  function setTotalFromResponse<T>(response: HttpPaginationResponse<T>) {
     setAntdPagination(
       produce((draft) => {
         draft.total = response.total

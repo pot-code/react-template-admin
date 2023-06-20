@@ -1,9 +1,10 @@
 import http from "@/core/http"
+import { HttpRestResponse } from "@/core/http/response"
 import { RouteSchema } from "@/core/route"
 
 export const menuApi = {
   list(signal?: AbortSignal) {
-    return http.get<RouteSchema[]>("/system/menu", { signal })
+    return http.get<HttpRestResponse<RouteSchema[]>>("/system/menu", { signal })
   },
   delete(routeId: string) {
     return http.delete(`/system/menu/${routeId}`)

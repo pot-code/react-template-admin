@@ -1,6 +1,6 @@
 import http from "@/core/http"
 import { Privilege } from "./types"
-import { PaginationParams, PaginationResponse } from "@/core/http/pagination"
+import { PaginationParams, HttpPaginationResponse } from "@/core/http/pagination"
 
 export interface QueryPrivilegeParams extends PaginationParams {
   menuId?: string
@@ -8,7 +8,7 @@ export interface QueryPrivilegeParams extends PaginationParams {
 
 export const privilegeApi = {
   list(params: QueryPrivilegeParams, signal?: AbortSignal) {
-    return http.get<PaginationResponse<Privilege>>("/system/privilege", {
+    return http.get<HttpPaginationResponse<Privilege>>("/system/privilege", {
       params,
       signal,
     })

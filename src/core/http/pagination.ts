@@ -1,8 +1,7 @@
 import { omit } from "lodash-es"
+import { HttpRestResponse } from "./response"
 
-export interface PaginationResponse<T> extends PaginationResponseParams {
-  data: T[]
-}
+export interface HttpPaginationResponse<T> extends PaginationResponseParams, HttpRestResponse<T> {}
 
 export interface PaginationResponseParams extends PaginationParams {
   total: number
@@ -13,10 +12,10 @@ export interface PaginationParams {
   pageSize?: number
 }
 
-export function getPaginationResponseParams<T>(res: PaginationResponse<T>): PaginationResponseParams {
+export function getPaginationResponseParams<T>(res: HttpPaginationResponse<T>): PaginationResponseParams {
   return omit(res, "data")
 }
 
-export function getPaginationData<T>(res: PaginationResponse<T>) {
+export function getPaginationData<T>(res: HttpPaginationResponse<T>) {
   return res.data
 }

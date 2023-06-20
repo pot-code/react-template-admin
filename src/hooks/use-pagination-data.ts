@@ -1,6 +1,6 @@
-import { PaginationResponse, getPaginationData } from "@/core/http/pagination"
+import { HttpPaginationResponse, getPaginationData } from "@/core/http/pagination"
 
-export default function usePaginationData<T>(response?: PaginationResponse<T>) {
+export default function usePaginationData<T>(response?: HttpPaginationResponse<T>) {
   const data = response ? getPaginationData(response) : []
 
   return {
