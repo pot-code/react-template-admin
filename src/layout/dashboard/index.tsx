@@ -1,16 +1,16 @@
 import { css } from "@emotion/react"
+import { IconLayoutSidebar } from "@tabler/icons-react"
 import { Breadcrumb, theme } from "antd"
+import { motion } from "framer-motion"
 import { Suspense } from "react"
 import { Outlet } from "react-router-dom"
-import { BsLayoutSidebarInset } from "react-icons/bs"
-import { motion } from "framer-motion"
 import useBreadcrumb from "@/layout/dashboard/use-breadcrumb"
-import Header from "./header"
-import Sidebar from "./sidebar"
-import { sidebarVariants } from "./variants"
-import useSidebarStore from "./sidebar/use-sidebar-store"
 import IconButton from "@/components/icon-button"
 import ContentLoading from "@/components/content-loading"
+import Header from "./header"
+import Sidebar from "./sidebar"
+import useSidebarStore from "./sidebar/use-sidebar-store"
+import { sidebarVariants } from "./variants"
 
 const { useToken } = theme
 
@@ -48,7 +48,7 @@ export default function Dashboard() {
             `}
           >
             <IconButton
-              icon={<BsLayoutSidebarInset size={fontSize} color={colorPrimary} />}
+              icon={<IconLayoutSidebar size={fontSize} color={colorPrimary} />}
               onClick={() => toggleSidebarOpen()}
             />
             <Breadcrumb items={breadcrumbItems} />

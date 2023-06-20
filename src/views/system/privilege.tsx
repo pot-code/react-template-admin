@@ -1,7 +1,8 @@
 import { Button, Card, Col, Empty, Modal, Row, Tree, theme } from "antd"
+import { PlusOutlined } from "@ant-design/icons"
+import PrivilegeForm from "@/features/system/privilege/privilege-form"
 import PrivilegeTable from "@/features/system/privilege/privilege-table"
 import usePrivilege from "@/features/system/privilege/use-privilege"
-import PrivilegeForm from "@/features/system/privilege/privilege-form"
 
 const { useToken } = theme
 
@@ -45,7 +46,7 @@ export default function Privilege() {
           {selectedMenu ? (
             <div>
               <div style={{ marginBottom: `${margin}px` }}>
-                <Button type="primary" onClick={onAddPrivilege}>
+                <Button type="primary" icon={<PlusOutlined />} onClick={onAddPrivilege}>
                   新增
                 </Button>
               </div>

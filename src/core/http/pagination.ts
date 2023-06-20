@@ -1,7 +1,7 @@
 import { omit } from "lodash-es"
 import { HttpRestResponse } from "./response"
 
-export interface HttpPaginationResponse<T> extends PaginationResponseParams, HttpRestResponse<T> {}
+export interface HttpPaginationResponse<T> extends PaginationResponseParams, HttpRestResponse<T[]> {}
 
 export interface PaginationResponseParams extends PaginationParams {
   total: number
