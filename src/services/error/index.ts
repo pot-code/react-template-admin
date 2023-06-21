@@ -10,7 +10,7 @@ class ErrorService {
     }
   }
 
-  error(error: Error) {
+  submitError(error: Error) {
     this.subject.next(error)
   }
 }

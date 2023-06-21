@@ -5,7 +5,7 @@ import { HttpRestResponse } from "./response"
 export function errorHandling(error: any) {
   if (error.response) {
     const { message } = error.response.data as HttpRestResponse<unknown>
-    errorService.error(new Error(message))
+    errorService.submitError(new Error(message))
     return Promise.reject(error)
   }
 
@@ -13,6 +13,6 @@ export function errorHandling(error: any) {
     return Promise.resolve()
   }
 
-  errorService.error(error)
+  errorService.submitError(error)
   return Promise.reject(error)
 }
