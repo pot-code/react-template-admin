@@ -16,3 +16,5 @@ export const menuApi = {
     return http.post(`/system/menu`, payload)
   },
 }
+
+Object.freeze(menuApi)

@@ -26,3 +26,5 @@ export const privilegeApi = {
     return http.post(`/system/privilege`, payload)
   },
 }
+
+Object.freeze(privilegeApi)
