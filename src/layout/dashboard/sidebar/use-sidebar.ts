@@ -1,7 +1,7 @@
 import { MenuProps } from "antd"
 import * as d3 from "d3"
 import { useMatches } from "react-router-dom"
-import useSchemaStore from "@/store/use-schema-store"
+import useSchemaStore from "@/router/use-schema-store"
 import { buildSchemaTree } from "@/features/system/menu/util"
 import TreeUtil from "@/utils/tree-util"
 import { MenuItem } from "../type"

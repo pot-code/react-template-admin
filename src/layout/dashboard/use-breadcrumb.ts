@@ -1,6 +1,6 @@
 import { last } from "lodash-es"
 import { useMatches } from "react-router-dom"
-import useSchemaStore from "@/store/use-schema-store"
+import useSchemaStore from "@/router/use-schema-store"
 import { RouteSchema } from "@/router"
 
 function schemaToBreadcrumbItem(schema: RouteSchema) {
