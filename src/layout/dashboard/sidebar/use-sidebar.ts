@@ -5,7 +5,7 @@ import useSchemaStore from "@/store/use-schema-store"
 import { buildSchemaTree } from "@/features/system/menu/util"
 import TreeUtil from "@/utils/tree-util"
 import { MenuItem } from "../type"
-import { RouteSchema } from "@/core/route"
+import { RouteSchema } from "@/router"
 
 function routeSchemaToMenuItem(node: d3.HierarchyNode<RouteSchema>) {
   return {

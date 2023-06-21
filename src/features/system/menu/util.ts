@@ -1,6 +1,6 @@
 import * as d3 from "d3"
 import { cloneDeep, isNil } from "lodash-es"
-import { RouteSchema } from "@/core/route"
+import { RouteSchema } from "@/router"
 
 export function buildSchemaTree(schemas: RouteSchema[]) {
   return d3

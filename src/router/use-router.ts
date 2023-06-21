@@ -7,8 +7,9 @@ import TreeUtil from "@/utils/tree-util"
 import useFetchMenu from "@/features/system/menu/use-fetch-menu"
 import useSchemaStore from "../store/use-schema-store"
 import { buildSchemaTree, isRootMenu } from "../features/system/menu/util"
-import ViewManager from "../core/route/view-manager"
-import { RouteSchema, DASHBOARD_ID, dashboard } from "@/core/route"
+import { DASHBOARD_ID, dashboard } from "./builtins"
+import { RouteSchema } from "./types"
+import ViewManager from "./view-manager"
 
 const viewManager = new ViewManager()
 

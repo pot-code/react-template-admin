@@ -1,5 +1,5 @@
 import { Tree, TreeProps, theme } from "antd"
-import { AiOutlineEyeInvisible } from "react-icons/ai"
+import { EyeOutlined } from "@ant-design/icons"
 import { TreeNode } from "./types"
 
 const { useToken } = theme
@@ -17,7 +17,7 @@ function TitleRender({ data }: TitleRenderProp) {
   return (
     <div className="flex gap-2 items-center">
       <span>{title}</span>
-      {invisible && <AiOutlineEyeInvisible color={colorTextTertiary} />}
+      {invisible && <EyeOutlined color={colorTextTertiary} />}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { Button, Form, Input, InputNumber, Space, Switch } from "antd"
-import { RouteSchema } from "@/core/route"
+import { RouteSchema } from "@/router"
 
 interface MenuFormProps {
   data: RouteSchema

@@ -2,9 +2,9 @@ import { useToggle } from "@react-hookz/web"
 import { useMutation } from "@tanstack/react-query"
 import { DropDownProps, MenuProps, ModalProps, TreeProps, message } from "antd"
 import { menuApi } from "@/features/system/menu/api"
-import { RouteSchema } from "@/core/route"
 import useFetchMenu from "./use-fetch-menu"
 import useMenuTree from "./use-menu-tree"
+import { RouteSchema } from "@/router"
 
 function getContextmenuPosition(ref: HTMLElement) {
   const rect = ref.getBoundingClientRect()

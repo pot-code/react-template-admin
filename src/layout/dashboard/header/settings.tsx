@@ -1,9 +1,9 @@
 import { Avatar, Dropdown, MenuProps, theme } from "antd"
 import { curry } from "lodash-es"
-import { AiFillCaretDown } from "react-icons/ai"
+import { CaretDownFilled } from "@ant-design/icons"
 import { UserInfo } from "@/features/user/type"
 import { MenuItem } from "../type"
-import { RouteSchema, settings, SETTINGS_ID } from "@/core/route"
+import { RouteSchema, settings, SETTINGS_ID } from "@/router"
 
 const { useToken } = theme
 
@@ -37,7 +37,7 @@ export default function SettingsMenu({ data }: SettingsMenuProps) {
     <Dropdown menu={{ items, onClick }}>
       <div className="flex items-center gap-2">
         <Avatar src={data.avatar} />
-        <AiFillCaretDown color={colorBgSpotlight} />
+        <CaretDownFilled color={colorBgSpotlight} />
       </div>
     </Dropdown>
   )

@@ -1,10 +1,10 @@
 import { produce } from "immer"
 import { isEmpty } from "lodash-es"
-import { RouteSchema } from "@/core/route"
 import TreeUtil from "@/utils/tree-util"
 import useFetchMenu from "./use-fetch-menu"
 import { buildSchemaTree, isRootMenu } from "./util"
 import { TreeNode } from "./types"
+import { RouteSchema } from "@/router"
 
 function routeSchemaToTreeNode(node: d3.HierarchyNode<RouteSchema>) {
   return {
