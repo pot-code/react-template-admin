@@ -1,8 +1,8 @@
 import { useToggle } from "@react-hookz/web"
 import { useMutation } from "@tanstack/react-query"
 import { TableProps, message } from "antd"
-import { Role } from "./types"
 import { QueryRoleParams, roleApi } from "./api"
+import { Role } from "./types"
 import useFetchRole from "./use-fetch-role"
 
 export default function useRole() {

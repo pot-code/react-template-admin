@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import PageLoading from "./components/page-loading"
 import useRouter from "./router/use-router"
 import useTheme from "./theme/use-theme"
+import { ErrorHandlerProvider } from "./contexts/error-handler"
 
 export default function App() {
   const { isLoading, routes } = useRouter()
@@ -19,7 +20,7 @@ export default function App() {
 
   return (
     <ConfigProvider theme={{ algorithm, token: { colorPrimary: color } }} locale={zhCN}>
-      {child}
+      <ErrorHandlerProvider>{child}</ErrorHandlerProvider>
     </ConfigProvider>
   )
 }
