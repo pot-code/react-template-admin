@@ -21,8 +21,8 @@ export default function usePrivilege() {
   const { mutate: createOrUpdatePrivilege, isLoading: isSubmitting } = useMutation(privilegeApi.createOrUpdate, {
     onSuccess() {
       invalidateCache()
-      messageApi.success("保存成功")
       toggleShowModal(false)
+      messageApi.success("保存成功")
     },
   })
   const { mutate: deletePrivilege, isLoading: isDeleting } = useMutation(privilegeApi.delete, {
