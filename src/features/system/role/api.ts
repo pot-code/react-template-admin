@@ -1,5 +1,5 @@
-import http from "@/core/http"
-import { HttpPaginationResponse, PaginationParams } from "@/core/http/pagination"
+import http from "@/services/http"
+import { HttpPaginationResponse, PaginationParams } from "@/services/http/pagination"
 import { Role } from "./types"
 
 export interface QueryRoleParams {

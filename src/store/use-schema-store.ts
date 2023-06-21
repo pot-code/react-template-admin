@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
-import { RouteSchema } from "@/core/route"
+import { RouteSchema } from "@/services/route"
 
 interface SchemaState {
   schemas: RouteSchema[]

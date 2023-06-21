@@ -1,7 +1,7 @@
 import { useToggle } from "@react-hookz/web"
 import { TableProps, TreeProps, message } from "antd"
 import { useMutation } from "@tanstack/react-query"
-import { RouteSchema } from "@/core/route"
+import { RouteSchema } from "@/services/route"
 import useMenuTree from "../menu/use-menu-tree"
 import { privilegeApi } from "./api"
 import { Privilege } from "./types"

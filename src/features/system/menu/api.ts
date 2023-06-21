@@ -1,5 +1,5 @@
-import http from "@/core/http"
-import { HttpRestResponse } from "@/core/http/response"
+import http from "@/services/http"
+import { HttpRestResponse } from "@/services/http/response"
 import { RouteSchema } from "@/router"
 
 export const menuApi = {

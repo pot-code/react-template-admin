@@ -1,6 +1,6 @@
-import http from "@/core/http"
+import http from "@/services/http"
 import { Privilege } from "./types"
-import { PaginationParams, HttpPaginationResponse } from "@/core/http/pagination"
+import { PaginationParams, HttpPaginationResponse } from "@/services/http/pagination"
 
 export interface QueryPrivilegeParams extends PaginationParams {
   menuId?: string

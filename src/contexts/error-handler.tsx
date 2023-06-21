@@ -1,8 +1,6 @@
-import { createContext, useContext, useMemo } from "react"
 import { message } from "antd"
-import { debounceTime } from "rxjs"
-import { errorSubject } from "@/observables/error"
-import { Time } from "@/utils/duration"
+import { createContext, useContext, useMemo } from "react"
+import error from "@/services/error"
 
 interface ErrorHandlerProviderContextState {}
 
@@ -17,7 +15,7 @@ export function ErrorHandlerProvider({ children }: ErrorHandlerProviderProps) {
   const value = useMemo(() => ({}), [])
 
   useEffect(() => {
-    const sub = errorSubject.pipe(debounceTime(100 * Time.Milliseconds)).subscribe((e) => {
+    const sub = error.subscribe((e) => {
       messageApi.error(e.message)
     })
     return () => sub.unsubscribe()

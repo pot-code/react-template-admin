@@ -1,6 +1,6 @@
 import { produce } from "immer"
 import { PaginationProps } from "antd"
-import { PaginationParams, HttpPaginationResponse } from "@/core/http/pagination"
+import { PaginationParams, HttpPaginationResponse } from "@/services/http/pagination"
 
 export type AntdPaginationParams = Pick<
   PaginationProps,
